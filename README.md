@@ -1,2 +1,2 @@
 # RIG-Linux
-Testing
+WIP project, at alpha stage
