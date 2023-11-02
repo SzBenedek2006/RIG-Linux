@@ -1,0 +1,71 @@
+// Include necessary header files
+#include <png.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+int generateImage(const char *filename) {
+  // Initialize PNG structures and open a file for writing
+  FILE *fp = fopen(filename, "wb");
+
+  if (!fp) {
+    // Handle file opening error
+    printf("Error creating the image file. png error 1\n");
+    return 1;
+  }
+
+  png_structp png_ptr =
+      png_create_write_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
+  if (!png_ptr) {
+    fclose(fp);
+    // Handle PNG structure creation error
+    printf("Error creating the image file. png error 2\n");
+    return 2;
+  }
+
+  png_infop info_ptr = png_create_info_struct(png_ptr);
+  if (!info_ptr) {
+    png_destroy_write_struct(&png_ptr, NULL);
+    fclose(fp);
+    // Handle PNG info creation error
+    printf("Error creating the image file. png error 3\n");
+    return 3;
+  }
+
+  png_init_io(png_ptr, fp);
+
+  // Set up the image attributes
+
+  int width = 10;  // width of the image
+  int height = 10; // height of the image
+  int color_type = PNG_COLOR_TYPE_RGBA;
+  int bit_depth = 8;
+
+  png_set_IHDR(png_ptr, info_ptr, width, height, bit_depth, color_type,
+               PNG_INTERLACE_NONE, PNG_COMPRESSION_TYPE_BASE,
+               PNG_FILTER_TYPE_BASE);
+
+  // Write the image data
+  png_bytep *row_pointers = (png_bytep *)malloc(sizeof(png_bytep) * height);
+  for (int y = 0; y < height; y++) {
+    row_pointers[y] = (png_byte *)malloc(4 * width); // 4 bytes per pixel (RGBA)
+
+    // Fill row_pointers[y] with your image data for this row.
+    // For example, you might copy pixel data from your image here.
+
+    for (int x = 0; x < width; x++) {
+      row_pointers[y][4 * x] = rand() % (255 + 1);     // Red channel
+      row_pointers[y][4 * x + 1] = rand() % (255 + 1); // Green channel
+      row_pointers[y][4 * x + 2] = rand() % (255 + 1); // Blue channel
+      row_pointers[y][4 * x + 3] = rand() % (255 + 1); // Alpha channel
+    }
+  }
+
+  // Assign image data to row_pointers
+  png_set_rows(png_ptr, info_ptr, row_pointers);
+  png_write_png(png_ptr, info_ptr, PNG_TRANSFORM_IDENTITY, NULL);
+
+  // Clean up and close the file
+  png_destroy_write_struct(&png_ptr, &info_ptr);
+  fclose(fp);
+  return 0;
+}

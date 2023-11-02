@@ -1,10 +1,27 @@
-#include "pgm_generator.c"
+#include "PNG_generator.c"
 #include "dir_creator.c"
 #include <stdio.h>
+#include <time.h>
 
-int main() {
+int main(int argc, char *argv[]) {
 
     printf("Welcome to RIG\n\n");
+
+
+    // TODO: Implement arguments stuff
+
+    // Check max arg count
+
+/*
+int width = 10;  // width of the image
+int height = 10; // height of the image
+
+
+*/
+
+
+
+    // Do logic for arg1, 2 3, etc...
 
 
 
