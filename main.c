@@ -52,7 +52,7 @@ int main(int argc, char *argv[]) {
 
     dirCreatorLinux("out");
 
-    sprintf(imagename, "out/random_image%d.pgm", i);
+    sprintf(imagename, "out/random_image%d.png", i);
     errorCount = errorCount + generateImage(imagename, width, height, alpha);
   }
 
