@@ -1,5 +1,5 @@
 // Include necessary header files
-#include <png.h>
+#include "libpng16/png.h"
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
