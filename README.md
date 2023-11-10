@@ -15,4 +15,5 @@ WIP project, currently at beta stage.
   - [x] Resolution
   - [x] Image count
   - [x] Alpha channel (PNG)
+- [ ] Fix memory leak
 
