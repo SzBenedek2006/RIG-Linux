@@ -34,13 +34,13 @@ int main(int argc, char *argv[]) {
 
   // Helpmsg
   if (help == true) {
-    printf("Hi, options are the following:\n '-s' or '--size' <height width>\n '-a' or '--alpha' (this toggles transparency)\n '-c' or 'count' <number>\n 'h' or '--help' (this message)\n\n Example: ./main -s 10 20 -a -c 10");
+    printf("Hi, options are the following:\n '-s' or '--size' <height width>\n '-a' or '--alpha' (this toggles transparency in image formats that support it)\n '-c' or '--count' <number>\n '-h' or '--help' (this message)\n\n Example: -s 10 20 -a -c 10\n");
     return 0;
   }
 
   // Too few arguments warning
   if (width == 0 || height == 0 || count == 0) {
-    printf("Too few arguments, unexpected behaviour may occur! (Argc = %d)\n", argc);
+    printf("Too few arguments, unexpected behaviour may occur! (Argc = %d)\n Use -h to print help message.\n", argc);
   }
 
   srand((unsigned int)time(NULL)); // Seed the random number generator
