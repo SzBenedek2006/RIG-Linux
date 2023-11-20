@@ -65,6 +65,7 @@ int generateImage(const char *filename, unsigned int width, unsigned int height,
 
     png_set_rows(png_ptr, info_ptr, row_pointers);
     png_write_png(png_ptr, info_ptr, PNG_TRANSFORM_IDENTITY, NULL);
+    free(row_pointers);
   } else {                                                                          // If alpha false run
     // Write the image data
     png_bytep *row_pointers = (png_bytep *)malloc(sizeof(png_bytep) * height);
@@ -82,8 +83,10 @@ int generateImage(const char *filename, unsigned int width, unsigned int height,
       }
     }
 
+
     png_set_rows(png_ptr, info_ptr, row_pointers);
     png_write_png(png_ptr, info_ptr, PNG_TRANSFORM_IDENTITY, NULL);
+    free(row_pointers);
   }
 
   // Assign image data to row_pointers
