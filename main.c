@@ -26,10 +26,11 @@ int main(int argc, char *argv[]) {
   int hCount = 0;
 
 
-
-  for (int i = 0; i <= argc; i++) {
+  // Print the arguments
+  /*for (int i = 0; i <= argc; i++) {
     printf("Argv%d = %s\n", i, argv[i]);
   }
+  */
 
 
   for (n = 1; n < argc; n++) {
@@ -54,7 +55,8 @@ int main(int argc, char *argv[]) {
     }
   }
 
-  printf("%d\n%d\n%d\n%d\n", sCount, aCount, cCount, hCount);
+  // Print the arguments
+  // printf("%d\n%d\n%d\n%d\n", sCount, aCount, cCount, hCount);
 
   // Too few arguments warning
   if (width == 0 || height == 0 || count == 0) {
