@@ -20,10 +20,10 @@ int main(int argc, char *argv[]) {
 
 
   // Number of the same arguments
-  int sCount = 0;
-  int cCount = 0;
-  int aCount = 0;
-  int hCount = 0;
+  int sCount = 0;   // -s, --size
+  int cCount = 0;   // -c --count
+  int aCount = 0;   // -a --alpha
+  int hCount = 0;   // -h --help
 
 
   // Print the arguments
@@ -33,14 +33,15 @@ int main(int argc, char *argv[]) {
   */
 
 
+  // Handle the arguments.
   for (n = 1; n < argc; n++) {
-    if (strcmp(argv[n], "-s") == 0 || strcmp(argv[n], "--size") == 0) { // Ha n-edik arg              -s,
-      sCount++; // Adott argument számolása, hogy ne legyen 1-nél több.
+    if (strcmp(argv[n], "-s") == 0 || strcmp(argv[n], "--size") == 0) { // -s,
+      sCount++;
       if (argv[n + 1] >= 0) {
         height = atoi(argv[n + 1]);
         };
       if (argv[n + 2] >= 0) {
-        width = atoi(argv[n + 2]); // Width = n+2-edik arg
+        width = atoi(argv[n + 2]);
         };
     }
     else if (strcmp(argv[n], "-a") == 0 || strcmp(argv[n], "--alpha") == 0) { // Ha n-edik arg        -a,
@@ -77,19 +78,22 @@ int main(int argc, char *argv[]) {
   }
 
 
+
   srand((unsigned int)time(NULL)); // Seed the random number generator
   int i;
   int errorCount = 0;
 
+  // Generating PNG images
   for (i = 1; i <= count; i++) {
     char imagename[30];
 
     dirCreatorLinux("out");
 
     sprintf(imagename, "out/random_image%d.png", i);
-    errorCount = errorCount + generateImage(imagename, width, height, alpha);
+    errorCount = errorCount + generateImage(imagename, width, height, alpha); // Generate images and count the errors.
   }
 
+  // Error number counting
   if (errorCount == 0) {
     if (count > 1) {
       printf("%d random images generated successfully.\n", i - 1);
@@ -100,7 +104,7 @@ int main(int argc, char *argv[]) {
     }
 
   } else {
-    printf("Random image(s) generated with %d error(s).\n", errorCount);
+    printf("%d random image(s) generated with %d error(s).\n", i, errorCount);
     return 1;
 
   }
