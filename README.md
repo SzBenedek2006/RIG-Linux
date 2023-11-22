@@ -23,5 +23,5 @@ Users can currently specify:
   - [x] Resolution
   - [x] Image count
   - [x] Alpha channel (PNG)
-- [ ] Fix memory leak
+- [x] Fix memory leak
 
