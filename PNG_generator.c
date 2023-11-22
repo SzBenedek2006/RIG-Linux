@@ -9,26 +9,27 @@ int generateImage(const char *filename, unsigned int width, unsigned int height,
   // Initialize PNG structures and open a file for writing
   FILE *fp = fopen(filename, "wb");
 
+  // Handle file opening error
   if (!fp) {
-    // Handle file opening error
     printf("Error creating the image file. png error 1\n");
     return 1;
   }
 
+  // Handle PNG structure creation error
   png_structp png_ptr =
       png_create_write_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
   if (!png_ptr) {
     fclose(fp);
-    // Handle PNG structure creation error
+
     printf("Error creating the image file. png error 2\n");
     return 2;
   }
 
+  // Handle PNG info creation error
   png_infop info_ptr = png_create_info_struct(png_ptr);
   if (!info_ptr) {
     png_destroy_write_struct(&png_ptr, NULL);
     fclose(fp);
-    // Handle PNG info creation error
     printf("Error creating tunsigned inthe image file. png error 3\n");
     return 3;
   }
