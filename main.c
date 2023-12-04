@@ -83,6 +83,8 @@ int main(int argc, char *argv[]) {
   int i;
   int errorCount = 0;
 
+  //WIP
+
   // Generating PNG images
   for (i = 1; i <= count; i++) {
     char imagename[30];
@@ -92,6 +94,13 @@ int main(int argc, char *argv[]) {
     sprintf(imagename, "out/random_image%d.png", i);
     errorCount = errorCount + generateImage(imagename, width, height, alpha); // Generate images and count the errors.
   }
+
+
+
+
+
+
+
 
   // Error number counting
   if (errorCount == 0) {
