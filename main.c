@@ -5,6 +5,9 @@
 #include <string.h>
 #include <time.h>
 
+
+
+
 int main(int argc, char *argv[]) {
 
   printf("Welcome to RIG\n\n");
