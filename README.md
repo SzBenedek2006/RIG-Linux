@@ -25,3 +25,8 @@ Users can currently specify:
   - [x] Alpha channel (PNG)
 - [x] Fix memory leak
 
+
+## Build:
+0. You need gcc compiler.
+1. Just run $ `make`. It will make an executable named RIG-_your_architecture_.
+
