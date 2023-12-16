@@ -20,6 +20,8 @@ int main(int argc, char *argv[]) {
   int n;
   bool help = false;
   bool termuxExternal;
+  char outDir[] = "out";
+  char outDirTermux[] = "~/storage/shared/out";
 
 
 
@@ -95,18 +97,29 @@ int main(int argc, char *argv[]) {
   for (i = 1; i <= count; i++) {
     char imagename[30];
 
-    // Creating dirs
-    dirCreatorLinux("out");
 
-    // Creating external dirs in termux
-    dirCreatorLinux("~/storage/shared/out");
+    if (!termuxExternal) {
+      // Creating dirs
+      dirCreatorLinux(outDir);
+
+      sprintf(imagename, "%s/random_image%d.png", outDir, i);
+      errorCount = errorCount + generateImage(imagename, width, height, alpha); // Generate images and count the errors.
+    } else {
+      // Creating external dirs in termux
+      dirCreatorLinux(outDirTermux);
+
+      sprintf(imagename, "%s/random_image%d.png", outDirTermux, i);
+      errorCount = errorCount + generateImage(imagename, width, height, alpha); // Generate images and count the errors.
+    }
+
+
+
 
     // TODO: Check and use termux-setup-storage only if termux == true
 
 
 
-    sprintf(imagename, "out/random_image%d.png", i);
-    errorCount = errorCount + generateImage(imagename, width, height, alpha); // Generate images and count the errors.
+
   }
 
   // Error number counting
