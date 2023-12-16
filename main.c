@@ -98,20 +98,28 @@ int main(int argc, char *argv[]) {
     char imagename[30];
 
 
-    if (!termuxExternal) {
       // Creating dirs
       dirCreatorLinux(outDir);
 
+      // Generate images and count the errors.
       sprintf(imagename, "%s/random_image%d.png", outDir, i);
-      errorCount = errorCount + generateImage(imagename, width, height, alpha); // Generate images and count the errors.
-    } else {
-      // Creating external dirs in termux
-      dirCreatorLinux(outDirTermux);
+      errorCount = errorCount + generateImage(imagename, width, height, alpha);
 
-      sprintf(imagename, "%s/random_image%d.png", outDirTermux, i);
-      errorCount = errorCount + generateImage(imagename, width, height, alpha); // Generate images and count the errors.
-    }
 
+      if (termuxExternal) {
+        int shellCommandLenght = strlen("mv ") + strlen(outDir) + strlen(" ") + strlen(outDirTermux) + 1;
+        char shellCommand[shellCommandLenght];
+        strcpy(shellCommand, "mv ");
+        strcpy(shellCommand, outDir);
+        strcpy(shellCommand, " ");
+        strcpy(shellCommand, outDirTermux);
+
+
+        printf("Shell command: %s\n", shellCommand);
+
+        system(shellCommand);
+
+}
 
 
 
