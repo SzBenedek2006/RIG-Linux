@@ -19,6 +19,7 @@ int main(int argc, char *argv[]) {
   unsigned int count;
   int n;
   bool help = false;
+  bool termuxExternal;
 
 
 
@@ -27,6 +28,7 @@ int main(int argc, char *argv[]) {
   int cCount = 0;   // -c --count
   int aCount = 0;   // -a --alpha
   int hCount = 0;   // -h --help
+  int tCount = 0;   // --termux_external
 
 
   // Print the arguments
@@ -42,20 +44,23 @@ int main(int argc, char *argv[]) {
       sCount++;
       if (argv[n + 1] >= 0) {
         height = atoi(argv[n + 1]);
-        };
+        }
       if (argv[n + 2] >= 0) {
         width = atoi(argv[n + 2]);
-        };
+        }
     }
-    else if (strcmp(argv[n], "-a") == 0 || strcmp(argv[n], "--alpha") == 0) { // Ha n-edik arg        -a,
+    else if (strcmp(argv[n], "-a") == 0 || strcmp(argv[n], "--alpha") == 0) { // If n-th arg        -a,
       alpha = true;
       aCount++;
-    } else if (strcmp(argv[n], "-c") == 0 || strcmp(argv[n], "--count") == 0) { // Ha n-edik arg      -c,
+    } else if (strcmp(argv[n], "-c") == 0 || strcmp(argv[n], "--count") == 0) { // If n-th arg      -c,
       count = atoi(argv[n + 1]);
       cCount++;
-    } else if (strcmp(argv[n], "-h") == 0 || strcmp(argv[n], "--help") == 0) { // Ha n-edik arg       -h,
+    } else if (strcmp(argv[n], "-h") == 0 || strcmp(argv[n], "--help") == 0) { // If n-th arg       -h,
       help = true;
       hCount++;
+    } else if (strcmp(argv[n], "--termux-external") == 0) { // If n-th arg        -a,
+      termuxExternal = true;  // to implement
+      tCount++;               // to implement
     }
   }
 
@@ -68,7 +73,7 @@ int main(int argc, char *argv[]) {
   }
 
   // Too many arguments
-  if (sCount > 1 || cCount > 1 || aCount > 1 || hCount > 1) {
+  if (sCount > 1 || cCount > 1 || aCount > 1 || hCount > 1 || tCount > 1) {
     printf("Too many arguments in the same type.");
     return 1;
   }
@@ -90,7 +95,15 @@ int main(int argc, char *argv[]) {
   for (i = 1; i <= count; i++) {
     char imagename[30];
 
+    // Creating dirs
     dirCreatorLinux("out");
+
+    // Creating external dirs in termux
+    dirCreatorLinux("~/storage/shared/out");
+
+    // TODO: Check and use termux-setup-storage only if termux == true
+
+
 
     sprintf(imagename, "out/random_image%d.png", i);
     errorCount = errorCount + generateImage(imagename, width, height, alpha); // Generate images and count the errors.
