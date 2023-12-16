@@ -106,13 +106,31 @@ int main(int argc, char *argv[]) {
       errorCount = errorCount + generateImage(imagename, width, height, alpha);
 
 
-      if (termuxExternal) {
+
+
+
+
+    // TODO: Check and use termux-setup-storage only if termux == true
+
+
+
+
+  }
+
+
+  if (termuxExternal) {
         int shellCommandLenght = strlen("mv ") + strlen(outDir) + strlen(" ") + strlen(outDirTermux) + 1;
         char shellCommand[shellCommandLenght];
-        strcpy(shellCommand, "mv ");
-        strcpy(shellCommand, outDir);
-        strcpy(shellCommand, " ");
-        strcpy(shellCommand, outDirTermux);
+
+        shellCommand[0] = '\0'; // Initialize it as an empty string
+
+        strcat(shellCommand, "mv ");
+        strcat(shellCommand, outDir);
+        strcat(shellCommand, " ");
+        strcat(shellCommand, outDirTermux);
+
+
+
 
 
         printf("Shell command: %s\n", shellCommand);
@@ -123,12 +141,8 @@ int main(int argc, char *argv[]) {
 
 
 
-    // TODO: Check and use termux-setup-storage only if termux == true
 
 
-
-
-  }
 
   // Error number counting
   if (errorCount == 0) {
