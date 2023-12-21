@@ -18,7 +18,7 @@ int main(int argc, char *argv[]) {
   bool help = false;
   bool termuxExternal;
   char outDir[] = "out";
-  char outDirTermux[] = "/storage/emulated/0";
+  char outDirTermux[] = "/storage/emulated/0/out";
   int termuxPermissionNeeded = 0;
 
   // Number of the same arguments
