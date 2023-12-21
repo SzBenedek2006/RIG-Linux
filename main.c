@@ -90,7 +90,7 @@ int main(int argc, char *argv[]) {
       dirCreatorLinux(outDir, 0); // Creating dirs
     } else {
       termuxPermissionNeeded = dirCreatorLinux(outDirTermux, 1); // Creating dirs
-      if (termuxPermissionNeeded <= 1) {
+      if (termuxPermissionNeeded >= 1) {
         system("termux-setup-storage");
       }
     }
@@ -98,7 +98,7 @@ int main(int argc, char *argv[]) {
 
 
   srand((unsigned int)time(NULL)); // Seed the random number generator
-  int i;
+  int i = 0;
   int errorCount = 0;
 
   // Generating PNG images
@@ -115,7 +115,7 @@ int main(int argc, char *argv[]) {
       // Generate images and count the errors.
       sprintf(imagename, "%s/random_image%d.png", outDir, i);
       errorCount = errorCount + generateImage(imagename, width, height, alpha);
-}
+  }
 
   }
 
