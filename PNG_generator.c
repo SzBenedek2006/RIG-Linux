@@ -34,6 +34,10 @@ int generateImage(const char *filename, unsigned int width, unsigned int height,
     return 3;
   }
 
+  printf("File created\n");
+
+
+
   png_init_io(png_ptr, fp);
 
   // Set up the image attributes
@@ -46,6 +50,9 @@ int generateImage(const char *filename, unsigned int width, unsigned int height,
   png_set_IHDR(png_ptr, info_ptr, width, height, bit_depth, color_type,
                PNG_INTERLACE_NONE, PNG_COMPRESSION_TYPE_BASE,
                PNG_FILTER_TYPE_BASE);
+
+    printf("IHDR set\n");
+
 
   // Test alpha
   if (alpha == true) {                                                                // If alpha true run
@@ -99,10 +106,13 @@ int generateImage(const char *filename, unsigned int width, unsigned int height,
     free(row_pointers);
   }
 
-  // Assign image data to row_pointers
+  printf("File freed\n");
 
   // Clean up and close the file
   png_destroy_write_struct(&png_ptr, &info_ptr);
   fclose(fp);
+
+    printf("File closed\n");
+
   return 0;
 }
