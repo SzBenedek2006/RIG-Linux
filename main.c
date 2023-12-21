@@ -87,16 +87,14 @@ int main(int argc, char *argv[]) {
   }
 
   if (!termuxExternal) {
-      dirCreatorLinux(outDir, 0); // Creating dirs
-    } else {
-      dirCreatorLinux(outDir, 0); // Creating dirs
-      termuxPermissionNeeded = dirCreatorLinux(outDirTermux, 1); // Creating dirs
-      if (termuxPermissionNeeded >= 1) {
-        system("termux-setup-storage");
-      }
+    dirCreatorLinux(outDir, 0); // Creating dirs
+  } else {
+    dirCreatorLinux(outDir, 0);                                // Creating dirs
+    termuxPermissionNeeded = dirCreatorLinux(outDirTermux, 1); // Creating dirs
+    if (termuxPermissionNeeded >= 1) {
+      system("termux-setup-storage");
     }
-
-
+  }
 
   srand((unsigned int)time(NULL)); // Seed the random number generator
   int i = 0;
@@ -106,32 +104,24 @@ int main(int argc, char *argv[]) {
   for (i = 1; i <= count; i++) {
     char imagename[30];
 
-      // Generate images and count the errors.
-      sprintf(imagename, "%s/random_image%d.png", outDir, i);
-      errorCount = errorCount + generateImage(imagename, width, height, alpha);
-
-
+    // Generate images and count the errors.
+    sprintf(imagename, "%s/random_image%d.png", outDir, i);
+    errorCount = errorCount + generateImage(imagename, width, height, alpha);
   }
 
-
   if (termuxExternal) {
-    int shellCommandLenght = strlen("mv ") + strlen(outDir) + strlen(" ") + strlen(outDirTermux) + 1;
+    int shellCommandLenght =
+        strlen("mv ") + strlen(outDir) + strlen(" ") + strlen(outDirTermux) + 1;
     char shellCommand[shellCommandLenght];
 
     shellCommand[0] = '\0'; // Initialize it as an empty string
 
     strcat(shellCommand, "rm -rf ");
     strcat(shellCommand, outDirTermux);
-    strcat(shellCommand, "/out");
-
+    strcat(shellCommand, "out");
 
     printf("Shell command: %s\n", shellCommand);
-    system(shellCommand);
-
-
-// mao
-
-
+    system(shellCommand); // Removing dirs to avoid write error
 
     shellCommand[0] = '\0'; // Initialize it as an empty string
 
@@ -141,21 +131,8 @@ int main(int argc, char *argv[]) {
     strcat(shellCommand, outDirTermux);
 
     printf("Shell command: %s\n", shellCommand);
-    system(shellCommand);
-
-
-    // TODO: Check and use termux-setup-storage (only if termux == true)
+    system(shellCommand); // Moving dirs to external
   }
-
-  // Megnézni, hogy hozzáfér-e és ha nem, akkor kérni az engedélyt.
-
-
-
-
-
-
-
-
 
   // Error number counting
   if (errorCount == 0) {
