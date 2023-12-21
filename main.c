@@ -18,7 +18,7 @@ int main(int argc, char *argv[]) {
   bool help = false;
   bool termuxExternal;
   char outDir[] = "out";
-  char outDirTermux[] = "/storage/emulated/0/out";
+  char outDirTermux[] = "/storage/emulated/0/";
   int termuxPermissionNeeded = 0;
 
   // Number of the same arguments
@@ -122,7 +122,7 @@ int main(int argc, char *argv[]) {
 
     strcat(shellCommand, "mv ");
     strcat(shellCommand, outDir);
-    strcat(shellCommand, "/ ");
+    strcat(shellCommand, " ");
     strcat(shellCommand, outDirTermux);
 
     printf("Shell command: %s\n", shellCommand);
