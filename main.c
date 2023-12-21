@@ -122,7 +122,7 @@ int main(int argc, char *argv[]) {
 
     strcat(shellCommand, "mv ");
     strcat(shellCommand, outDir);
-    strcat(shellCommand, " ");
+    strcat(shellCommand, "/ ");
     strcat(shellCommand, outDirTermux);
 
     printf("Shell command: %s\n", shellCommand);
