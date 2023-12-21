@@ -106,11 +106,21 @@ int main(int argc, char *argv[]) {
     char imagename[30];
 
 
-    // Generate images and count the errors.
-    sprintf(imagename, "%s/random_image%d.png", outDir, i);
-    errorCount = errorCount + generateImage(imagename, width, height, alpha);
+    if (termuxExternal) {
+      // Generate images and count the errors.
+      sprintf(imagename, "%s/random_image%d.png", outDirTermux, i);
+      errorCount = errorCount + generateImage(imagename, width, height, alpha);
+    }
+    else {
+      // Generate images and count the errors.
+      sprintf(imagename, "%s/random_image%d.png", outDir, i);
+      errorCount = errorCount + generateImage(imagename, width, height, alpha);
+}
+
   }
 
+
+  /*
   if (termuxExternal) {
     int shellCommandLenght = strlen("mv ") + strlen(outDir) + strlen(" ") + strlen(outDirTermux) + 1;
     char shellCommand[shellCommandLenght];
@@ -134,7 +144,7 @@ int main(int argc, char *argv[]) {
 
 
 
-
+*/
 
 
 
