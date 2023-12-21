@@ -120,13 +120,27 @@ int main(int argc, char *argv[]) {
 
     shellCommand[0] = '\0'; // Initialize it as an empty string
 
+    strcat(shellCommand, "rm -rf ");
+    strcat(shellCommand, outDirTermux);
+    strcat(shellCommand, "/out");
+
+
+    printf("Shell command: %s\n", shellCommand);
+    system(shellCommand);
+
+
+// mao
+
+
+
+    shellCommand[0] = '\0'; // Initialize it as an empty string
+
     strcat(shellCommand, "mv ");
     strcat(shellCommand, outDir);
     strcat(shellCommand, " ");
     strcat(shellCommand, outDirTermux);
 
     printf("Shell command: %s\n", shellCommand);
-
     system(shellCommand);
 
 
