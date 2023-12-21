@@ -89,6 +89,7 @@ int main(int argc, char *argv[]) {
   if (!termuxExternal) {
       dirCreatorLinux(outDir, 0); // Creating dirs
     } else {
+      dirCreatorLinux(outDir, 0); // Creating dirs
       termuxPermissionNeeded = dirCreatorLinux(outDirTermux, 1); // Creating dirs
       if (termuxPermissionNeeded >= 1) {
         system("termux-setup-storage");
@@ -105,22 +106,14 @@ int main(int argc, char *argv[]) {
   for (i = 1; i <= count; i++) {
     char imagename[30];
 
-
-    if (termuxExternal) {
-      // Generate images and count the errors.
-      sprintf(imagename, "%s/random_image%d.png", outDirTermux, i);
-      errorCount = errorCount + generateImage(imagename, width, height, alpha);
-    }
-    else {
       // Generate images and count the errors.
       sprintf(imagename, "%s/random_image%d.png", outDir, i);
       errorCount = errorCount + generateImage(imagename, width, height, alpha);
+
+
   }
 
-  }
 
-
-  /*
   if (termuxExternal) {
     int shellCommandLenght = strlen("mv ") + strlen(outDir) + strlen(" ") + strlen(outDirTermux) + 1;
     char shellCommand[shellCommandLenght];
@@ -144,7 +137,7 @@ int main(int argc, char *argv[]) {
 
 
 
-*/
+
 
 
 
