@@ -131,7 +131,7 @@ int main(int argc, char *argv[]) {
     strcat(shellCommand, outDirTermux);
     strcat(shellCommand, "out");
 
-    printf("Shell command: %s\n", shellCommand);
+    if (allowDebugInfo) {printf("Shell command: %s\n", shellCommand);}
     system(shellCommand); // Removing dirs to avoid write error
 
     shellCommand[0] = '\0'; // Initialize it as an empty string
@@ -141,7 +141,7 @@ int main(int argc, char *argv[]) {
     strcat(shellCommand, " ");
     strcat(shellCommand, outDirTermux);
 
-    printf("Shell command: %s\n", shellCommand);
+    if (allowDebugInfo) {printf("Shell command: %s\n", shellCommand);}
     system(shellCommand); // Moving dirs to external
   }
 
