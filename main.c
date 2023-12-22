@@ -20,6 +20,7 @@ int main(int argc, char *argv[]) {
   char outDir[] = "out";
   char outDirTermux[] = "/storage/emulated/0/";
   int termuxPermissionNeeded = 0;
+  bool allowDebugInfo = false;
 
   // Number of the same arguments
   int sCount = 0; // -s, --size
@@ -27,6 +28,7 @@ int main(int argc, char *argv[]) {
   int aCount = 0; // -a --alpha
   int hCount = 0; // -h --help
   int tCount = 0; // --termux_external
+  int dCount = 0; // -d --debug
 
   // Print the arguments
   /*for (int i = 0; i <= argc; i++) {
@@ -59,6 +61,10 @@ int main(int argc, char *argv[]) {
     } else if (strcmp(argv[n], "--termux-external") == 0) { // If n-th arg -a,
       termuxExternal = true;                                // to implement
       tCount++;                                             // to implement
+    } else if (strcmp(argv[n], "-d") == 0 ||
+               strcmp(argv[n], "--debug") == 0) { // If n-th arg -a,
+      allowDebugInfo = true;                      // to implement
+      dCount++;                                   // to implement
     }
   }
 
@@ -66,7 +72,7 @@ int main(int argc, char *argv[]) {
   // printf("%d\n%d\n%d\n%d\n", sCount, aCount, cCount, hCount);
 
   // Too few arguments warning
-  if (width == 0 || height == 0 || count == 0) {
+  if ((width == 0 || height == 0 || count == 0) && !help) {
     printf("Too few arguments or width, height or count is 0. Unexpected "
            "behaviour may occur! (Argc = %d)\n Use -h to print help message.\n",
            argc);
@@ -80,10 +86,14 @@ int main(int argc, char *argv[]) {
 
   // Helpmsg
   if (help == true) {
-    printf("Hi, options are the following:\n '-s' or '--size' <height width>\n "
+    printf("Hi, options are the following:\n    '-s' or '--size' <height "
+           "width>\n    "
            "'-a' or '--alpha' (this toggles transparency in image formats that "
-           "support it)\n '-c' or '--count' <number>\n '-h' or '--help' (this "
-           "message)\n\n Example: -s 10 20 -a -c 10\n");
+           "support it)\n    '-c' or '--count' <number>\n    "
+           "'--termux-external' (uses your internal storage on android)\n    "
+           "'-d' or '--debug' (print debug info)\n    '-h' or '--help' (this "
+           "message)\n\n    Example: -s 10 20 -a -c 10\n");
+    return 0;
   }
 
   if (!termuxExternal) {
@@ -106,7 +116,8 @@ int main(int argc, char *argv[]) {
 
     // Generate images and count the errors.
     sprintf(imagename, "%s/random_image%d.png", outDir, i);
-    errorCount = errorCount + generateImage(imagename, width, height, alpha);
+    errorCount = errorCount +
+                 generateImage(imagename, width, height, alpha, allowDebugInfo);
   }
 
   if (termuxExternal) {

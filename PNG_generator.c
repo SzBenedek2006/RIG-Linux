@@ -4,8 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int generateImage(const char *filename, unsigned int width, unsigned int height,
-                  bool alpha) {
+int generateImage(const char *filename, unsigned int width, unsigned int height, bool alpha, bool allowDebugInfo) {
   // Initialize PNG structures and open a file for writing
   FILE *fp = fopen(filename, "wb");
 
@@ -34,7 +33,9 @@ int generateImage(const char *filename, unsigned int width, unsigned int height,
     return 3;
   }
 
-  printf("File created\n");
+  if (allowDebugInfo) {
+    printf("File created\n");
+}
 
 
 
@@ -51,7 +52,9 @@ int generateImage(const char *filename, unsigned int width, unsigned int height,
                PNG_INTERLACE_NONE, PNG_COMPRESSION_TYPE_BASE,
                PNG_FILTER_TYPE_BASE);
 
+  if (allowDebugInfo) {
     printf("IHDR set\n");
+}
 
 
   // Test alpha
@@ -106,13 +109,19 @@ int generateImage(const char *filename, unsigned int width, unsigned int height,
     free(row_pointers);
   }
 
-  printf("File freed\n");
+  if (allowDebugInfo) {
+    printf("File freed\n");
+}
+
 
   // Clean up and close the file
   png_destroy_write_struct(&png_ptr, &info_ptr);
   fclose(fp);
 
+  if (allowDebugInfo) {
     printf("File closed\n");
+}
+
 
   return 0;
 }
