@@ -24,4 +24,15 @@ Users can currently specify:
   - [x] Image count
   - [x] Alpha channel (PNG)
 - [x] Fix memory leak
+- [ ] Make use of termux setup-external-storage
+
+
+## Dependencies
+`clang` `make` `git` and a linux machine
+
+
+
+## Build:
+0. You need gcc compiler.
+1. Just run $ `make`. It will make an executable named RIG-_your_architecture_.
 
