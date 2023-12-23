@@ -24,7 +24,7 @@ Users can currently specify:
   - [x] Image count
   - [x] Alpha channel (PNG)
 - [x] Fix memory leak
-- [ ] Make use of termux setup-external-storage
+- [x] Make use of termux setup-external-storage
 
 
 ## Dependencies
