@@ -26,13 +26,20 @@ Users can currently specify:
 - [x] Fix memory leak
 - [x] Make use of termux setup-external-storage
 
+## Supported OS-es
+GNU/Linux (and maybe MacOS and BSD systems).
+If it has the dependencies and mets the POSIX standard, it should probably run, but the program only has official support for Linux.
+
+
 
 ## Dependencies
-`clang` `make` `git` and a linux machine
+You need to have `clang` `make` `git` installed on your GNU/Linux machine.
 
 
-
-## Build:
-0. You need gcc compiler.
-1. Just run $ `make`. It will make an executable named RIG-_your_architecture_.
+## How to download and build
+0. You need to have the dependencies _(listed in their section above)_ installed. If you don't know how to do it, search how to install _package name_ on _your Linux distro's name_
+1. $ `git clone https://github.com/SzBenedek2006/RIG-Linux.git`
+2. $ `cd RIG-Linux/`
+3. Just run $ `make`. It will make an executable named RIG-_your\_architecture_.
+4. Now you can try the program out by running $ `./RIG-_your\_architecture_ -h`
 
