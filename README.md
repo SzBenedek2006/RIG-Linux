@@ -37,9 +37,9 @@ You need to have `clang` `make` `git` installed on your GNU/Linux machine.
 
 
 ## How to download and build
-0. You need to have the dependencies _(listed in their section above)_ installed. If you don't know how to do it, search how to install _package name_ on _your Linux distro's name_
+0. You need to have the dependencies _(listed in their section above)_ installed. If you don't know how to do it, search how to install _*package name*_ on _*your Linux distro's name*_
 1. $ `git clone https://github.com/SzBenedek2006/RIG-Linux.git`
 2. $ `cd RIG-Linux/`
 3. Just run $ `make`. It will make an executable named RIG-_your\_architecture_.
-4. Now you can try the program out by running $ `./RIG-_your\_architecture_ -h`
+4. Now you can try the program out by running $ `./RIG-_your_architecture_ -h`
 
