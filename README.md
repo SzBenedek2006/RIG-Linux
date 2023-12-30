@@ -44,7 +44,7 @@ If it has the dependencies and mets the POSIX standard, it should probably run, 
 
 ## Termux
 The program can be run in termux after installing the dependencies.
-Since the Termux update, you can use  ̇--termux-external` command to put the output files to your internal storage.
+Since the Termux update, you can use  `--termux-external` command to put the output files to your internal storage.
 
 
 
