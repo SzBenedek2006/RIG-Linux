@@ -4,6 +4,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
+#include <pthread.h>
+
 
 int main(int argc, char *argv[]) {
 
@@ -16,7 +18,7 @@ int main(int argc, char *argv[]) {
   unsigned int count;
   int n;
   bool help = false;
-  bool termuxExternal;
+  bool termuxExternal = false;
   char outDir[] = "out";
   char outDirTermux[] = "/storage/emulated/0/";
   int termuxPermissionNeeded = 0;
@@ -30,11 +32,9 @@ int main(int argc, char *argv[]) {
   int tCount = 0; // --termux_external
   int dCount = 0; // -d --debug
 
-  // Print the arguments
-  /*for (int i = 0; i <= argc; i++) {
-    printf("Argv%d = %s\n", i, argv[i]);
-  }
-  */
+
+
+
 
   // Handle the arguments.
   for (n = 1; n < argc; n++) {
@@ -68,8 +68,19 @@ int main(int argc, char *argv[]) {
     }
   }
 
+  // Print the argument counts
+  if (allowDebugInfo) {
+    printf("sCount = %d\naCount = %d\ncCount = %d\nhCount = %d\ntCount = %d\ndCount = %d\n", sCount, aCount, cCount, hCount, tCount, dCount);
+
+  }
+
+
   // Print the arguments
-  // printf("%d\n%d\n%d\n%d\n", sCount, aCount, cCount, hCount);
+  if (allowDebugInfo) {
+    for (int i = 0; i <= argc; i++) {
+      printf("Argv%d = %s\n", i, argv[i]);
+    }
+  }
 
   // Too few arguments warning
   if ((width == 0 || height == 0 || count == 0) && !help) {
@@ -112,14 +123,44 @@ int main(int argc, char *argv[]) {
 
   //WIP
 
+  //TODO: Make specifiable threads, defaulting to 8
+
+
+  struct PNGArguments {
+    char imagename[30];
+    int width;
+    int height;
+    bool alpha;
+    bool allowDebugInfo;
+  } pngArguments;
+
+  pngArguments.width = width;
+  pngArguments.height = height;
+  pngArguments.alpha = alpha;
+  pngArguments.allowDebugInfo = allowDebugInfo;
+
+
+
+
   // Generating PNG images
   for (i = 1; i <= count; i++) {
-    char imagename[30];
+    // char imagename[30];
 
     // Generate images and count the errors.
-    sprintf(imagename, "%s/random_image%d.png", outDir, i);
-    errorCount = errorCount +
-                 generateImage(imagename, width, height, alpha, allowDebugInfo);
+
+
+
+
+    sprintf(pngArguments.imagename, "%s/random_image%d.png", outDir, i);
+
+    //errorCount = errorCount + // Error countot megcsinálni
+    //generateImage(pngArguments.imagename, pngArguments.width, pngArguments.height, pngArguments.alpha, pngArguments.allowDebugInfo);
+    //Replace with:
+
+
+    pthread_t thread_id1; // variable for generateimage thread id
+    pthread_create(&thread_id1, NULL, generateImage, &pngArguments);
+    pthread_join(thread_id1, NULL);
   }
 
   if (termuxExternal) {
@@ -143,7 +184,9 @@ int main(int argc, char *argv[]) {
     strcat(shellCommand, " ");
     strcat(shellCommand, outDirTermux);
 
-    if (allowDebugInfo) {printf("Shell command: %s\n", shellCommand);}
+    if (allowDebugInfo) {
+      printf("Shell command: %s\n", shellCommand);
+    }
     system(shellCommand); // Moving dirs to external
   }
 
