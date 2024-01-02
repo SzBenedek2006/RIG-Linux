@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 
 void* generateImage(void *args) {
 
@@ -19,8 +20,9 @@ struct PNGArguments {
 
   char filename[30];
   strcpy(filename, pngArguments->filename);
+
   if (pngArguments->allowDebugInfo) {
-    printf("%s", filename);
+    printf("%s\n", filename);
   }
 
 

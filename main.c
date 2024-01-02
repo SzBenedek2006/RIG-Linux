@@ -5,6 +5,7 @@
 #include <string.h>
 #include <time.h>
 #include <pthread.h>
+#include <unistd.h>
 
 
 int main(int argc, char *argv[]) {
@@ -23,14 +24,17 @@ int main(int argc, char *argv[]) {
   char outDirTermux[] = "/storage/emulated/0/";
   int termuxPermissionNeeded = 0;
   bool allowDebugInfo = false;
+  int threadNumber = 1;
+
 
   // Number of the same arguments
-  int sCount = 0; // -s, --size
-  int cCount = 0; // -c --count
-  int aCount = 0; // -a --alpha
-  int hCount = 0; // -h --help
-  int tCount = 0; // --termux_external
-  int dCount = 0; // -d --debug
+  int sCount = 0;   // -s, --size
+  int cCount = 0;   // -c --count
+  int aCount = 0;   // -a --alpha
+  int hCount = 0;   // -h --help
+  int tCount = 0;   // --termux-external
+  int dCount = 0;   // -d --debug
+  int trCount = 0;  // -t --thread-count
 
 
 
@@ -50,8 +54,7 @@ int main(int argc, char *argv[]) {
                strcmp(argv[n], "--alpha") == 0) { // If n-th arg        -a,
       alpha = true;
       aCount++;
-    } else if (strcmp(argv[n], "-c") == 0 ||
-               strcmp(argv[n], "--count") == 0) { // If n-th arg      -c,
+    } else if (strcmp(argv[n], "-c") == 0 || strcmp(argv[n], "--count") == 0) { // If n-th arg      -c,
       count = atoi(argv[n + 1]);
       cCount++;
     } else if (strcmp(argv[n], "-h") == 0 ||
@@ -61,10 +64,12 @@ int main(int argc, char *argv[]) {
     } else if (strcmp(argv[n], "--termux-external") == 0) { // If n-th arg -a,
       termuxExternal = true;                                // to implement
       tCount++;                                             // to implement
-    } else if (strcmp(argv[n], "-d") == 0 ||
-               strcmp(argv[n], "--debug") == 0) { // If n-th arg -a,
+    } else if (strcmp(argv[n], "-d") == 0 || strcmp(argv[n], "--debug") == 0) { // If n-th arg -a,
       allowDebugInfo = true;                      // to implement
       dCount++;                                   // to implement
+    } else if (strcmp(argv[n], "-t") == 0 || strcmp(argv[n], "--thread-count") == 0) { // If n-th arg      -c,
+      threadNumber = atoi(argv[n + 1]);
+      trCount++;
     }
   }
 
@@ -102,7 +107,7 @@ int main(int argc, char *argv[]) {
            "'-a' or '--alpha' (this toggles transparency in image formats that "
            "support it)\n    '-c' or '--count' <number>\n    "
            "'--termux-external' (uses your internal storage on android)\n    "
-           "'-d' or '--debug' (print debug info)\n    '-h' or '--help' (this "
+           "'-d' or '--debug' (print debug info)\n    '-t' or '--thread-count' <the number of threads> (it defaults to 1)\n    '-h' or '--help' (this "
            "message)\n\n    Example: -s 10 20 -a -c 10\n");
     return 0;
   }
@@ -117,9 +122,7 @@ int main(int argc, char *argv[]) {
     }
   }
 
-  srand((unsigned int)time(NULL)); // Seed the random number generator
-  int i = 0;
-  int errorCount = 0;
+
 
   //WIP
 
@@ -140,28 +143,77 @@ int main(int argc, char *argv[]) {
   pngArguments.allowDebugInfo = allowDebugInfo;
 
 
+srand((unsigned int)time(NULL)); // Seed the random number generator
+  int i = 0;
+  int errorCount = 0;
+
+
+
+  if (allowDebugInfo) { // TODO fix the weird counting
+    printf("(count / threadNumber) = %d\n", (count / threadNumber));
+    printf("Now generating using the threaded (first) for loop:\n");
+}
+
+
+int outerLoopCount = 0;
+int innerLoopCount = 0;
+int imageCounter = 0;
+
+
+
+
 
 
   // Generating PNG images
-  for (i = 1; i <= count; i++) {
-    // char imagename[30];
+  for (i = 1; i <= (count / threadNumber); i++) { // it is an int devision so dont forget to create the remaining images afterwards
 
-    // Generate images and count the errors.
+    pthread_t thread_ids[threadNumber]; // creating thread ids for the threads // kipróbálni +1-et levenni
+
+    int threadNumberCounter = 0;
+    for (int x = 0; x < threadNumber; x++){
+      imageCounter++;
+
+      sprintf(pngArguments.imagename, "%s/random_image%d.png", outDir, (imageCounter));
+      pthread_create(&thread_ids[x], NULL, generateImage, &pngArguments);
+      sleep(0);
+
+      if (allowDebugInfo) {
+        printf("i = %d\n", i);
+      }
+
+      innerLoopCount++;
+      threadNumberCounter++;
+    }
+
+    for (int z = 0; z < threadNumber; z++){
+      printf("Waiting for thread %d...\n", z);
+      pthread_join(thread_ids[z], NULL);
+    }
+
+    outerLoopCount++;
+  }
 
 
+  if (allowDebugInfo) {
+    printf("i after threaded for loop = %d\n", i);
+    printf("Now generating using the single thread (second) for loop:\n");
+  }
 
+  // (count % threadNumber) create the remaining images afterwards (for loop)
 
-    sprintf(pngArguments.imagename, "%s/random_image%d.png", outDir, i);
-
-    //errorCount = errorCount + // Error countot megcsinálni
-    //generateImage(pngArguments.imagename, pngArguments.width, pngArguments.height, pngArguments.alpha, pngArguments.allowDebugInfo);
-    //Replace with:
-
-
+  for (int j = 0; j <= (count % threadNumber); j++) {
+    sprintf(pngArguments.imagename, "%s/random_image%d.png", outDir, imageCounter);
     pthread_t thread_id1; // variable for generateimage thread id
     pthread_create(&thread_id1, NULL, generateImage, &pngArguments);
     pthread_join(thread_id1, NULL);
+    imageCounter++;
   }
+
+
+
+
+
+
 
   if (termuxExternal) {
     int shellCommandLenght =
@@ -211,6 +263,9 @@ int main(int argc, char *argv[]) {
     printf("%d random image(s) generated with %d error(s).\n", i, errorCount);
     return 1;
   }
+
+  printf("Outer loop: %d\nInner loop: %d\n", outerLoopCount, innerLoopCount);
+
 
   return 0;
 }
