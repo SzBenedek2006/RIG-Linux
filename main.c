@@ -124,11 +124,6 @@ int main(int argc, char *argv[]) {
 
 
 
-  //WIP
-
-  //TODO: Make specifiable threads, defaulting to 8
-
-
   struct PNGArguments {
     char imagename[30];
     int width;
@@ -149,7 +144,7 @@ srand((unsigned int)time(NULL)); // Seed the random number generator
 
 
 
-  if (allowDebugInfo) { // TODO fix the weird counting
+  if (allowDebugInfo) {
     printf("(count / threadNumber) = %d\n", (count / threadNumber));
     printf("Now generating using the threaded (first) for loop:\n");
 }
@@ -186,7 +181,9 @@ int imageCounter = 0;
     }
 
     for (int z = 0; z < threadNumber; z++){
-      printf("Waiting for thread %d...\n", z);
+      if (allowDebugInfo){
+        printf("Waiting for thread %d...\n", z);
+      }
       pthread_join(thread_ids[z], NULL);
     }
 
@@ -264,7 +261,10 @@ int imageCounter = 0;
     return 1;
   }
 
-  printf("Outer loop: %d\nInner loop: %d\n", outerLoopCount, innerLoopCount);
+  if (allowDebugInfo) {
+    printf("Outer loop: %d\nInner loop: %d\n", outerLoopCount, innerLoopCount);
+}
+
 
 
   return 0;
