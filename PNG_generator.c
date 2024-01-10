@@ -6,7 +6,7 @@
 #include <string.h>
 #include <unistd.h>
 
-void* generateImage(void *args) {
+void* generatePNG(void *args) {
 
 struct PNGArguments {
     char filename[30];
