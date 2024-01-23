@@ -7,7 +7,7 @@ Users can currently specify:
 - To use the alpha channel or not in PNG (transparency)
 - Image count (how many images will be generated)
 - To put the images in android internal storage instead of termux home directory when specified
-- Outpud debug info
+- Output debug info
 
 
 
