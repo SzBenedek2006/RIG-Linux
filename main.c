@@ -1,11 +1,27 @@
 #include "PNG_generator.c"
 #include "dir_creator.c"
+#include "progressbar.c"
+
 #include <stdbool.h>
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
+#include <sys/ioctl.h>
+
+
+void getTerminalSize(unsigned short int  *rows, unsigned short int  *cols) {
+  struct winsize w;
+  ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
+  *rows = w.ws_row;
+  *cols = w.ws_col;
+}
 
 int main(int argc, char *argv[]) {
+
+
+
+
+
 
   printf("Welcome to RIG\n\n");
 
@@ -21,6 +37,9 @@ int main(int argc, char *argv[]) {
   char outDirTermux[] = "/storage/emulated/0/";
   int termuxPermissionNeeded = 0;
   bool allowDebugInfo = false;
+  // Terminal sizes:
+  unsigned short int  terminalHeight = 0;
+  unsigned short int  terminalWidth = 0;
 
   // Number of the same arguments
   int sCount = 0; // -s, --size
@@ -106,19 +125,70 @@ int main(int argc, char *argv[]) {
     }
   }
 
+
+
+
+
+
+
+
+
+    // Generating PNG images
+
+
   srand((unsigned int)time(NULL)); // Seed the random number generator
   int i = 0;
   int errorCount = 0;
 
-  // Generating PNG images
+  // Getting terminal sizes
+
+  if (allowDebugInfo) {
+    printf("Terminal height = %d\nTerminal width = %d\n", terminalHeight, terminalWidth);
+  }
+
+  printf("\n\n");
+  int dotcounter = 0;
+  getTerminalSize(&terminalHeight, &terminalWidth);
+
+  if (terminalWidth >= 30) {
+      progressbar(i, count, terminalWidth - 18);
+    } else {
+      printf("\033[A\nGenerating images   ");
+    }
+
+
   for (i = 1; i <= count; i++) {
     char imagename[30];
 
     // Generate images and count the errors.
     sprintf(imagename, "%s/random_image%d.png", outDir, i);
-    errorCount = errorCount +
-                 generateImage(imagename, width, height, alpha, allowDebugInfo);
-  }
+    errorCount = errorCount + generateImage(imagename, width, height, alpha, allowDebugInfo);
+
+    fflush(stdout);
+    getTerminalSize(&terminalHeight, &terminalWidth);
+    if (terminalWidth >= 30) {
+      progressbar(i, count, terminalWidth - 18);
+    } else if (dotcounter == 0) {
+      printf("\033[A\nGenerating images   ");
+    } else if (dotcounter == 1) {
+      printf("\033[A\nGenerating images.");
+    } else if (dotcounter == 2) {
+      printf("\033[A\nGenerating images..");
+    } else {
+      printf("\033[A\nGenerating images...");
+    }
+
+    if (dotcounter < 3) {
+      dotcounter++;
+    } else {
+      dotcounter = 0;
+}
+  } printf("\n");
+
+
+
+
+
 
   if (termuxExternal) {
     int shellCommandLenght =
@@ -144,6 +214,18 @@ int main(int argc, char *argv[]) {
     if (allowDebugInfo) {printf("Shell command: %s\n", shellCommand);}
     system(shellCommand); // Moving dirs to external
   }
+
+
+
+
+
+
+
+
+
+
+
+
 
   // Error number counting
   if (errorCount == 0) {
