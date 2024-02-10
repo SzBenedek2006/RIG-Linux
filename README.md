@@ -43,6 +43,7 @@ You need to have `clang` `make` `git` installed on your GNU/Linux machine.
   - [ ] Add more debug messages and make use of the stderr output.
 - [ ] Add haptic feedback on Android and speaker feedback in other supported devices
 - [x] Add a progressbar
+- [ ] Add CLI completion
 
 ## Supported OS-es
 GNU/Linux, Android/Linux (see the Termux section), and maybe MacOS and BSD systems.
