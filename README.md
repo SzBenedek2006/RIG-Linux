@@ -4,7 +4,7 @@ WIP project, currently at beta stage.
 ## This program creates images from random pixels, based on user input.
 Users can currently specify:
 - Size (width x height)
-- To use the alpha channel or not in PNG (transparency)
+- The use of alpha channel in PNG (transparency)
 - Image count (how many images will be generated)
 - To put the images in android internal storage instead of termux home directory when specified
 - Output debug info
