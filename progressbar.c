@@ -14,5 +14,4 @@ void progressbar(int progress, int total, int length) {
     }
     printf("] %.0f%%\r", progressPercent);
     fflush(stdout);
-    usleep(100000); // Sleep for 100 milliseconds
 }

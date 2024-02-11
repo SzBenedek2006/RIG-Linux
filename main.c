@@ -143,6 +143,7 @@ int main(int argc, char* argv[])
             terminalWidth);
     }
 
+    // mao
     printf("\n\n");
     int dotcounter = 0;
     getTerminalSize(&terminalHeight, &terminalWidth);
