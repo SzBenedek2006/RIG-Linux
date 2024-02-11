@@ -4,11 +4,16 @@ WIP project, currently at beta stage.
 ## This program creates images from random pixels, based on user input.
 Users can currently specify:
 - Size (width x height)
-- To use the alpha channel or not in PNG (transparency)
+- The use of alpha channel in PNG (transparency)
 - Image count (how many images will be generated)
+- To put the images in android internal storage instead of termux home directory when specified
+- Output debug info
+
+
 
 ## Dependencies
 You need to have `clang` `make` `git` installed on your GNU/Linux machine.
+Also you have to have libpng installed. i only had issues with it on Fedora, I will fix and document it in a future release.
 
 
 ## How to download and build
@@ -38,7 +43,8 @@ You need to have `clang` `make` `git` installed on your GNU/Linux machine.
 - [x] Add debug option
   - [ ] Add more debug messages and make use of the stderr output.
 - [ ] Add haptic feedback on Android and speaker feedback in other supported devices
-- [ ] Add a progressbar
+- [x] Add a progressbar
+- [ ] Add CLI completion
 
 ## Supported OS-es
 GNU/Linux, Android/Linux (see the Termux section), and maybe MacOS and BSD systems.
