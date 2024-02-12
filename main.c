@@ -24,8 +24,8 @@ int main(int argc, char* argv[])
     double startTime;
 
     // Get the current time in UTC
-    if (timespec_get(&ts, TIME_UTC) == 0) {
-        perror("timespec_get");
+    if (clock_gettime(CLOCK_REALTIME, &ts) == -1) {
+        perror("clock_gettime");
         return 1;
     }
 
@@ -214,8 +214,8 @@ int main(int argc, char* argv[])
     double endTime;
 
     // Get the current time in UTC
-    if (timespec_get(&ts, TIME_UTC) == 0) {
-        perror("timespec_get");
+    if (clock_gettime(CLOCK_REALTIME, &ts) == -1) {
+        perror("clock_gettime");
         return 1;
     }
 
