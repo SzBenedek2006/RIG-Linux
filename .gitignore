@@ -1,0 +1,5 @@
+# Exclude files starting with RIG-
+RIG-*
+
+# Exclude the out/ directory
+out/
