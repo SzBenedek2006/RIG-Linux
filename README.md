@@ -13,7 +13,7 @@ Users can currently specify:
 
 ## Dependencies
 You need to have `clang` `make` `git` installed on your GNU/Linux machine.
-Also you have to have libpng installed. i only had issues with it on Fedora, I will fix and document it in a future release.
+Also you have to have `libpng` installed. On Fedora you also need `libpng-devel`.
 
 
 ## How to download and build
