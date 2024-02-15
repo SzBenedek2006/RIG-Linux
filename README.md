@@ -57,6 +57,7 @@ sudo pacman -Syu libpng clang make git
 - [x] Make use of termux setup-external-storage
 - [x] Add debug option
   - [ ] Add more debug messages and make use of the stderr output.
+  - [ ] Make printing debug messages a function and fix rendering issue with the progressbar
 - [ ] Add haptic feedback on Android and speaker feedback in other supported devices
 - [x] Add a progressbar
 - [ ] Add CLI completion
