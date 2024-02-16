@@ -15,6 +15,21 @@ Users can currently specify:
 You need to have `clang` `make` `git` installed on your GNU/Linux machine.
 Also you have to have `libpng` installed. On Fedora you also need `libpng-devel`.
 
+**Fedora**
+```Fedora
+sudo dnf install libpng-devel clang make git
+```
+
+**Termux**
+```Termux
+pkg install libpng clang make git
+```
+
+**Arch**
+```Arch
+sudo pacman -Syu libpng clang make git
+```
+
 
 ## How to download and build
 0. You need to have the dependencies _(listed in their section above)_ installed. If you don't know how to do it, search how to install _*package name*_ on _*your Linux distro's name*_
@@ -42,6 +57,7 @@ Also you have to have `libpng` installed. On Fedora you also need `libpng-devel`
 - [x] Make use of termux setup-external-storage
 - [x] Add debug option
   - [ ] Add more debug messages and make use of the stderr output.
+  - [ ] Make printing debug messages a function and fix rendering issue with the progressbar
 - [ ] Add haptic feedback on Android and speaker feedback in other supported devices
 - [x] Add a progressbar
 - [ ] Add CLI completion
