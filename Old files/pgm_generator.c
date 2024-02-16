@@ -3,8 +3,8 @@
 #include <time.h>
 #include <math.h>
 
-#define WIDTH 10 //46340
-#define HEIGHT 10 //46340
+#define WIDTH 10
+#define HEIGHT 10
 #define MAX_GRAY_VALUE 255
 
 

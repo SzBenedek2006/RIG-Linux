@@ -17,6 +17,14 @@ void getTerminalSize(unsigned short int* rows, unsigned short int* cols)
     *cols = w.ws_col;
 }
 
+// WIP 
+// Replacing if (allowDebugInfo) mess with a cleaner approach
+void printdebug() {
+    //To be filled
+}
+
+
+
 int main(int argc, char* argv[])
 {
 
@@ -142,46 +150,34 @@ int main(int argc, char* argv[])
         printf("Terminal height = %d\nTerminal width = %d\n", terminalHeight,
             terminalWidth);
     }
+    
 
     // mao
     printf("\n\n");
-    int dotcounter = 0;
+    
     getTerminalSize(&terminalHeight, &terminalWidth);
 
     if (terminalWidth >= 30) {
         progressbar(i, count, terminalWidth - 18);
     } else {
-        printf("\033[A\nGenerating images   ");
+        printf("\033[A\nGenerating images");
     }
 
+    
     for (i = 1; i <= count; i++) {
         char imagename[30];
-
-        // Generate images and count the errors.
+        
+        // Create fil for image
         sprintf(imagename, "%s/random_image%d.png", outDir, i);
+        
+        // Do the progressbar
+        getTerminalSize(&terminalHeight, &terminalWidth);
+        progressbar(i, count, terminalWidth - 20);
+        
+        // Generate images and count the errors.
         errorCount = errorCount + generateImage(imagename, width, height, alpha, allowDebugInfo);
 
-        fflush(stdout);
-        getTerminalSize(&terminalHeight, &terminalWidth);
-        if (terminalWidth >= 30) {
-            progressbar(i, count, terminalWidth - 18);
-        } else if (dotcounter == 0) {
-            printf("\033[A\nGenerating images   ");
-        } else if (dotcounter == 1) {
-            printf("\033[A\nGenerating images.");
-        } else if (dotcounter == 2) {
-            printf("\033[A\nGenerating images..");
-        } else {
-            printf("\033[A\nGenerating images...");
-        }
-
-        if (dotcounter < 3) {
-            dotcounter++;
-        } else {
-            dotcounter = 0;
-        }
     }
-    printf("\n");
 
     if (termuxExternal) {
         int shellCommandLenght = strlen("mv ") + strlen(outDir) + strlen(" ") + strlen(outDirTermux) + 1;
