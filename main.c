@@ -9,6 +9,9 @@
 #include <sys/ioctl.h>
 #include <time.h>
 
+bool allowDebugInfo = false;
+
+
 void getTerminalSize(unsigned short int* rows, unsigned short int* cols)
 {
     struct winsize w;
@@ -20,8 +23,12 @@ void getTerminalSize(unsigned short int* rows, unsigned short int* cols)
 // WIP 
 // Replacing if (allowDebugInfo) mess with a cleaner approach
 void printdebug() {
-    //To be filled
+    if (allowDebugInfo) {
+        printf("test");
+    }
 }
+
+
 
 
 
@@ -53,7 +60,7 @@ int main(int argc, char* argv[])
     char outDir[] = "out";
     char outDirTermux[] = "/storage/emulated/0/";
     int termuxPermissionNeeded = 0;
-    bool allowDebugInfo = false;
+    
     // Terminal sizes:
     unsigned short int terminalHeight = 0;
     unsigned short int terminalWidth = 0;
@@ -99,6 +106,7 @@ int main(int argc, char* argv[])
             dCount++; // to implement
         }
     }
+        printdebug();
 
     // Print the arguments
     // printf("%d\n%d\n%d\n%d\n", sCount, aCount, cCount, hCount);
