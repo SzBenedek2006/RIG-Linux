@@ -13,6 +13,10 @@
 bool allowDebugInfo = false;
 
 
+
+
+
+
 void getTerminalSize(unsigned short int* rows, unsigned short int* cols)
 {
     struct winsize w;
@@ -23,9 +27,15 @@ void getTerminalSize(unsigned short int* rows, unsigned short int* cols)
 
 // WIP 
 // Replacing if (allowDebugInfo) mess with a cleaner approach
-void printdebug() {
+void printDebug(char text[]) {
     if (allowDebugInfo) {
-        printf("test");
+        printf("%s\n", text);
+    } 
+}
+
+void printDebugPlus(char text[], int numVar){
+    if (allowDebugInfo) {
+        printf("%s%d\n", text, numVar);
     }
 }
 
@@ -107,16 +117,19 @@ int main(int argc, char* argv[])
             dCount++; // to implement
         }
     }
-        printdebug();
+
 
     // Print the arguments
-    // printf("%d\n%d\n%d\n%d\n", sCount, aCount, cCount, hCount);
+    // printf("%d\n%d\n%d\n%d\n", , , , );
+    printDebugPlus("sCount = ", sCount);
+    printDebugPlus("aCount = ", aCount);
+    printDebugPlus("cCount = ", cCount);
+    printDebugPlus("hCount = ", hCount);
 
     // Too few arguments warning
     if ((width == 0 || height == 0 || count == 0) && !help) {
         printf("Too few arguments or width, height or count is 0. Unexpected "
-               "behaviour may occur! (Argc = %d)\n Use -h to print help message.\n",
-            argc);
+               "behaviour may occur! (Argc = %d)\n Use -h to print help message.\n", argc);
     }
 
     // Too many arguments
