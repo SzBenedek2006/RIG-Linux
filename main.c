@@ -9,6 +9,7 @@
 #include <sys/ioctl.h>
 #include <time.h>
 
+// Global variables section
 bool allowDebugInfo = false;
 
 
