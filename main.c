@@ -67,7 +67,7 @@ int main(int argc, char* argv[])
     unsigned int count;
     int n;
     bool help = false;
-    bool termuxExternal;
+    bool termuxExternal = false;
     char outDir[] = "out";
     char outDirTermux[] = "/storage/emulated/0/";
     int termuxPermissionNeeded = 0;
@@ -85,10 +85,10 @@ int main(int argc, char* argv[])
     int dCount = 0; // -d --debug
 
     // Print the arguments
-    /*for (int i = 0; i <= argc; i++) {
+    for (int i = 0; i <= argc; i++) {
       printf("Argv%d = %s\n", i, argv[i]);
     }
-    */
+
 
     // Handle the arguments.
     for (n = 1; n < argc; n++) {
@@ -104,8 +104,13 @@ int main(int argc, char* argv[])
             alpha = true;
             aCount++;
         } else if (strcmp(argv[n], "-c") == 0 || strcmp(argv[n], "--count") == 0) { // If n-th arg      -c,
-            count = atoi(argv[n + 1]);
-            cCount++;
+            if (argv[n + 1] != NULL) {
+                count = atoi(argv[n + 1]);
+                cCount++;
+            } else {
+                printDebug("-c value is not set");
+            }
+
         } else if (strcmp(argv[n], "-h") == 0 || strcmp(argv[n], "--help") == 0) { // If n-th arg       -h,
             help = true;
             hCount++;
@@ -130,6 +135,7 @@ int main(int argc, char* argv[])
     if ((width == 0 || height == 0 || count == 0) && !help) {
         printf("Too few arguments or width, height or count is 0. Unexpected "
                "behaviour may occur! (Argc = %d)\n Use -h to print help message.\n", argc);
+        return 1;
     }
 
     // Too many arguments
@@ -148,7 +154,10 @@ int main(int argc, char* argv[])
                "'-d' or '--debug' (print debug info)\n    '-h' or '--help' (this "
                "message)\n\n    Example: -s 10 20 -a -c 10\n");
         return 0;
-    }
+    } else if (argc == 1) {
+        printf("'-h' or '--help' for help\n");
+        return 1;
+}
 
     if (!termuxExternal) {
         dirCreatorLinux(outDir, 0); // Creating dirs
