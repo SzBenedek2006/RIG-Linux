@@ -61,8 +61,8 @@ int main(int argc, char* argv[])
     printf("Welcome to RIG\n\n");
 
     // Declaring vars
-    unsigned int width;
-    unsigned int height;
+    unsigned int width = 0;
+    unsigned int height = 0;
     bool alpha = false;
     unsigned int count;
     int n;
@@ -85,7 +85,7 @@ int main(int argc, char* argv[])
     int dCount = 0; // -d --debug
 
     // Print the arguments
-    for (int i = 0; i <= argc; i++) {
+    for (int i = 0; i <= argc+1; i++) {
       printf("Argv%d = %s\n", i, argv[i]);
     }
 
@@ -94,11 +94,17 @@ int main(int argc, char* argv[])
     for (n = 1; n < argc; n++) {
         if (strcmp(argv[n], "-s") == 0 || strcmp(argv[n], "--size") == 0) { // -s,
             sCount++;
-            if (argv[n + 1] >= 0) {
-                height = atoi(argv[n + 1]);
+            if (argv[n + 1] != NULL) {
+                if (atoi(argv[n + 1]) >= 0) {
+                    height = atoi(argv[n + 1]);
+                }
+            } else {
+                return 1;
             }
-            if (argv[n + 2] >= 0) {
+            if (atoi(argv[n + 2]) >= 0) {
                 width = atoi(argv[n + 2]);
+            } else {
+                return 1;
             }
         } else if (strcmp(argv[n], "-a") == 0 || strcmp(argv[n], "--alpha") == 0) { // If n-th arg        -a,
             alpha = true;
@@ -108,7 +114,8 @@ int main(int argc, char* argv[])
                 count = atoi(argv[n + 1]);
                 cCount++;
             } else {
-                printDebug("-c value is not set");
+                printf("-c value is not set");
+                return 1;
             }
 
         } else if (strcmp(argv[n], "-h") == 0 || strcmp(argv[n], "--help") == 0) { // If n-th arg       -h,
