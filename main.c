@@ -39,7 +39,15 @@ void printDebugPlus(char text[], int numVar){
     }
 }
 
-
+void printHelp() {
+    printf("Hi, options are the following:\n    '-s' or '--size' <height "
+               "width>\n    "
+               "'-a' or '--alpha' (this toggles transparency in image formats that "
+               "support it)\n    '-c' or '--count' <number>\n    "
+               "'--termux-external' (uses your internal storage on android)\n    "
+               "'-d' or '--debug' (print debug info)\n    '-h' or '--help' (this "
+               "message)\n\n    Example: -s 10 20 -a -c 10\n");
+}
 
 
 
@@ -61,13 +69,13 @@ int main(int argc, char* argv[])
     printf("Welcome to RIG\n\n");
 
     // Declaring vars
-    unsigned int width;
-    unsigned int height;
+    unsigned int width = 0;
+    unsigned int height = 0;
     bool alpha = false;
     unsigned int count;
     int n;
     bool help = false;
-    bool termuxExternal;
+    bool termuxExternal = false;
     char outDir[] = "out";
     char outDirTermux[] = "/storage/emulated/0/";
     int termuxPermissionNeeded = 0;
@@ -85,27 +93,41 @@ int main(int argc, char* argv[])
     int dCount = 0; // -d --debug
 
     // Print the arguments
-    /*for (int i = 0; i <= argc; i++) {
-      printf("Argv%d = %s\n", i, argv[i]);
-    }
-    */
+    //for (int i = 0; i <= argc+1; i++) {
+    //  printf("Argv%d = %s\n", i, argv[i]);
+    //}
+
 
     // Handle the arguments.
     for (n = 1; n < argc; n++) {
         if (strcmp(argv[n], "-s") == 0 || strcmp(argv[n], "--size") == 0) { // -s,
             sCount++;
-            if (argv[n + 1] >= 0) {
-                height = atoi(argv[n + 1]);
+            if (argv[n + 1] != NULL) {
+                if (atoi(argv[n + 1]) >= 0) {
+                    height = atoi(argv[n + 1]);
+                }
+            } else {
+                printf("size is not set\n");
+                return 2;
             }
-            if (argv[n + 2] >= 0) {
+            if (atoi(argv[n + 2]) >= 0) {
                 width = atoi(argv[n + 2]);
+            } else {
+                printf("size is not set\n");
+                return 2;
             }
         } else if (strcmp(argv[n], "-a") == 0 || strcmp(argv[n], "--alpha") == 0) { // If n-th arg        -a,
             alpha = true;
             aCount++;
         } else if (strcmp(argv[n], "-c") == 0 || strcmp(argv[n], "--count") == 0) { // If n-th arg      -c,
-            count = atoi(argv[n + 1]);
-            cCount++;
+            if (argv[n + 1] != NULL) {
+                count = atoi(argv[n + 1]);
+                cCount++;
+            } else {
+                printf("count is not set\n");
+                return 3;
+            }
+
         } else if (strcmp(argv[n], "-h") == 0 || strcmp(argv[n], "--help") == 0) { // If n-th arg       -h,
             help = true;
             hCount++;
@@ -119,18 +141,25 @@ int main(int argc, char* argv[])
     }
 
 
-    // Print the arguments
-    // printf("%d\n%d\n%d\n%d\n", , , , );
     printDebugPlus("sCount = ", sCount);
     printDebugPlus("aCount = ", aCount);
     printDebugPlus("cCount = ", cCount);
     printDebugPlus("hCount = ", hCount);
 
+
+    if (argc == 1) {
+        printf("Use -h to print help message.\n");
+        return 0;
+    }
+
+
     // Too few arguments warning
     if ((width == 0 || height == 0 || count == 0) && !help) {
-        printf("Too few arguments or width, height or count is 0. Unexpected "
-               "behaviour may occur! (Argc = %d)\n Use -h to print help message.\n", argc);
+        printf("Too few arguments. Width, height or count is 0. Unexpected "
+               "behaviour may occur! (Argc = %d)\n", argc);
+        return 1;
     }
+
 
     // Too many arguments
     if (sCount > 1 || cCount > 1 || aCount > 1 || hCount > 1 || tCount > 1) {
@@ -138,17 +167,13 @@ int main(int argc, char* argv[])
         return 1;
     }
 
+
     // Helpmsg
     if (help == true) {
-        printf("Hi, options are the following:\n    '-s' or '--size' <height "
-               "width>\n    "
-               "'-a' or '--alpha' (this toggles transparency in image formats that "
-               "support it)\n    '-c' or '--count' <number>\n    "
-               "'--termux-external' (uses your internal storage on android)\n    "
-               "'-d' or '--debug' (print debug info)\n    '-h' or '--help' (this "
-               "message)\n\n    Example: -s 10 20 -a -c 10\n");
+        printHelp();
         return 0;
     }
+
 
     if (!termuxExternal) {
         dirCreatorLinux(outDir, 0); // Creating dirs
@@ -168,10 +193,11 @@ int main(int argc, char* argv[])
 
     // Getting terminal sizes
 
-    if (allowDebugInfo) {
-        printf("Terminal height = %d\nTerminal width = %d\n", terminalHeight,
-            terminalWidth);
-    }
+
+    printDebugPlus("Terminal height = ", terminalHeight);
+    printDebugPlus("Terminal width = ", terminalWidth);
+
+
     
 
     // mao
