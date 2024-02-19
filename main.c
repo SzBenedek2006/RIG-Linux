@@ -168,10 +168,11 @@ int main(int argc, char* argv[])
 
     // Getting terminal sizes
 
-    if (allowDebugInfo) {
-        printf("Terminal height = %d\nTerminal width = %d\n", terminalHeight,
-            terminalWidth);
-    }
+
+    printDebugPlus("Terminal height = ", terminalHeight);
+    printDebugPlus("Terminal width = ", terminalWidth);
+
+
     
 
     // mao
