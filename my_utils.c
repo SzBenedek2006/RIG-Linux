@@ -21,7 +21,7 @@ void getTerminalSize(unsigned short int* rows, unsigned short int* cols)
 void printDebug(char text[]) {
     if (allowDebugInfo) {
         usleep(1000000);
-        printf("\033[A\033[A%s\n\033[B", text);
+        printf("\e[F\e[S%s\n", text);
         fflush(stdout);
     }
 }
@@ -29,7 +29,7 @@ void printDebug(char text[]) {
 void printDebugPlusInt(char text[], int numVar){
     if (allowDebugInfo) {
         usleep(1000000);
-        printf("\033[A\033[A%s%d\n\033[B", text, numVar);
+        printf("\e[F\e[S%s%d\n", text, numVar);
         fflush(stdout);
     }
 }
@@ -37,7 +37,7 @@ void printDebugPlusInt(char text[], int numVar){
 void printDebugPlusStr(char text[], char strVar[]){
     if (allowDebugInfo) {
         usleep(1000000);
-        printf("\033[A\033[A%s%s\n\033[B", text, strVar);
+        printf("\e[F\e[S%s%s\n", text, strVar);
         fflush(stdout);
     }
 }
