@@ -47,8 +47,12 @@ int main(int argc, char* argv[])
     int termuxPermissionNeeded = 0;
     
     // Terminal sizes:
-    unsigned short int terminalHeight = 0;
-    unsigned short int terminalWidth = 0;
+
+    getTerminalSize(&terminalHeight, &terminalWidth);
+
+    for (int i = 0; i < terminalHeight - 3; i++) {
+        printf("\n");
+    }
 
     // Number of the same arguments
     int sCount = 0; // -s, --size
@@ -151,25 +155,21 @@ int main(int argc, char* argv[])
         }
     }
 
+
+
+
+
     // Generating PNG images
 
     srand((unsigned int)time(NULL)); // Seed the random number generator
     int i = 0;
     int errorCount = 0;
 
-    // Getting terminal sizes
-
 
     printDebugPlusInt("Terminal height = ", terminalHeight);
     printDebugPlusInt("Terminal width = ", terminalWidth);
 
 
-    
-
-    // mao
-    printf("\n\n");
-    
-    getTerminalSize(&terminalHeight, &terminalWidth);
 
     if (terminalWidth >= 30) {
         progressbar(i, count, terminalWidth - 18);

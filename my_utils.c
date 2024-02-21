@@ -4,8 +4,17 @@
 #include <unistd.h>
 
 
-
+int writeCoordinate[2] = {0, 1};
 bool allowDebugInfo = false;
+unsigned short int terminalHeight = 0;
+unsigned short int terminalWidth = 0;
+
+void incrementCounter(int *ptr) {
+    if ((*ptr) > terminalHeight - 2) {
+            (*ptr) = 1;
+        }
+}
+
 
 
 void getTerminalSize(unsigned short int* rows, unsigned short int* cols)
@@ -21,24 +30,27 @@ void getTerminalSize(unsigned short int* rows, unsigned short int* cols)
 void printDebug(char text[]) {
     if (allowDebugInfo) {
         usleep(1000000);
-        printf("\e[F\e[S%s\n", text);
+        printf("\e[F\e[S\e[%d;%dH%s", writeCoordinate[0], writeCoordinate[1], text);
         fflush(stdout);
+        incrementCounter(&writeCoordinate[0]);
     }
 }
 
 void printDebugPlusInt(char text[], int numVar){
     if (allowDebugInfo) {
         usleep(1000000);
-        printf("\e[F\e[S%s%d\n", text, numVar);
+        printf("\e[F\e[S\e[%d;%dH%s%d", writeCoordinate[0], writeCoordinate[1], text, numVar);
         fflush(stdout);
+        incrementCounter(&writeCoordinate[0]);
     }
 }
 
 void printDebugPlusStr(char text[], char strVar[]){
     if (allowDebugInfo) {
         usleep(1000000);
-        printf("\e[F\e[S%s%s\n", text, strVar);
+        printf("\e[F\e[S\e[%d;%dH%s%s", writeCoordinate[0], writeCoordinate[1], text, strVar);
         fflush(stdout);
+        incrementCounter(&writeCoordinate[0]);
     }
 }
 
