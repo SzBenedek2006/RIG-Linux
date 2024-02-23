@@ -109,6 +109,7 @@ int main(int argc, char* argv[])
             dCount++; // to implement
         }
     }
+    errorFileOpener();
 
 
     printDebugPlusInt("sCount = ", sCount);
@@ -243,6 +244,8 @@ int main(int argc, char* argv[])
         printf("%d random image(s) generated with %d error(s) in %lf seconds.\n", i, errorCount, fullTime);
         return 1;
     }
+
+    errorFileCloser();
 
     return 0;
 }

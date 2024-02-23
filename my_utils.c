@@ -30,7 +30,7 @@ int errorFileOpener() {
 
 
 int errorFileCloser() {
-    if (log_file != NULL) {
+    if (allowDebugInfo) {
         fclose(log_file);
     }
     return 0;
@@ -57,28 +57,34 @@ void getTerminalSize(unsigned short int* rows, unsigned short int* cols)
 // Replacing if (allowDebugInfo) mess with a cleaner approach
 void printDebug(char text[]) {
     if (allowDebugInfo) {
-        usleep(500000);
-        printf("\e[F\e[S\e[%d;%dH%s", writeCoordinate[0], writeCoordinate[1], text);
-        fflush(stdout);
-        incrementCounter(&writeCoordinate[0]);
+        fprintf(log_file, "%s\n", text);
+
+        //usleep(500000);
+        //printf("\e[F\e[S\e[%d;%dH%s", writeCoordinate[0], writeCoordinate[1], text);
+        //fflush(stdout);
+        //incrementCounter(&writeCoordinate[0]);
+
+
     }
 }
 
 void printDebugPlusInt(char text[], int numVar){
     if (allowDebugInfo) {
-        usleep(500000);
-        printf("\e[F\e[S\e[%d;%dH%s%d", writeCoordinate[0], writeCoordinate[1], text, numVar);
-        fflush(stdout);
-        incrementCounter(&writeCoordinate[0]);
+        fprintf(log_file, "%s%d\n", text, numVar);
+        //usleep(500000);
+        //printf("\e[F\e[S\e[%d;%dH%s%d", writeCoordinate[0], writeCoordinate[1], text, numVar);
+        //fflush(stdout);
+        //incrementCounter(&writeCoordinate[0]);
     }
 }
 
 void printDebugPlusStr(char text[], char strVar[]){
     if (allowDebugInfo) {
-        usleep(500000);
-        printf("\e[F\e[S\e[%d;%dH%s%s", writeCoordinate[0], writeCoordinate[1], text, strVar);
-        fflush(stdout);
-        incrementCounter(&writeCoordinate[0]);
+        fprintf(log_file, "%s%s\n", text, strVar);
+        //usleep(500000);
+        //printf("\e[F\e[S\e[%d;%dH%s%s", writeCoordinate[0], writeCoordinate[1], text, strVar);
+        //fflush(stdout);
+        //incrementCounter(&writeCoordinate[0]);
     }
 }
 

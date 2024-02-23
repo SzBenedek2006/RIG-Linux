@@ -3,3 +3,6 @@ RIG-*
 
 # Exclude the out/ directory
 out/
+
+# Exclude txt files
+*.txt
