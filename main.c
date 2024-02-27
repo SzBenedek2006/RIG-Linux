@@ -182,7 +182,7 @@ int main(int argc, char* argv[])
     for (i = 1; i <= count; i++) {
         char imagename[30];
         
-        // Create fil for image
+        // Create file for image
         sprintf(imagename, "%s/random_image%d.png", outDir, i);
         
         // Do the progressbar
@@ -193,6 +193,10 @@ int main(int argc, char* argv[])
         errorCount = errorCount + generateImage(imagename, width, height, alpha, allowDebugInfo);
 
     }
+
+    printf("\n");
+
+
 
     if (termuxExternal) {
         int shellCommandLenght = strlen("mv ") + strlen(outDir) + strlen(" ") + strlen(outDirTermux) + 1;
