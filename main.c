@@ -10,18 +10,14 @@
 #include <sys/ioctl.h>
 #include <time.h>
 
-// Global variables section
-// bool allowDebugInfo is included? - Yes
-
-
 
 
 
 int main(int argc, char* argv[])
 {
 
-    struct timespec ts;
-    double startTime;
+
+
 
     // Get the current time in UTC
     if (clock_gettime(CLOCK_REALTIME, &ts) == -1) {
@@ -29,7 +25,7 @@ int main(int argc, char* argv[])
         return 1;
     }
 
-    startTime = (double)ts.tv_sec + (double)ts.tv_nsec / 1.0e9;
+    *pStartTime = (double)ts.tv_sec + (double)ts.tv_nsec / 1.0e9;
 
     system("clear");
     printf("Welcome to RIG\n\n");
@@ -222,7 +218,6 @@ int main(int argc, char* argv[])
         system(shellCommand); // Moving dirs to external
     }
 
-    double endTime;
 
     // Get the current time in UTC
     if (clock_gettime(CLOCK_REALTIME, &ts) == -1) {
@@ -230,7 +225,7 @@ int main(int argc, char* argv[])
         return 1;
     }
 
-    endTime = (double)ts.tv_sec + (double)ts.tv_nsec / 1.0e9;
+    double endTime = (double)ts.tv_sec + (double)ts.tv_nsec / 1.0e9;
 
     double fullTime = endTime - startTime;
 
