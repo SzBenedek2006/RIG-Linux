@@ -1,6 +1,7 @@
 #include "PNG_generator.c"
 #include "dir_creator.c"
 #include "progressbar.c"
+// my_utils.c is included in PNG_generator.c
 
 #include <stdbool.h>
 #include <stdio.h>
@@ -10,44 +11,9 @@
 #include <time.h>
 
 // Global variables section
-bool allowDebugInfo = false;
+// bool allowDebugInfo is included? - Yes
 
 
-
-
-
-
-void getTerminalSize(unsigned short int* rows, unsigned short int* cols)
-{
-    struct winsize w;
-    ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
-    *rows = w.ws_row;
-    *cols = w.ws_col;
-}
-
-// WIP 
-// Replacing if (allowDebugInfo) mess with a cleaner approach
-void printDebug(char text[]) {
-    if (allowDebugInfo) {
-        printf("%s\n", text);
-    } 
-}
-
-void printDebugPlus(char text[], int numVar){
-    if (allowDebugInfo) {
-        printf("%s%d\n", text, numVar);
-    }
-}
-
-void printHelp() {
-    printf("Hi, options are the following:\n    '-s' or '--size' <height "
-               "width>\n    "
-               "'-a' or '--alpha' (this toggles transparency in image formats that "
-               "support it)\n    '-c' or '--count' <number>\n    "
-               "'--termux-external' (uses your internal storage on android)\n    "
-               "'-d' or '--debug' (print debug info)\n    '-h' or '--help' (this "
-               "message)\n\n    Example: -s 10 20 -a -c 10\n");
-}
 
 
 
@@ -81,8 +47,12 @@ int main(int argc, char* argv[])
     int termuxPermissionNeeded = 0;
     
     // Terminal sizes:
-    unsigned short int terminalHeight = 0;
-    unsigned short int terminalWidth = 0;
+
+    getTerminalSize(&terminalHeight, &terminalWidth);
+
+    for (int i = 0; i < terminalHeight - 3; i++) {
+        printf("\n");
+    }
 
     // Number of the same arguments
     int sCount = 0; // -s, --size
@@ -139,12 +109,13 @@ int main(int argc, char* argv[])
             dCount++; // to implement
         }
     }
+    errorFileOpener();
 
 
-    printDebugPlus("sCount = ", sCount);
-    printDebugPlus("aCount = ", aCount);
-    printDebugPlus("cCount = ", cCount);
-    printDebugPlus("hCount = ", hCount);
+    printDebugPlusInt("sCount = ", sCount);
+    printDebugPlusInt("aCount = ", aCount);
+    printDebugPlusInt("cCount = ", cCount);
+    printDebugPlusInt("hCount = ", hCount);
 
 
     if (argc == 1) {
@@ -185,25 +156,21 @@ int main(int argc, char* argv[])
         }
     }
 
+
+
+
+
     // Generating PNG images
 
     srand((unsigned int)time(NULL)); // Seed the random number generator
     int i = 0;
     int errorCount = 0;
 
-    // Getting terminal sizes
+
+    printDebugPlusInt("Terminal height = ", terminalHeight);
+    printDebugPlusInt("Terminal width = ", terminalWidth);
 
 
-    printDebugPlus("Terminal height = ", terminalHeight);
-    printDebugPlus("Terminal width = ", terminalWidth);
-
-
-    
-
-    // mao
-    printf("\n\n");
-    
-    getTerminalSize(&terminalHeight, &terminalWidth);
 
     if (terminalWidth >= 30) {
         progressbar(i, count, terminalWidth - 18);
@@ -215,7 +182,7 @@ int main(int argc, char* argv[])
     for (i = 1; i <= count; i++) {
         char imagename[30];
         
-        // Create fil for image
+        // Create file for image
         sprintf(imagename, "%s/random_image%d.png", outDir, i);
         
         // Do the progressbar
@@ -227,6 +194,10 @@ int main(int argc, char* argv[])
 
     }
 
+    printf("\n");
+
+
+
     if (termuxExternal) {
         int shellCommandLenght = strlen("mv ") + strlen(outDir) + strlen(" ") + strlen(outDirTermux) + 1;
         char shellCommand[shellCommandLenght];
@@ -236,10 +207,8 @@ int main(int argc, char* argv[])
         strcat(shellCommand, "rm -rf ");
         strcat(shellCommand, outDirTermux);
         strcat(shellCommand, "out");
+        printDebugPlusStr("Shell command: ", shellCommand);
 
-        if (allowDebugInfo) {
-            printf("Shell command: %s\n", shellCommand);
-        }
         system(shellCommand); // Removing dirs to avoid write error
 
         shellCommand[0] = '\0'; // Initialize it as an empty string
@@ -248,10 +217,8 @@ int main(int argc, char* argv[])
         strcat(shellCommand, outDir);
         strcat(shellCommand, " ");
         strcat(shellCommand, outDirTermux);
+        printDebugPlusStr("Shell command: %s\n", shellCommand);
 
-        if (allowDebugInfo) {
-            printf("Shell command: %s\n", shellCommand);
-        }
         system(shellCommand); // Moving dirs to external
     }
 
@@ -281,6 +248,8 @@ int main(int argc, char* argv[])
         printf("%d random image(s) generated with %d error(s) in %lf seconds.\n", i, errorCount, fullTime);
         return 1;
     }
+
+    errorFileCloser();
 
     return 0;
 }

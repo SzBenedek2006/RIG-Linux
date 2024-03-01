@@ -4,13 +4,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "my_utils.c"
+
 int generateImage(const char *filename, unsigned int width, unsigned int height, bool alpha, bool allowDebugInfo) {
   // Initialize PNG structures and open a file for writing
   FILE *fp = fopen(filename, "wb");
 
   // Handle file opening error
   if (!fp) {
-    printf("Error creating the image file. png error 1\n");
+    printDebug("Error creating the image file. png error 1");
     return 1;
   }
 
@@ -20,7 +22,7 @@ int generateImage(const char *filename, unsigned int width, unsigned int height,
   if (!png_ptr) {
     fclose(fp);
 
-    printf("Error creating the image file. png error 2\n");
+    printDebug("Error creating the image file. png error 2");
     return 2;
   }
 
@@ -29,15 +31,11 @@ int generateImage(const char *filename, unsigned int width, unsigned int height,
   if (!info_ptr) {
     png_destroy_write_struct(&png_ptr, NULL);
     fclose(fp);
-    printf("Error creating tunsigned inthe image file. png error 3\n");
+    printDebug("Error creating tunsigned inthe image file. png error 3");
     return 3;
   }
 
-  if (allowDebugInfo) {
-    printf("File created\n");
-}
-
-
+  printDebug("File created");
 
   png_init_io(png_ptr, fp);
 
@@ -52,13 +50,10 @@ int generateImage(const char *filename, unsigned int width, unsigned int height,
                PNG_INTERLACE_NONE, PNG_COMPRESSION_TYPE_BASE,
                PNG_FILTER_TYPE_BASE);
 
-  if (allowDebugInfo) {
-    printf("IHDR set\n");
-}
-
+  printDebug("IHDR set");
 
   // Test alpha
-  if (alpha == true) {                                                                // If alpha true run
+  if (alpha == true) { // If alpha true run
     png_bytep *row_pointers = (png_bytep *)malloc(sizeof(png_bytep) * height);
     for (int y = 0; y < height; y++) {
       row_pointers[y] =
@@ -78,11 +73,11 @@ int generateImage(const char *filename, unsigned int width, unsigned int height,
     png_write_png(png_ptr, info_ptr, PNG_TRANSFORM_IDENTITY, NULL);
 
     for (int y = 0; y < height; y++) {
-        free(row_pointers[y]);
+      free(row_pointers[y]);
     }
     free(row_pointers);
 
-  } else {                                                                          // If alpha false run
+  } else { // If alpha false run
     // Write the image data
     png_bytep *row_pointers = (png_bytep *)malloc(sizeof(png_bytep) * height);
     for (int y = 0; y < height; y++) {
@@ -99,28 +94,25 @@ int generateImage(const char *filename, unsigned int width, unsigned int height,
       }
     }
 
-
     png_set_rows(png_ptr, info_ptr, row_pointers);
     png_write_png(png_ptr, info_ptr, PNG_TRANSFORM_IDENTITY, NULL);
 
     for (int y = 0; y < height; y++) {
-        free(row_pointers[y]);
+      free(row_pointers[y]);
     }
     free(row_pointers);
   }
 
-  if (allowDebugInfo) {
-    printf("File freed\n");
-}
+
+  printDebug("File freed");
 
 
   // Clean up and close the file
   png_destroy_write_struct(&png_ptr, &info_ptr);
   fclose(fp);
 
-  if (allowDebugInfo) {
-    printf("File closed\n");
-}
+
+  printDebug("File closed");
 
 
   return 0;

@@ -1,5 +1,5 @@
 # RIG-Linux - (Random Image Generator)
-WIP project, currently at beta stage.
+This project is work in progress...
 
 ## This program creates images from random pixels, based on user input.
 Users can currently specify:
@@ -12,8 +12,8 @@ Users can currently specify:
 
 
 ## Dependencies
-You need to have `clang` `make` `git` installed on your GNU/Linux machine.
-Also you have to have `libpng` installed. On Fedora you also need `libpng-devel`.
+You need to have `clang`, `make`, `git`, and `libpng` installed on your GNU/Linux machine.
+On Fedora you also need `libpng-devel`.
 
 **Fedora**
 ```Fedora
