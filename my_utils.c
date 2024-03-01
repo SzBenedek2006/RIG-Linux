@@ -2,7 +2,13 @@
 #include <stdio.h>
 #include <sys/ioctl.h>
 #include <unistd.h>
+#include <time.h>
 
+
+// Global vars
+struct timespec ts;
+double startTime;
+double *pStartTime = &startTime;
 
 int writeCoordinate[2] = {0, 1};
 bool allowDebugInfo = false;
@@ -57,34 +63,25 @@ void getTerminalSize(unsigned short int* rows, unsigned short int* cols)
 // Replacing if (allowDebugInfo) mess with a cleaner approach
 void printDebug(char text[]) {
     if (allowDebugInfo) {
-        fprintf(log_file, "%s\n", text);
-
-        //usleep(500000);
-        //printf("\e[F\e[S\e[%d;%dH%s", writeCoordinate[0], writeCoordinate[1], text);
-        //fflush(stdout);
-        //incrementCounter(&writeCoordinate[0]);
-
-
+        clock_gettime(CLOCK_REALTIME, &ts);
+        double msgTime =( (double)ts.tv_sec + (double)ts.tv_nsec / 1.0e9 ) - *pStartTime;
+        fprintf(log_file, "%lf: %s\n", msgTime, text);
     }
 }
 
 void printDebugPlusInt(char text[], int numVar){
     if (allowDebugInfo) {
-        fprintf(log_file, "%s%d\n", text, numVar);
-        //usleep(500000);
-        //printf("\e[F\e[S\e[%d;%dH%s%d", writeCoordinate[0], writeCoordinate[1], text, numVar);
-        //fflush(stdout);
-        //incrementCounter(&writeCoordinate[0]);
+        clock_gettime(CLOCK_REALTIME, &ts);
+        double msgTime =( (double)ts.tv_sec + (double)ts.tv_nsec / 1.0e9 ) - *pStartTime;
+        fprintf(log_file, "%lf: %s%d\n", msgTime, text, numVar);
     }
 }
 
 void printDebugPlusStr(char text[], char strVar[]){
     if (allowDebugInfo) {
-        fprintf(log_file, "%s%s\n", text, strVar);
-        //usleep(500000);
-        //printf("\e[F\e[S\e[%d;%dH%s%s", writeCoordinate[0], writeCoordinate[1], text, strVar);
-        //fflush(stdout);
-        //incrementCounter(&writeCoordinate[0]);
+        clock_gettime(CLOCK_REALTIME, &ts);
+        double msgTime =( (double)ts.tv_sec + (double)ts.tv_nsec / 1.0e9 ) - *pStartTime;
+        fprintf(log_file, "%lf: %s%s\n", msgTime, text, strVar);
     }
 }
 
