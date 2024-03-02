@@ -1,6 +1,6 @@
 #include "PNG_generator.c"
 #include "dir_creator.c"
-#include "progressbar.c"
+
 // my_utils.c is included in PNG_generator.c
 
 #include <stdbool.h>
@@ -181,6 +181,7 @@ int main(int argc, char* argv[])
         
         // Do the progressbar
         double genTime = (double)ts.tv_sec + (double)ts.tv_nsec / 1.0e9;
+        printDebugPlusInt("gentime", genTime);
         getTerminalSize(&terminalHeight, &terminalWidth);
         progressbar(i, count, terminalWidth - 45, genTime);
         

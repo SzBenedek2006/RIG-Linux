@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <unistd.h>
+#include "my_utils.c" // Include only once
+
 
 
 double time1 = 0;
@@ -28,7 +30,9 @@ void progressbar(int progress, int total, int length, double time) {
 
 
     *pEta = (total - progress) * ((*pTime2) - (*pTime1));
+    printDebugPlusInt("(*pTime2) - (*pTime1) = ", (*pTime2) - (*pTime1));
     (*pTCounter)++;
+
 
 
 
@@ -74,4 +78,7 @@ void progressbar(int progress, int total, int length, double time) {
         printf("Generating images...");
         fflush(stdout);
     }
+
+    //Random usleep jumpscare
+    usleep(10000);
 }
