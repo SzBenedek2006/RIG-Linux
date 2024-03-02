@@ -1,7 +1,12 @@
 #include <stdio.h>
 #include <unistd.h>
 
-void progressbar(int progress, int total, int length) {
+double eta = 10;
+double *pEta = &eta;
+
+
+
+void progressbar(int progress, int total, int length, double *time) {
     short unsigned int dotcounter = progress % 4; // Counts 0 -> 3 without additional variable added
     
     if (length >= 30) {
@@ -17,7 +22,7 @@ void progressbar(int progress, int total, int length) {
                 printf(" ");
             }
         }
-        printf("] %.0f%%", progressPercent);
+        printf("] %.0f%% Time remaining: %lf", progressPercent, *pEta);
         fflush(stdout);
         
         

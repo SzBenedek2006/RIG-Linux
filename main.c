@@ -156,6 +156,11 @@ int main(int argc, char* argv[])
 
 
 
+
+
+
+
+
     // Generating PNG images
 
     srand((unsigned int)time(NULL)); // Seed the random number generator
@@ -167,9 +172,9 @@ int main(int argc, char* argv[])
     printDebugPlusInt("Terminal width = ", terminalWidth);
 
 
-
-    if (terminalWidth >= 30) {
-        progressbar(i, count, terminalWidth - 18);
+    // progressbar 1
+    if (terminalWidth >= 30) { // maybe replace this with just progressbar()
+        progressbar(i, count, terminalWidth - 45, NULL);
     } else {
         printf("\033[A\nGenerating images");
     }
@@ -182,8 +187,10 @@ int main(int argc, char* argv[])
         sprintf(imagename, "%s/random_image%d.png", outDir, i);
         
         // Do the progressbar
+        double genTime = (double)ts.tv_sec + (double)ts.tv_nsec / 1.0e9;
         getTerminalSize(&terminalHeight, &terminalWidth);
-        progressbar(i, count, terminalWidth - 20);
+
+        progressbar(i, count, terminalWidth - 45, &genTime);
         
         // Generate images and count the errors.
         errorCount = errorCount + generateImage(imagename, width, height, alpha, allowDebugInfo);
