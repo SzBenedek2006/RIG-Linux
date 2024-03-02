@@ -1,14 +1,42 @@
 #include <stdio.h>
 #include <unistd.h>
 
-double eta = 10;
+
+double time1 = 0;
+double *pTime1 = &time1;
+
+double time2 = 0;
+double *pTime2 = &time2;
+
+unsigned int tCounter = 0;
+unsigned int *pTCounter = & tCounter;
+
+double eta = 0;
 double *pEta = &eta;
 
 
 
-void progressbar(int progress, int total, int length, double *time) {
+void progressbar(int progress, int total, int length, double time) {
     short unsigned int dotcounter = progress % 4; // Counts 0 -> 3 without additional variable added
     
+    if (*pTCounter == 1) {
+        *pTime1 = time;
+    } else {
+        *pTime2 = time;
+    }
+
+
+
+    *pEta = (total - progress) * ((*pTime2) - (*pTime1));
+    (*pTCounter)++;
+
+
+
+
+    if (*pTCounter == 3) {
+        *pTCounter = 0;
+    }
+
     if (length >= 30) {
             
         int j;

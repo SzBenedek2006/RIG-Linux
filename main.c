@@ -172,26 +172,21 @@ int main(int argc, char* argv[])
     printDebugPlusInt("Terminal width = ", terminalWidth);
 
 
-    // progressbar 1
-    if (terminalWidth >= 30) { // maybe replace this with just progressbar()
-        progressbar(i, count, terminalWidth - 45, NULL);
-    } else {
-        printf("\033[A\nGenerating images");
-    }
+
 
     
     for (i = 1; i <= count; i++) {
         char imagename[30];
-        
-        // Create file for image
-        sprintf(imagename, "%s/random_image%d.png", outDir, i);
+
         
         // Do the progressbar
         double genTime = (double)ts.tv_sec + (double)ts.tv_nsec / 1.0e9;
         getTerminalSize(&terminalHeight, &terminalWidth);
-
-        progressbar(i, count, terminalWidth - 45, &genTime);
+        progressbar(i, count, terminalWidth - 45, genTime);
         
+        // Create file for image
+        sprintf(imagename, "%s/random_image%d.png", outDir, i);
+
         // Generate images and count the errors.
         errorCount = errorCount + generateImage(imagename, width, height, alpha, allowDebugInfo);
 
