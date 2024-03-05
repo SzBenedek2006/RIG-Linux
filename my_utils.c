@@ -10,6 +10,9 @@ struct timespec ts;
 double startTime;
 double *pStartTime = &startTime;
 
+
+
+
 int writeCoordinate[2] = {0, 1};
 bool allowDebugInfo = false;
 unsigned short int terminalHeight = 0;
@@ -94,3 +97,10 @@ void printHelp() {
                "'-d' or '--debug' (print debug info)\n    '-h' or '--help' (this "
                "message)\n\n    Example: -s 10 20 -a -c 10\n");
 }
+
+
+
+
+
+
+
