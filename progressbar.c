@@ -87,7 +87,4 @@ void progressbar(int progress, int total, int length, double time) {
         printf("Generating images...");
         fflush(stdout);
     }
-
-    //Random usleep jumpscare
-    usleep(1000000);
 }
