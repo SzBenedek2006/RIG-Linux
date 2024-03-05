@@ -23,10 +23,12 @@ void remainingTime(double time, double *time1, double *time2, unsigned int *tCou
 
 
 
-    if (*tCounter == 1) {
-        *pEta = (total - progress) * ((*time1) - (*time2)); // pEta?
-    } else {
-        *pEta = (total - progress) * ((*time2) - (*time1)); // pEta?
+    if (*time1 && *time2 != 0) {
+        if (*tCounter == 1) {
+            *pEta = (total - progress) * ((*time1) - (*time2)); // pEta?
+        } else {
+            *pEta = (total - progress) * ((*time2) - (*time1)); // pEta?
+        }
     } (*tCounter)++;
 
     printDebugPlusInt("(*time2) - (*time1) = ", (*time2) - (*time1));
@@ -61,7 +63,7 @@ void progressbar(int progress, int total, int length, double time) {
             }
         }
         remainingTime(time, &time1, &time2, &tCounter, total, progress);
-        printf("] %.0f%% Time remaining: %lf", progressPercent, *pEta);
+        printf("] %.0f%% Time remaining: %.3lf", progressPercent, *pEta);
         fflush(stdout);
         
         
@@ -87,5 +89,5 @@ void progressbar(int progress, int total, int length, double time) {
     }
 
     //Random usleep jumpscare
-    usleep(10000);
+    usleep(1000000);
 }
