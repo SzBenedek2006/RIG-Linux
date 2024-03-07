@@ -21,7 +21,8 @@ void remainingTime(double time, double *time1, double *time2, unsigned int *tCou
 
     }
 
-
+    printDebugPlusInt("*time1 = ", *time1);
+    printDebugPlusInt("*time2 = ", *time2);
 
     if (*time1 && *time2 != 0) {
         if (*tCounter == 1) {
@@ -87,4 +88,5 @@ void progressbar(int progress, int total, int length, double time) {
         printf("Generating images...");
         fflush(stdout);
     }
+    usleep(10000);
 }
