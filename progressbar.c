@@ -66,7 +66,7 @@ void progressbar(int progress, int total, int length, double time) {
             }
         }
         remainingTime(time, &time1, &time2, &tCounter, total, progress);
-        printf("] %.0f%% Time remaining: %.3lf", progressPercent, *pEta);
+        printf("] %.0f%% Time remaining: %.3lfs", progressPercent, *pEta);
         fflush(stdout);
         
         
