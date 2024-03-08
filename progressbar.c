@@ -21,6 +21,8 @@ void remainingTime(double time, double *time1, double *time2, unsigned int *tCou
 
     }
 
+
+    //printf("\n %lf, %lf, %d, %lf\n");
     printDebugPlusInt("*time1 = ", *time1);
     printDebugPlusInt("*time2 = ", *time2);
 

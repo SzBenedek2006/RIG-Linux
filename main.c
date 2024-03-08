@@ -179,10 +179,17 @@ int main(int argc, char* argv[])
         char imagename[30];
 
         
+        //printDebugPlusInt("gentime", genTime);
+        getTerminalSize(&terminalHeight, &terminalWidth);
+
+	if (clock_gettime(CLOCK_REALTIME, &ts) == -1) {
+            perror("clock_gettime");
+            return 1;
+	}
+
         // Do the progressbar
         double genTime = (double)ts.tv_sec + (double)ts.tv_nsec / 1.0e9;
-        printDebugPlusInt("gentime", genTime);
-        getTerminalSize(&terminalHeight, &terminalWidth);
+
         progressbar(i, count, terminalWidth - 45, genTime);
         
         // Create file for image
