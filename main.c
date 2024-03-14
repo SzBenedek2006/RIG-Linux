@@ -1,6 +1,6 @@
 #include "PNG_generator.c"
 #include "dir_creator.c"
-#include "progressbar.c"
+
 // my_utils.c is included in PNG_generator.c
 
 #include <stdbool.h>
@@ -156,6 +156,11 @@ int main(int argc, char* argv[])
 
 
 
+
+
+
+
+
     // Generating PNG images
 
     srand((unsigned int)time(NULL)); // Seed the random number generator
@@ -168,23 +173,28 @@ int main(int argc, char* argv[])
 
 
 
-    if (terminalWidth >= 30) {
-        progressbar(i, count, terminalWidth - 18);
-    } else {
-        printf("\033[A\nGenerating images");
-    }
 
     
     for (i = 1; i <= count; i++) {
         char imagename[30];
+
+        
+        //printDebugPlusInt("gentime", genTime);
+        getTerminalSize(&terminalHeight, &terminalWidth);
+
+	if (clock_gettime(CLOCK_REALTIME, &ts) == -1) {
+            perror("clock_gettime");
+            return 1;
+	}
+
+        // Do the progressbar
+        double genTime = (double)ts.tv_sec + (double)ts.tv_nsec / 1.0e9;
+
+        progressbar(i, count, terminalWidth - 45, genTime);
         
         // Create file for image
         sprintf(imagename, "%s/random_image%d.png", outDir, i);
-        
-        // Do the progressbar
-        getTerminalSize(&terminalHeight, &terminalWidth);
-        progressbar(i, count, terminalWidth - 20);
-        
+
         // Generate images and count the errors.
         errorCount = errorCount + generateImage(imagename, width, height, alpha, allowDebugInfo);
 
