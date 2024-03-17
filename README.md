@@ -1,6 +1,6 @@
 # RIG-Linux - (Random Image Generator)
-This project is work in progress... [![GitHub stars](https://img.shields.io/github/stars/SzBenedek2006/RIG-Linux.svg?style=flat&label=Stars&color=yellow)](https://github.com/SzBenedek2006/RIG-Linux) [![License](https://img.shields.io/github/license/SzBenedek2006/RIG-Linux.svg)](https://github.com/SzBenedek2006/RIG-Linux/blob/main/GPL-3.0) [![Code Size](https://img.shields.io/github/languages/code-size/SzBenedek2006/RIG-Linux.svg)](https://github.com/SzBenedek2006/RIG-Linux)
-
+This project is work in progress... [![GitHub stars](https://img.shields.io/github/stars/SzBenedek2006/RIG-Linux.svg)](https://github.com/SzBenedek2006/RIG-Linux/stargazers)
+ [![License](https://img.shields.io/github/license/SzBenedek2006/RIG-Linux.svg)](https://github.com/SzBenedek2006/RIG-Linux/blob/main/GPL-3.0) [![Code Size](https://img.shields.io/github/languages/code-size/SzBenedek2006/RIG-Linux.svg)](https://github.com/SzBenedek2006/RIG-Linux)
 
 
 
@@ -72,6 +72,7 @@ If it has the dependencies and mets the POSIX standard, it should probably run, 
 ## Termux
 The program can be run in termux after installing the dependencies.
 Since the Termux update, you can use  `--termux-external` command to put the output files to your internal storage.
+
 
 
 
