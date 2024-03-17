@@ -70,7 +70,7 @@ GNU/Linux, Android/Linux (see the Termux section), and maybe MacOS and BSD syste
 If it has the dependencies and mets the POSIX standard, it should probably run, but the program only has official support for Linux and Android (Termux).
 
 ## Termux
-The program can be run in termux after installing the dependencies.
+The program can be run in Termux after installing the dependencies.
 Since the Termux update, you can use  `--termux-external` command to put the output files to your internal storage.
 
 
