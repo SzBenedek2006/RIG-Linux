@@ -21,7 +21,7 @@ int main(int argc, char* argv[])
 
     *pStartTime = (double)ts.tv_sec + (double)ts.tv_nsec / 1.0e9;
 
-    system("clear");
+    // system("clear");
     printf("Welcome to RIG\n");
 
     // Declaring vars
