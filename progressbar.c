@@ -95,7 +95,7 @@ void progressbar(int progress, int total, int length, double time) {
             }
         }
         remainingTime(time, &time1, &time2, &tCounter, total, progress);
-        printf("] %.0f%% eta: %dh %dm %ds", progressPercent, realTime.hours, realTime.minutes, realTime.seconds);
+        printf("] %.0f%% eta: %d:%d:%d", progressPercent, realTime.hours, realTime.minutes, realTime.seconds);
         fflush(stdout);
         
         
