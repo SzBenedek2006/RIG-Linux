@@ -190,8 +190,8 @@ int main(int argc, char* argv[])
         // Do the progressbar
         double genTime = (double)ts.tv_sec + (double)ts.tv_nsec / 1.0e9;
 
-        progressbar(i, count, terminalWidth - 45, genTime);
-        
+        progressbar(i, count, terminalWidth - 30, genTime);
+
         // Create file for image
         sprintf(imagename, "%s/random_image%d.png", outDir, i);
 
