@@ -10,14 +10,8 @@
 #include <sys/ioctl.h>
 #include <time.h>
 
-
-
-
 int main(int argc, char* argv[])
 {
-
-
-
 
     // Get the current time in UTC
     if (clock_gettime(CLOCK_REALTIME, &ts) == -1) {
@@ -28,7 +22,7 @@ int main(int argc, char* argv[])
     *pStartTime = (double)ts.tv_sec + (double)ts.tv_nsec / 1.0e9;
 
     system("clear");
-    printf("Welcome to RIG\n\n");
+    printf("Welcome to RIG\n");
 
     // Declaring vars
     unsigned int width = 0;
@@ -41,14 +35,14 @@ int main(int argc, char* argv[])
     char outDir[] = "out";
     char outDirTermux[] = "/storage/emulated/0/";
     int termuxPermissionNeeded = 0;
-    
+
     // Terminal sizes:
 
     getTerminalSize(&terminalHeight, &terminalWidth);
 
-    for (int i = 0; i < terminalHeight - 3; i++) {
-        printf("\n");
-    }
+    /*for (int i = 0; i < terminalHeight - 3; i++) {
+     *   printf("\n");
+    }*/
 
     // Number of the same arguments
     int sCount = 0; // -s, --size
@@ -59,10 +53,9 @@ int main(int argc, char* argv[])
     int dCount = 0; // -d --debug
 
     // Print the arguments
-    //for (int i = 0; i <= argc+1; i++) {
+    // for (int i = 0; i <= argc+1; i++) {
     //  printf("Argv%d = %s\n", i, argv[i]);
     //}
-
 
     // Handle the arguments.
     for (n = 1; n < argc; n++) {
@@ -107,26 +100,23 @@ int main(int argc, char* argv[])
     }
     errorFileOpener();
 
-
     printDebugPlusInt("sCount = ", sCount);
     printDebugPlusInt("aCount = ", aCount);
     printDebugPlusInt("cCount = ", cCount);
     printDebugPlusInt("hCount = ", hCount);
-
 
     if (argc == 1) {
         printf("Use -h to print help message.\n");
         return 0;
     }
 
-
     // Too few arguments warning
     if ((width == 0 || height == 0 || count == 0) && !help) {
         printf("Too few arguments. Width, height or count is 0. Unexpected "
-               "behaviour may occur! (Argc = %d)\n", argc);
+               "behaviour may occur! (Argc = %d)\n",
+            argc);
         return 1;
     }
-
 
     // Too many arguments
     if (sCount > 1 || cCount > 1 || aCount > 1 || hCount > 1 || tCount > 1) {
@@ -134,13 +124,11 @@ int main(int argc, char* argv[])
         return 1;
     }
 
-
     // Helpmsg
     if (help == true) {
         printHelp();
         return 0;
     }
-
 
     if (!termuxExternal) {
         dirCreatorLinux(outDir, 0); // Creating dirs
@@ -152,40 +140,25 @@ int main(int argc, char* argv[])
         }
     }
 
-
-
-
-
-
-
-
-
-
     // Generating PNG images
 
     srand((unsigned int)time(NULL)); // Seed the random number generator
     int i = 0;
     int errorCount = 0;
 
-
     printDebugPlusInt("Terminal height = ", terminalHeight);
     printDebugPlusInt("Terminal width = ", terminalWidth);
 
-
-
-
-    
     for (i = 1; i <= count; i++) {
         char imagename[30];
 
-        
-        //printDebugPlusInt("gentime", genTime);
+        // printDebugPlusInt("gentime", genTime);
         getTerminalSize(&terminalHeight, &terminalWidth);
 
-	if (clock_gettime(CLOCK_REALTIME, &ts) == -1) {
+        if (clock_gettime(CLOCK_REALTIME, &ts) == -1) {
             perror("clock_gettime");
             return 1;
-	}
+        }
 
         // Do the progressbar
         double genTime = (double)ts.tv_sec + (double)ts.tv_nsec / 1.0e9;
@@ -197,12 +170,9 @@ int main(int argc, char* argv[])
 
         // Generate images and count the errors.
         errorCount = errorCount + generateImage(imagename, width, height, alpha, allowDebugInfo);
-
     }
 
     printf("\n");
-
-
 
     if (termuxExternal) {
         int shellCommandLenght = strlen("mv ") + strlen(outDir) + strlen(" ") + strlen(outDirTermux) + 1;
@@ -227,7 +197,6 @@ int main(int argc, char* argv[])
 
         system(shellCommand); // Moving dirs to external
     }
-
 
     // Get the current time in UTC
     if (clock_gettime(CLOCK_REALTIME, &ts) == -1) {
