@@ -45,12 +45,12 @@ int main(int argc, char* argv[])
     }*/
 
     // Number of the same arguments
-    int sCount = 0; // -s, --size
-    int cCount = 0; // -c --count
-    int aCount = 0; // -a --alpha
-    int hCount = 0; // -h --help
-    int tCount = 0; // --termux_external
-    int dCount = 0; // -d --debug
+    short unsigned int sCount = 0; // -s, --size
+    short unsigned int cCount = 0; // -c --count
+    short unsigned int aCount = 0; // -a --alpha
+    short unsigned int hCount = 0; // -h --help
+    short unsigned int tCount = 0; // --termux_external
+    short unsigned int dCount = 0; // -d --debug
 
     // Print the arguments
     // for (int i = 0; i <= argc+1; i++) {
