@@ -4,10 +4,18 @@
 
 double time1 = 0;
 double time2 = 0;
-
 unsigned int tCounter = 1;
+unsigned int eta = 0;
 
-int eta = 0;
+unsigned int eta0 = 0;
+unsigned int eta1 = 0;
+unsigned int eta2 = 0;
+unsigned int eta3 = 0;
+short unsigned int counter;
+
+// somehow update the ints separately based on the counter
+
+
 
 struct Time {
     int hours;
@@ -39,13 +47,55 @@ void remainingTime(double time, double* time1, double* time2, unsigned int* tCou
     printDebugPlusInt("*time1 = ", *time1);
     printDebugPlusInt("*time2 = ", *time2);
 
-    if (*time1 && *time2 != 0) {
-        if (*tCounter == 1) {
-            *(&eta) = (total - progress) * ((*time1) - (*time2)); // pEta?
-        } else {
-            *(&eta) = (total - progress) * ((*time2) - (*time1)); // pEta?
+    // Latest stuff... first 3 time incorrect
+    if (counter == 0) {
+        if (*time1 && *time2 != 0) {
+            if (*tCounter == 1) {
+                *(&eta0) = (total - progress) * ((*time1) - (*time2));
+            } else {
+                *(&eta0) = (total - progress) * ((*time2) - (*time1));
+            }
+            *(&eta) = *(&eta0); // average calc
+        }
+    } else if (counter == 1) {
+        if (*time1 && *time2 != 0) {
+            if (*tCounter == 1) {
+                *(&eta1) = (total - progress) * ((*time1) - (*time2));
+            } else {
+                *(&eta1) = (total - progress) * ((*time2) - (*time1));
+            }
+            *(&eta) = (*(&eta0) + *(&eta1)) / 2; // average calc
+        }
+    } else if (counter == 2) {
+        if (*time1 && *time2 != 0) {
+            if (*tCounter == 1) {
+                *(&eta2) = (total - progress) * ((*time1) - (*time2));
+            } else {
+                *(&eta2) = (total - progress) * ((*time2) - (*time1));
+            }
+            *(&eta) = (*(&eta0) + *(&eta1) + *(&eta2)) / 3; // average calc
+        }
+    } else if (counter == 3) {
+        if (*time1 && *time2 != 0) {
+            if (*tCounter == 1) {
+                *(&eta3) = (total - progress) * ((*time1) - (*time2));
+            } else {
+                *(&eta3) = (total - progress) * ((*time2) - (*time1));
+            }
+            *(&eta) = (*(&eta0) + *(&eta1) + *(&eta2) + *(&eta3)) / 4; // average calc
         }
     }
+
+
+
+    // if (*time1 && *time2 != 0) {
+    //     if (*tCounter == 1) {
+    //         *(&eta) = (total - progress) * ((*time1) - (*time2));
+    //     } else {
+    //         *(&eta) = (total - progress) * ((*time2) - (*time1));
+    //     }
+    // }
+
     (*tCounter)++;
 
     printDebugPlusInt("(*time2) - (*time1) = ", (*time2) - (*time1));
@@ -58,10 +108,10 @@ void remainingTime(double time, double* time1, double* time2, unsigned int* tCou
 void progressbar(int progress, int total, int length, double time)
 {
 
+    *(&counter) = progress % 4; // Counts 0 -> 3 without additional variable added
 
-    short unsigned int dotcounter = progress % 4; // Counts 0 -> 3 without additional variable added
 
-    struct Time realTime = convertSeconds(eta);
+    struct Time realTime = convertSeconds(eta); // Update eta before this point!!!
 
     if (length >= 30) {
 
@@ -85,17 +135,17 @@ void progressbar(int progress, int total, int length, double time)
 
         fflush(stdout);
 
-    } else if (dotcounter == 0) {
+    } else if (counter == 0) {
         printf("\r\033[K");
         printf("Generating images");
         fflush(stdout);
 
-    } else if (dotcounter == 1) {
+    } else if (counter == 1) {
         printf("\r\033[K");
         printf("Generating images.");
         fflush(stdout);
 
-    } else if (dotcounter == 2) {
+    } else if (counter == 2) {
         printf("\r\033[K");
         printf("Generating images..");
         fflush(stdout);
