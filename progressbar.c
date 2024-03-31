@@ -59,6 +59,8 @@ void remainingTime(double time, double* time1, double* time2, unsigned int* tCou
 
 void progressbar(int progress, int total, int length, double time)
 {
+
+
     short unsigned int dotcounter = progress % 4; // Counts 0 -> 3 without additional variable added
 
     struct Time realTime = convertSeconds(eta);
@@ -77,7 +79,12 @@ void progressbar(int progress, int total, int length, double time)
             }
         }
         remainingTime(time, &time1, &time2, &tCounter, total, progress);
-        printf("] %.0f%% eta: %d:%d:%d", progressPercent, realTime.hours, realTime.minutes, realTime.seconds);
+        if (progress == 1 || progress == 2) { // This is the first run
+            printf("] %.0f%% eta: calc...", progressPercent);
+        } else {
+            printf("] %.0f%% eta: %02d:%02d:%02d", progressPercent, realTime.hours, realTime.minutes, realTime.seconds);
+        }
+
         fflush(stdout);
 
     } else if (dotcounter == 0) {
