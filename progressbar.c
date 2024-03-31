@@ -3,13 +3,11 @@
 #include <unistd.h>
 
 double time1 = 0;
-
 double time2 = 0;
 
 unsigned int tCounter = 1;
 
 int eta = 0;
-int* pEta = &eta;
 
 struct Time {
     int hours;
@@ -43,9 +41,9 @@ void remainingTime(double time, double* time1, double* time2, unsigned int* tCou
 
     if (*time1 && *time2 != 0) {
         if (*tCounter == 1) {
-            *pEta = (total - progress) * ((*time1) - (*time2)); // pEta?
+            *(&eta) = (total - progress) * ((*time1) - (*time2)); // pEta?
         } else {
-            *pEta = (total - progress) * ((*time2) - (*time1)); // pEta?
+            *(&eta) = (total - progress) * ((*time2) - (*time1)); // pEta?
         }
     }
     (*tCounter)++;
