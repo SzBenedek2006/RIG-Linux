@@ -29,8 +29,7 @@ struct Time {
     int seconds;
 };
 
-struct Time convertSeconds(int total_seconds)
-{
+struct Time convertSeconds(int total_seconds) {
     struct Time time;
 
     time.hours = total_seconds / 3600; // Calculate hours
@@ -40,8 +39,7 @@ struct Time convertSeconds(int total_seconds)
     return time; // Return the struct with converted time values
 }
 
-void remainingTime(double time, double* time1, double* time2, unsigned int* tCounter, int total, int progress)
-{
+void remainingTime(double time, double* time1, double* time2, unsigned int* tCounter, int total, int progress) {
 
     if (*tCounter == 1) {
         *time1 = time;
@@ -137,17 +135,18 @@ void remainingTime(double time, double* time1, double* time2, unsigned int* tCou
     }
 
 
-    (*tCounter)++;
+
 
     printDebugPlusInt("(*time2) - (*time1) = ", (*time2) - (*time1));
 
-    if (*tCounter == 3) {
+    if (*tCounter == 2) {
         *tCounter = 1;
+    } else {
+        *tCounter = 2;
     }
 }
 
-void progressbar(int progress, int total, int length, double time)
-{
+void progressbar(int progress, int total, int length, double time) {
 
     *(&counter) = progress % 4; // Counts 0 -> 3 without additional variable added
 
@@ -167,7 +166,10 @@ void progressbar(int progress, int total, int length, double time)
                 printf(" ");
             }
         }
+
         remainingTime(time, &time1, &time2, &tCounter, total, progress);
+
+        // Don't print time if it is still calculating
         if (((progress == 1 || progress == 2) && total <= needAveraging) || ((progress == 1 || progress == 2 || progress == 3 || progress == 4 || progress == 5) && total >= needAveraging)) { // This is the first run
             printf("] %.0f%% eta: calc...", progressPercent);
         } else {
