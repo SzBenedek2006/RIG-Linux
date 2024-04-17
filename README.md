@@ -20,17 +20,22 @@ On Fedora you also need `libpng-devel`.
 
 **Fedora**
 ```Fedora
-sudo dnf install libpng-devel clang make git
+sudo dnf install libpng-devel gcc make git
 ```
 
 **Termux**
 ```Termux
-pkg install libpng clang make git
+pkg install libpng gcc make git
 ```
 
 **Arch**
 ```Arch
-sudo pacman -Syu libpng clang make git
+sudo pacman -Syu libpng gcc make git
+```
+
+**Debian**
+```Debian
+pkg install libpng-dev gcc make git
 ```
 
 
