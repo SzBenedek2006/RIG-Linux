@@ -171,7 +171,6 @@ int main(int argc, char* argv[])
             return 1;
         }
 
-        // Do the progressbar
 
 
         double genTime = (double)ts.tv_sec + (double)ts.tv_nsec / 1.0e9;

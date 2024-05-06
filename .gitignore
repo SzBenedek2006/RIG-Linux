@@ -6,3 +6,6 @@ out/
 
 # Exclude txt files
 *.txt
+
+# Exclude kate saves
+*.kate-swp
