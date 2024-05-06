@@ -157,7 +157,7 @@ int main(int argc, char* argv[])
     pthread_mutex_init(&mutex, NULL); // init the mutex.
     pthread_t progressThread;
     struct ProgressBarArgs* args = (struct ProgressBarArgs*)malloc(sizeof(struct ProgressBarArgs));
-
+    pthread_create(&progressThread, NULL, multiThreadedProgressbar, (void*)args);
 
     // Start of the image loop
     for (i = 1; i <= count; i++) {
@@ -183,18 +183,11 @@ int main(int argc, char* argv[])
 
         args->progress = i;
         args->total = count;
-        args->length = terminalWidth - 30;
+        args->length = terminalWidth - 35;
         args->time = 0;
 
-        pthread_create(&progressThread, NULL, multiThreadedProgressbar, (void*)args);
-        for (i = 0; i <= count; i++) {
-            args->progress = i;
-            args->total = count;
-            args->length = terminalWidth - 40;
-            args->time = 0;
 
-            usleep(5 * MS);
-        }
+
 
 
 
