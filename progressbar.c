@@ -183,7 +183,7 @@ void progressbar(int progress, int total, int length, double time) { // For sing
         if (((progress == 1 || progress == 2) && total <= needAveraging) || ((progress == 1 || progress == 2 || progress == 3 || progress == 4 || progress == 5) && total >= needAveraging)) { // This is the first run
             printf("] %.0f%% eta: calc...", progressPercent);
         } else {
-            printf("] %.0f%% eta: %02d:%02d:%02d    %d", progressPercent, realTime.hours, realTime.minutes, realTime.seconds, progress);
+            printf("] %.0f%% eta: %02d:%02d:%02d", progressPercent, realTime.hours, realTime.minutes, realTime.seconds);
         }
 
         fflush(stdout);

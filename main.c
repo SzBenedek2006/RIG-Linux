@@ -152,6 +152,14 @@ int main(int argc, char* argv[])
     printDebugPlusInt("Terminal height = ", terminalHeight);
     printDebugPlusInt("Terminal width = ", terminalWidth);
 
+
+    // Multithread stuff
+    pthread_mutex_init(&mutex, NULL); // init the mutex.
+    pthread_t progressThread;
+    struct ProgressBarArgs* args = (struct ProgressBarArgs*)malloc(sizeof(struct ProgressBarArgs));
+
+
+    // Start of the image loop
     for (i = 1; i <= count; i++) {
         char imagename[30];
 
@@ -169,45 +177,29 @@ int main(int argc, char* argv[])
         double genTime = (double)ts.tv_sec + (double)ts.tv_nsec / 1.0e9;
 
 
-        // New stuff
+        // New stuff -----------------------------------------------------------------------------
 
-         pthread_mutex_init(&mutex, NULL); // init the mutex.
 
-        pthread_t progressThread;
-        int i;
-        int max_value = 100;
-        int length = 50;
-
-        struct ProgressBarArgs* args = (struct ProgressBarArgs*)malloc(sizeof(struct ProgressBarArgs));
 
         args->progress = i;
-        args->total = max_value;
-        args->length = length;
+        args->total = count;
+        args->length = terminalWidth - 30;
         args->time = 0;
 
-        pthread_create(&progressThread, NULL, multiThreadedProgressbar, (void*)args); // Replace `progressbar(i, max_value, length, 0);`
-        for (i = 0; i <= max_value; i++) {
+        pthread_create(&progressThread, NULL, multiThreadedProgressbar, (void*)args);
+        for (i = 0; i <= count; i++) {
             args->progress = i;
-            args->total = max_value;
-            args->length = length;
+            args->total = count;
+            args->length = terminalWidth - 40;
             args->time = 0;
 
             usleep(5 * MS);
         }
-        pthread_join(progressThread, NULL);
-        pthread_mutex_destroy(&mutex);
-        printf("\n");
-        free(args);
 
 
 
 
-
-
-
-
-
-        progressbar(i, count, terminalWidth - 30, genTime);
+        //progressbar(i, count, terminalWidth - 30, genTime); -----------------------------
 
         // Create file for image
         sprintf(imagename, "%s/random_image%d.png", outDir, i);
@@ -215,6 +207,10 @@ int main(int argc, char* argv[])
         // Generate images and count the errors.
         errorCount = errorCount + generateImage(imagename, width, height, alpha, allowDebugInfo);
     }
+
+    pthread_join(progressThread, NULL);
+    pthread_mutex_destroy(&mutex);
+    free(args);
 
     printf("\n");
 
