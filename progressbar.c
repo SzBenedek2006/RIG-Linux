@@ -51,20 +51,20 @@ struct Time convertSeconds(int total_seconds) {
     return time; // Return the struct with converted time values
 }
 
-void remainingTime(double time, double* time1, double* time2, unsigned int* tCounter, int total, int progress) {
+void remainingTime(double time, unsigned int* tCounter, int total, int progress) {
 
     if (*tCounter == 1) {
-        *time1 = time;
+        time1 = time;
     } else {
-        *time2 = time;
+        time2 = time;
     }
 
 
-    if (*time1 && *time2 != 0) {
+    if (time1 && time2 != 0) {
         if (*tCounter == 1) {
-            *(&eta) = (total - progress) * ((*time1) - (*time2));
+            *(&eta) = (total - progress) * ((time1) - (time2));
         } else {
-            *(&eta) = (total - progress) * ((*time2) - (*time1));
+            *(&eta) = (total - progress) * ((time2) - (time1));
         }
     }
 
@@ -102,7 +102,7 @@ void progressbar(int progress, int total, int length, double time) { // For sing
             }
         }
 
-        remainingTime(time, &time1, &time2, &tCounter, total, progress);
+        remainingTime(time, &tCounter, total, progress);
 
         // Don't print time if it is still calculating
         if (((progress == 1 || progress == 2) && total <= needAveraging) || ((progress == 1 || progress == 2 || progress == 3 || progress == 4 || progress == 5) && total >= needAveraging)) { // This is the first run
@@ -139,6 +139,7 @@ void* multiThreadedProgressbar(void* arg) {
 
 
     // Separate the time calculation out of the progressbar
+    // Maybe into main function?? (if I find a simple approach, then maye)
 
 
     struct ProgressBarArgs *args = (struct ProgressBarArgs *)arg;

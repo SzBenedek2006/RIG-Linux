@@ -175,11 +175,6 @@ int main(int argc, char* argv[])
 
         double genTime = (double)ts.tv_sec + (double)ts.tv_nsec / 1.0e9;
 
-
-        // New stuff -----------------------------------------------------------------------------
-
-
-
         args->progress = i;
         args->total = count;
         args->length = terminalWidth - 35;
