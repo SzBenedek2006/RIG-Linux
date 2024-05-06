@@ -184,7 +184,7 @@ int main(int argc, char* argv[])
         args->progress = i;
         args->total = count;
         args->length = terminalWidth - 35;
-        args->time = 0;
+        args->time = genTime;
 
 
 
