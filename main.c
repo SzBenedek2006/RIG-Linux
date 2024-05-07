@@ -227,6 +227,7 @@ int main(int argc, char* argv[])
     printf("\n");
 
     if (termuxExternal) {
+        printf("Moving images to internal storage...\n");
         int shellCommandLenght = strlen("mv ") + strlen(outDir) + strlen(" ") + strlen(outDirTermux) + 1;
         char shellCommand[shellCommandLenght];
 
