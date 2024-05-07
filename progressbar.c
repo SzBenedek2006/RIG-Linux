@@ -1,29 +1,19 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
-#include <pthread.h> // Need to include here too.
+#include <pthread.h>
 
 #include "my_utils.c"
 
 
-pthread_mutex_t mutex; // Declare global variable in a place that is accessible to both files.s
+pthread_mutex_t mutex;
 
-
-const unsigned short int needAveraging = 25; // Yeah, I'm bad at naming stuff
+const unsigned short int needAveraging = 25;
 
 double time1 = 0;
 double time2 = 0;
 unsigned int tCounter = 1;
-// unsigned int eta = 0;
-//
-// unsigned int eta0 = 0;
-// unsigned int eta1 = 0;
-// unsigned int eta2 = 0;
-// unsigned int eta3 = 0;
-// unsigned int eta4 = 0;
-// unsigned int eta5 = 0;
-// unsigned int eta6 = 0;
-// unsigned int eta7 = 0;
+
 short unsigned int counter;
 
 struct ProgressBarArgs {
@@ -44,39 +34,12 @@ struct Time {
 struct Time convertSeconds(int total_seconds) {
     struct Time time;
 
-    time.hours = total_seconds / 3600; // Calculate hours
-    time.minutes = (total_seconds % 3600) / 60; // Calculate minutes
-    time.seconds = total_seconds % 60; // Calculate remaining seconds
+    time.hours = total_seconds / 3600;
+    time.minutes = (total_seconds % 3600) / 60;
+    time.seconds = total_seconds % 60;
 
-    return time; // Return the struct with converted time values
+    return time; // you can return struct vars in c
 }
-
-void remainingTime(double time, unsigned int* tCounter, int total, int progress) {
-
-    if (*tCounter == 1) {
-        time1 = time;
-    } else {
-        time2 = time;
-    }
-
-
-    // if (time1 && time2 != 0) {
-    //     if (*tCounter == 1) {
-    //         *(&eta) = (total - progress) * ((time1) - (time2));
-    //     } else {
-    //         *(&eta) = (total - progress) * ((time2) - (time1));
-    //     }
-    // }
-
-
-
-    if (*tCounter == 2) {
-        *tCounter = 1;
-    } else {
-        *tCounter = 2;
-    }
-}
-
 
 
 void progressbar(int progress, int total, int length, double time) { // For single threaded use:
@@ -102,11 +65,9 @@ void progressbar(int progress, int total, int length, double time) { // For sing
             }
         }
 
-        // remainingTime(time, &tCounter, total, progress);
-        // || ((progress == 1 || progress == 2 || progress == 3 || progress == 4 || progress == 5) && total >= needAveraging)
 
-        // Don't print time if it is still calculating
-        if (progress == 1) { // This is the first run
+        // At first run, time can't be calculated, so don't display it.
+        if (progress == 1) {
             printf("] %.0f%%", progressPercent);
         } else {
             printf("] %.0f%% eta: %02d:%02d:%02d", progressPercent, realTime.hours, realTime.minutes, realTime.seconds); // megcsinálni az eta számlálásst az új módszerrel
@@ -138,11 +99,6 @@ void progressbar(int progress, int total, int length, double time) { // For sing
 
 void* multiThreadedProgressbar(void* arg) {
 
-
-    // Separate the time calculation out of the progressbar
-    // Maybe into main function?? (if I find a simple approach, then maye)
-
-
     struct ProgressBarArgs *args = (struct ProgressBarArgs *)arg;
     progressbar(args->progress, args->total, args->length, args->time);
     int progress_previous = 0;
@@ -157,9 +113,10 @@ void* multiThreadedProgressbar(void* arg) {
             progress_previous = progress_current;
         }
 
-        // If here happens an increment in progress, it breaks at 99%, even when using mutexes.
+
         if (args->progress == args->total) {
             printDebugPlusInt("Time in loop: ", args->time);
+            // If here happens an increment in progress, it breaks at 99%, even when using mutexes.
             progressbar(args->progress, args->total, args->length, args->time);
             pthread_mutex_unlock(&mutex);
             break;
