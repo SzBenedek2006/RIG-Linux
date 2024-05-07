@@ -80,6 +80,14 @@ void printDebugPlusInt(char text[], int numVar){
     }
 }
 
+void printDebugPlusFloat(char text[], double flVar){
+    if (allowDebugInfo) {
+        clock_gettime(CLOCK_REALTIME, &ts);
+        double msgTime =( (double)ts.tv_sec + (double)ts.tv_nsec / 1.0e9 ) - *pStartTime;
+        fprintf(log_file, "%lf: %s%lf\n", msgTime, text, flVar);
+    }
+}
+
 void printDebugPlusStr(char text[], char strVar[]){
     if (allowDebugInfo) {
         clock_gettime(CLOCK_REALTIME, &ts);

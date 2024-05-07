@@ -161,13 +161,19 @@ int main(int argc, char* argv[])
 
     // Start of the image loop
 
+
+
+
+
+
+    double genTime = 0;
     double genTime1 = 0;
     double genTime2 = (double)ts.tv_sec + (double)ts.tv_nsec / 1.0e9;
 
     for (i = 1; i <= count; i++) {
         char imagename[30];
 
-        // printDebugPlusInt("gentime", genTime);
+        printDebugPlusFloat("gentime: ", genTime);
         getTerminalSize(&terminalHeight, &terminalWidth);
 
         if (clock_gettime(CLOCK_REALTIME, &ts) == -1) {
@@ -176,18 +182,12 @@ int main(int argc, char* argv[])
         }
 
 
-
-        double genTime = (double)ts.tv_sec + (double)ts.tv_nsec / 1.0e9; // To comment out
-
         args->progress = i;
         args->total = count;
         args->length = terminalWidth - 35;
-        args->time = genTime; // To modify
+        args->time = genTime * (args->total - args->progress); // To modify
 
-
-
-
-
+        printDebugPlusFloat("time: ", genTime * (args->total - args->progress));
 
 
         //progressbar(i, count, terminalWidth - 30, genTime); -----------------------------
@@ -202,14 +202,17 @@ int main(int argc, char* argv[])
             printDebug("First iteration of image gen loop.");
         }
 
-        printDebugPlusInt("genTime1: ", genTime1);
-        printDebugPlusInt("genTime2: ", genTime2);
+
+
 
         // Time for the progressbar
-        if (i % 2 == 1) {
-            genTime1 = genTime2;
-            genTime2 = (double)ts.tv_sec + (double)ts.tv_nsec / 1.0e9;
-        }
+        genTime1 = genTime2;
+        genTime2 = (double)ts.tv_sec + (double)ts.tv_nsec / 1.0e9;
+        genTime = genTime2 - genTime1;
+
+
+        printDebugPlusFloat("genTime1: ", genTime1);
+        printDebugPlusFloat("genTime2: ", genTime2);
 
     }
 

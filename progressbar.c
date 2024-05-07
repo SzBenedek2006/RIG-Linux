@@ -14,16 +14,16 @@ const unsigned short int needAveraging = 25; // Yeah, I'm bad at naming stuff
 double time1 = 0;
 double time2 = 0;
 unsigned int tCounter = 1;
-unsigned int eta = 0;
-
-unsigned int eta0 = 0;
-unsigned int eta1 = 0;
-unsigned int eta2 = 0;
-unsigned int eta3 = 0;
-unsigned int eta4 = 0;
-unsigned int eta5 = 0;
-unsigned int eta6 = 0;
-unsigned int eta7 = 0;
+// unsigned int eta = 0;
+//
+// unsigned int eta0 = 0;
+// unsigned int eta1 = 0;
+// unsigned int eta2 = 0;
+// unsigned int eta3 = 0;
+// unsigned int eta4 = 0;
+// unsigned int eta5 = 0;
+// unsigned int eta6 = 0;
+// unsigned int eta7 = 0;
 short unsigned int counter;
 
 struct ProgressBarArgs {
@@ -60,13 +60,13 @@ void remainingTime(double time, unsigned int* tCounter, int total, int progress)
     }
 
 
-    if (time1 && time2 != 0) {
-        if (*tCounter == 1) {
-            *(&eta) = (total - progress) * ((time1) - (time2));
-        } else {
-            *(&eta) = (total - progress) * ((time2) - (time1));
-        }
-    }
+    // if (time1 && time2 != 0) {
+    //     if (*tCounter == 1) {
+    //         *(&eta) = (total - progress) * ((time1) - (time2));
+    //     } else {
+    //         *(&eta) = (total - progress) * ((time2) - (time1));
+    //     }
+    // }
 
 
 
@@ -83,10 +83,10 @@ void progressbar(int progress, int total, int length, double time) { // For sing
 
 
 
-    *(&counter) = (int)((float)progress / total * 100) % 4; // Counts 0 -> 3 without additional variable added
-
-
-    struct Time realTime = convertSeconds(eta); // Update eta before this point!!!
+    // *(&counter) = (int)((float)progress / total * 100) % 4; // Counts 0 -> 3 without additional variable added
+    //
+    //
+    struct Time realTime = convertSeconds(time); // Update eta before this point!!!
 
     if (length >= 30) {
 
@@ -102,13 +102,14 @@ void progressbar(int progress, int total, int length, double time) { // For sing
             }
         }
 
-        remainingTime(time, &tCounter, total, progress);
+        // remainingTime(time, &tCounter, total, progress);
+        // || ((progress == 1 || progress == 2 || progress == 3 || progress == 4 || progress == 5) && total >= needAveraging)
 
         // Don't print time if it is still calculating
-        if (((progress == 1 || progress == 2) && total <= needAveraging) || ((progress == 1 || progress == 2 || progress == 3 || progress == 4 || progress == 5) && total >= needAveraging)) { // This is the first run
-            printf("] %.0f%% eta: calc...", progressPercent);
+        if (progress == 1) { // This is the first run
+            printf("] %.0f%%", progressPercent);
         } else {
-            printf("] %.0f%% eta: %02d:%02d:%02d", progressPercent, realTime.hours, realTime.minutes, realTime.seconds);
+            printf("] %.0f%% eta: %02d:%02d:%02d", progressPercent, realTime.hours, realTime.minutes, realTime.seconds); // megcsinálni az eta számlálásst az új módszerrel
         }
 
         fflush(stdout);
@@ -146,7 +147,7 @@ void* multiThreadedProgressbar(void* arg) {
     while(1) {
         pthread_mutex_lock(&mutex);
 
-        printDebugPlusInt("Time before loop: ", args->time);
+
         progressbar(args->progress, args->total, args->length, args->time);
         // If here happens an increment in progress, it breaks at 99%, even when using mutexes.
         if (args->progress == args->total) {
