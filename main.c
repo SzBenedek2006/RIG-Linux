@@ -177,12 +177,12 @@ int main(int argc, char* argv[])
 
 
 
-        double genTime = (double)ts.tv_sec + (double)ts.tv_nsec / 1.0e9;
+        ouble genTime = (double)ts.tv_sec + (double)ts.tv_nsec / 1.0e9; // To comment out
 
         args->progress = i;
         args->total = count;
         args->length = terminalWidth - 35;
-        args->time = genTime;
+        args->time = genTime; // To modify
 
 
 
@@ -197,6 +197,13 @@ int main(int argc, char* argv[])
 
         // Generate images and count the errors.
         errorCount = errorCount + generateImage(imagename, width, height, alpha, allowDebugInfo);
+
+        if (i == 1) {
+            printDebug("First iteration of image gen loop.");
+        }
+
+        printDebugPlusInt("genTime1: ", genTime1);
+        printDebugPlusInt("genTime2: ", genTime2);
 
         // Time for the progressbar
         if (i % 2 == 1) {
