@@ -10,6 +10,9 @@
 #include <sys/ioctl.h>
 #include <time.h>
 
+
+const int MS = 1000;
+
 int main(int argc, char* argv[])
 {
 
@@ -149,10 +152,28 @@ int main(int argc, char* argv[])
     printDebugPlusInt("Terminal height = ", terminalHeight);
     printDebugPlusInt("Terminal width = ", terminalWidth);
 
+
+    // Multithread stuff
+    pthread_mutex_init(&mutex, NULL); // init the mutex.
+    pthread_t progressThread;
+    struct ProgressBarArgs* args = (struct ProgressBarArgs*)malloc(sizeof(struct ProgressBarArgs));
+    pthread_create(&progressThread, NULL, multiThreadedProgressbar, (void*)args);
+
+    // Start of the image loop
+
+
+
+
+
+
+    double genTime = 0;
+    double genTime1 = 0;
+    double genTime2 = (double)ts.tv_sec + (double)ts.tv_nsec / 1.0e9;
+
     for (i = 1; i <= count; i++) {
         char imagename[30];
 
-        // printDebugPlusInt("gentime", genTime);
+        printDebugPlusFloat("gentime: ", genTime);
         getTerminalSize(&terminalHeight, &terminalWidth);
 
         if (clock_gettime(CLOCK_REALTIME, &ts) == -1) {
@@ -160,21 +181,53 @@ int main(int argc, char* argv[])
             return 1;
         }
 
-        // Do the progressbar
-        double genTime = (double)ts.tv_sec + (double)ts.tv_nsec / 1.0e9;
 
-        progressbar(i, count, terminalWidth - 30, genTime);
+        args->progress = i;
+        args->total = count;
+        args->length = terminalWidth - 35;
+        args->time = genTime * (args->total - args->progress); // To modify
+
+        printDebugPlusFloat("time: ", genTime * (args->total - args->progress));
+
+
+        //progressbar(i, count, terminalWidth - 30, genTime); -----------------------------
 
         // Create file for image
         sprintf(imagename, "%s/random_image%d.png", outDir, i);
 
         // Generate images and count the errors.
         errorCount = errorCount + generateImage(imagename, width, height, alpha, allowDebugInfo);
+
+        if (i == 1) {
+            printDebug("First iteration of image gen loop.");
+        }
+
+
+
+
+        // Time for the progressbar
+        genTime1 = genTime2;
+        genTime2 = (double)ts.tv_sec + (double)ts.tv_nsec / 1.0e9;
+        genTime = genTime2 - genTime1;
+
+
+        printDebugPlusFloat("genTime1: ", genTime1);
+        printDebugPlusFloat("genTime2: ", genTime2);
+
     }
+
+
+
+
+
+    pthread_join(progressThread, NULL);
+    pthread_mutex_destroy(&mutex);
+    free(args);
 
     printf("\n");
 
     if (termuxExternal) {
+        printf("Moving images to internal storage...\n");
         int shellCommandLenght = strlen("mv ") + strlen(outDir) + strlen(" ") + strlen(outDirTermux) + 1;
         char shellCommand[shellCommandLenght];
 
