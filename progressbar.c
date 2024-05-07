@@ -144,6 +144,7 @@ void* multiThreadedProgressbar(void* arg) {
 
 
     struct ProgressBarArgs *args = (struct ProgressBarArgs *)arg;
+    progressbar(args->progress, args->total, args->length, args->time);
     int progress_previous = 0;
     int progress_current = args->progress;
     while(1) {
