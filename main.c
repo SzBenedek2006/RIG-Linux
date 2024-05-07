@@ -160,6 +160,10 @@ int main(int argc, char* argv[])
     pthread_create(&progressThread, NULL, multiThreadedProgressbar, (void*)args);
 
     // Start of the image loop
+
+    double genTime1 = 0;
+    double genTime2 = (double)ts.tv_sec + (double)ts.tv_nsec / 1.0e9;
+
     for (i = 1; i <= count; i++) {
         char imagename[30];
 
@@ -193,7 +197,17 @@ int main(int argc, char* argv[])
 
         // Generate images and count the errors.
         errorCount = errorCount + generateImage(imagename, width, height, alpha, allowDebugInfo);
+
+        // Time for the progressbar
+        if (i == 1) {
+            genTime1 = (double)ts.tv_sec + (double)ts.tv_nsec / 1.0e9;
+        }
+
     }
+
+
+
+
 
     pthread_join(progressThread, NULL);
     pthread_mutex_destroy(&mutex);
