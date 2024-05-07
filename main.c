@@ -200,7 +200,8 @@ int main(int argc, char* argv[])
 
         // Time for the progressbar
         if (i % 2 == 1) {
-            genTime1 = (double)ts.tv_sec + (double)ts.tv_nsec / 1.0e9;
+            genTime1 = genTime2;
+            genTime2 = (double)ts.tv_sec + (double)ts.tv_nsec / 1.0e9;
         }
 
     }
