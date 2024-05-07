@@ -177,7 +177,7 @@ int main(int argc, char* argv[])
 
 
 
-        ouble genTime = (double)ts.tv_sec + (double)ts.tv_nsec / 1.0e9; // To comment out
+        double genTime = (double)ts.tv_sec + (double)ts.tv_nsec / 1.0e9; // To comment out
 
         args->progress = i;
         args->total = count;
