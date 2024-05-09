@@ -25,7 +25,7 @@ sudo dnf install libpng-devel gcc make git
 
 **Termux**
 ```Termux
-pkg install libpng gcc make git
+pkg install libpng clang make git
 ```
 
 **Arch**
