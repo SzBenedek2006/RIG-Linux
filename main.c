@@ -143,7 +143,7 @@ int main(int argc, char* argv[])
         }
     }
 
-    // Generating PNG images
+    // Generating images
 
     srand((unsigned int)time(NULL)); // Seed the random number generator
     int i = 0;
@@ -159,16 +159,11 @@ int main(int argc, char* argv[])
     struct ProgressBarArgs* args = (struct ProgressBarArgs*)malloc(sizeof(struct ProgressBarArgs));
     pthread_create(&progressThread, NULL, multiThreadedProgressbar, (void*)args);
 
-    // Start of the image loop
-
-
-
-
-
-
     double genTime = 0;
     double genTime1 = 0;
     double genTime2 = (double)ts.tv_sec + (double)ts.tv_nsec / 1.0e9;
+
+    // Start of the image loop
 
     for (i = 1; i <= count; i++) {
         char imagename[30];
