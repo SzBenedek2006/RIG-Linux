@@ -1,6 +1,6 @@
 #include "PNG_generator.c"
 #include "dir_creator.c"
-#include "JPEG_generator"
+#include "JPEG_generator.c"
 
 // my_utils.c is included in PNG_generator.c
 
@@ -199,7 +199,7 @@ int main(int argc, char* argv[])
         errorCount = errorCount + generatePNG(imagename, width, height, alpha, allowDebugInfo);
 
         // Write JPEG file
-        write_JPEG_file(filename, width, height, quality);
+        write_JPEG_file(imagename, width, height, quality);
 
 
         if (i == 1) {
