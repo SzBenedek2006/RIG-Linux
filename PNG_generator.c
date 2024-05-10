@@ -6,7 +6,7 @@
 
 #include "progressbar.c"
 
-int generateImage(const char *filename, unsigned int width, unsigned int height, bool alpha, bool allowDebugInfo) {
+int generatePNG(const char *filename, unsigned int width, unsigned int height, bool alpha, bool allowDebugInfo) {
   // Initialize PNG structures and open a file for writing
   FILE *fp = fopen(filename, "wb");
 

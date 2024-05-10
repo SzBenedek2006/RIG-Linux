@@ -191,7 +191,7 @@ int main(int argc, char* argv[])
         sprintf(imagename, "%s/random_image%d.png", outDir, i);
 
         // Generate images and count the errors.
-        errorCount = errorCount + generateImage(imagename, width, height, alpha, allowDebugInfo);
+        errorCount = errorCount + generatePNG(imagename, width, height, alpha, allowDebugInfo);
 
         if (i == 1) {
             printDebug("First iteration of image gen loop.");
