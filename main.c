@@ -1,5 +1,6 @@
 #include "PNG_generator.c"
 #include "dir_creator.c"
+#include "JPEG_generator"
 
 // my_utils.c is included in PNG_generator.c
 
@@ -165,6 +166,10 @@ int main(int argc, char* argv[])
 
     // Start of the image loop
 
+    int quality = 15;
+
+
+
     for (i = 1; i <= count; i++) {
         char imagename[30];
 
@@ -192,6 +197,10 @@ int main(int argc, char* argv[])
 
         // Generate images and count the errors.
         errorCount = errorCount + generatePNG(imagename, width, height, alpha, allowDebugInfo);
+
+        // Write JPEG file
+        write_JPEG_file(filename, width, height, quality);
+
 
         if (i == 1) {
             printDebug("First iteration of image gen loop.");
