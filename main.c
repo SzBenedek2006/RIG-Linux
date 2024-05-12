@@ -14,6 +14,7 @@
 
 const int MS = 1000;
 
+
 int main(int argc, char* argv[])
 {
 
@@ -39,6 +40,7 @@ int main(int argc, char* argv[])
     char outDir[] = "out";
     char outDirTermux[] = "/storage/emulated/0/";
     int termuxPermissionNeeded = 0;
+    char format[6];
 
     // Terminal sizes:
 
@@ -55,6 +57,7 @@ int main(int argc, char* argv[])
     short unsigned int hCount = 0; // -h --help
     short unsigned int tCount = 0; // --termux_external
     short unsigned int dCount = 0; // -d --debug
+    short unsigned int fCount = 0; // -f --format
 
     // Print the arguments
     // for (int i = 0; i <= argc+1; i++) {
@@ -90,7 +93,6 @@ int main(int argc, char* argv[])
                 printf("count is not set\n");
                 return 3;
             }
-
         } else if (strcmp(argv[n], "-h") == 0 || strcmp(argv[n], "--help") == 0) { // If n-th arg       -h,
             help = true;
             hCount++;
@@ -100,6 +102,17 @@ int main(int argc, char* argv[])
         } else if (strcmp(argv[n], "-d") == 0 || strcmp(argv[n], "--debug") == 0) { // If n-th arg -a,
             allowDebugInfo = true; // to implement
             dCount++; // to implement
+        } else if (strcmp(argv[n], "-f") == 0 || strcmp(argv[n], "--format") == 0) { // If n-th arg      -c,
+            if (strcmp(argv[n + 1], "png") == 0 || strcmp(argv[n + 1], "jpg") == 0) { // Segfaults here
+                strcpy(format, argv[n + 1]);
+                //fCount++;
+                printDebugPlusStr("format: ", format);
+            } else {
+                printf("format is not set, defaulting to png\n");
+                strcpy(format, "png");
+                printDebugPlusStr("format (defaulted to): ", format);
+                return 3;
+            }
         }
     }
     errorFileOpener();
@@ -164,12 +177,30 @@ int main(int argc, char* argv[])
     double genTime1 = 0;
     double genTime2 = (double)ts.tv_sec + (double)ts.tv_nsec / 1.0e9;
 
+    int quality = 100;
+    char fileExtension[5];
+
+
+/*
+
+    // Replace this with user input
+    const int format = 2; //jpg
+    switch (format) {
+        case 1:
+            strcpy(fileExtension, "png");
+            break;
+        case 2:
+            strcpy(fileExtension, "jpeg");
+            break;
+    }
+
+
+*/
+
+
+
+
     // Start of the image loop
-
-    int quality = 15;
-
-
-
     for (i = 1; i <= count; i++) {
         char imagename[30];
 
@@ -193,13 +224,19 @@ int main(int argc, char* argv[])
         //progressbar(i, count, terminalWidth - 30, genTime); -----------------------------
 
         // Create file for image
-        sprintf(imagename, "%s/random_image%d.png", outDir, i);
+        sprintf(imagename, "%s/random_image%d.%s", outDir, i, format);
 
-        // Generate images and count the errors.
-        errorCount = errorCount + generatePNG(imagename, width, height, alpha, allowDebugInfo);
 
-        // Write JPEG file
-        write_JPEG_file(imagename, width, height, quality);
+        if (strcmp(format, "png") == 0) {
+            // Write PNG file
+            errorCount = errorCount + generatePNG(imagename, width, height, alpha, allowDebugInfo);
+        } else {
+            // Write JPEG file
+            write_JPEG_file(imagename, width, height, quality);
+        }
+
+
+
 
 
         if (i == 1) {
