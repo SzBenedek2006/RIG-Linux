@@ -6,7 +6,7 @@
 
 
 /* Function to write a JPEG file */
-void write_JPEG_file(char *filename, int width, int height, int quality) {
+void write_JPEG_file(char *filename, long width, long height, int quality) {
     struct jpeg_compress_struct cinfo;
     struct jpeg_error_mgr jerr;
     FILE *outfile;
