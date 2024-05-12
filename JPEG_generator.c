@@ -16,15 +16,9 @@ void write_JPEG_file(char *filename, long width, long height, int quality) {
     // Allocate memory for the image buffer
     image_buffer = (JSAMPLE *)malloc(width * height * 3 * sizeof(JSAMPLE));
     if (image_buffer == NULL) {
-        fprintf(stderr, "Failed to allocate memory for image buffer\n");
+        fprintf(stderr, "\nFailed to allocate memory for image buffer\n");
         exit(1);
     }
-
-    // Generate random image
-    //generate_random_image(width, height, image_buffer);
-
-
-    // srand(time(NULL)); // Seed for random number generation (already did in the main function)
 
     int i, j;
     for (i = 0; i < height; i++) {
