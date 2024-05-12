@@ -117,7 +117,7 @@ void printHelp() {
             "    "COLOR_BOLD "-c" COLOR_OFF " or "COLOR_BOLD "--count" COLOR_OFF " <number>\n"
             "\n"
             "    "COLOR_BOLD "-f" COLOR_OFF " or "COLOR_BOLD "--format" COLOR_OFF " <image format>\n"
-            "    It supports \"png\" or \"jpeg\". When not used, defaults to png.\n"
+            "    It supports png or jpg (jpeg) formats. When not used, defaults to png.\n"
             "\n"
             "    "COLOR_BOLD "-a" COLOR_OFF " or "COLOR_BOLD "--alpha" COLOR_OFF "\n"
             "    Use transparent pixels in png. With jpeg, this will be ignored.\n"

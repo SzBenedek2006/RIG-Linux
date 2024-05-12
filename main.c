@@ -27,6 +27,8 @@ int main(int argc, char* argv[])
 
     *pStartTime = (double)ts.tv_sec + (double)ts.tv_nsec / 1.0e9;
 
+
+
     printf("Welcome to RIG\n");
 
     // Declaring vars
@@ -69,8 +71,8 @@ int main(int argc, char* argv[])
         if (strcmp(argv[n], "-s") == 0 || strcmp(argv[n], "--size") == 0) { // -s,
             sCount++;
             if (argv[n + 1] != NULL && argv[n + 1] != NULL) {
-                    height = atoi(argv[n + 2]);
                     width = atoi(argv[n + 1]);
+                    height = atoi(argv[n + 2]);
                     n += 2;
             } else {
                 printf("size is not set\n");
@@ -83,6 +85,7 @@ int main(int argc, char* argv[])
             if (argv[n + 1] != NULL) {
                 count = atoi(argv[n + 1]);
                 cCount++;
+                n++;
             } else {
                 printf("count is not set\n");
                 return 3;
@@ -101,10 +104,10 @@ int main(int argc, char* argv[])
             if ((argv[n + 1]) != NULL) {
                 if (strcmp(argv[n + 1], "png") == 0) { // Segfaults here
                     strcpy(format, "png");
-                    printDebugPlusStr("format: ", format);
-                } else if (strcmp(argv[n + 1], "jpg") == 0) {
+                    n++;
+                } else if (strcmp(argv[n + 1], "jpeg") == 0 || strcmp(argv[n + 1], "jpg") == 0) {
                     strcpy(format, "jpg");
-                    printDebugPlusStr("format: ", format);
+                    n++;
                  } else {
                     printf("RIG currently only supports png (default) and jpg as a format option");
                     return 3;
@@ -117,16 +120,23 @@ int main(int argc, char* argv[])
         } else {
             printf("format is not set, defaulting to png\n");
             strcpy(format, "png");
-            printDebugPlusStr("format (defaulted to): ", format);
         }
 
     }
+
+
+    // Depends on allowDebugInfo == true
     errorFileOpener();
 
+
+    // All printDebug depends on errorFileOpener
     printDebugPlusInt("sCount = ", sCount);
     printDebugPlusInt("aCount = ", aCount);
     printDebugPlusInt("cCount = ", cCount);
     printDebugPlusInt("hCount = ", hCount);
+    printDebugPlusInt("tCount = ", tCount);
+    printDebugPlusInt("dCount = ", dCount);
+    printDebugPlusInt("fCount = ", fCount);
 
     if (argc == 1) {
         printf("Use -h to print help message.\n");
@@ -185,23 +195,6 @@ int main(int argc, char* argv[])
 
     int quality = 100;
     char fileExtension[5];
-
-
-/*
-
-    // Replace this with user input
-    const int format = 2; //jpg
-    switch (format) {
-        case 1:
-            strcpy(fileExtension, "png");
-            break;
-        case 2:
-            strcpy(fileExtension, "jpeg");
-            break;
-    }
-
-
-*/
 
 
 
