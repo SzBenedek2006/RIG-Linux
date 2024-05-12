@@ -1,9 +1,11 @@
 #include <stdbool.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <sys/ioctl.h>
 #include <unistd.h>
 #include <time.h>
 
+#include "version.c"
 
 // Global vars
 struct timespec ts;
@@ -97,13 +99,36 @@ void printDebugPlusStr(char text[], char strVar[]){
 }
 
 void printHelp() {
-    printf("Hi, options are the following:\n    '-s' or '--size' <height "
-               "width>\n    "
-               "'-a' or '--alpha' (this toggles transparency in image formats that "
-               "support it)\n    '-c' or '--count' <number>\n    "
-               "'--termux-external' (uses your internal storage on android)\n    "
-               "'-d' or '--debug' (print debug info)\n    '-h' or '--help' (this "
-               "message)\n\n    Example: -s 10 20 -a -c 10\n");
+    system("clear");
+    printf( "Hi! This is Random Image Generator (RIG) %s.\n"
+            "Project website: https://github.com/SzBenedek2006/RIG-Linux\n"
+            "My website (^-^): https://szbenedek2006.me\n\n\n"
+
+
+            "RIG options:\n\n"
+
+            "Size (width x height):\n"
+            "    '-s' or '--size' <width height>\n"
+            "    (changed the order in 2.0)\n"
+            "Count:\n"
+            "    '-c' or '--count' <number>\n"
+            "Format:\n"
+            "    '-f' or '--format' 'png' or 'jpg'\n"
+            "    (When not used, defaults to png.)\n"
+            "Transparency:\n"
+            "    '-a' or '--alpha'\n"
+            "    (use transparent pixels in png. with jpg, this will be ignored)\n"
+            "Make images accessible out of termux:\n"
+            "    '--termux-external'\n"
+            "    (when used in Termux, images will be moved to your internal storage)\n"
+            "Print debug info to a log file"
+            "    '-d' or '--debug'\n"
+            "    (print debug info)\n"
+            "Help message"
+            "    '-h' or '--help'\n"
+            "    (prints this message to console)\n\n"
+
+            "    Example: -s 10 20 -a -c 10 -f png\n", VERSION);
 }
 
 
