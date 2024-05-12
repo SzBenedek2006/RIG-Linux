@@ -7,6 +7,10 @@
 
 #include "version.c"
 
+#define COLOR_BOLD  "\e[1m"
+#define COLOR_OFF   "\033[m"
+
+
 // Global vars
 struct timespec ts;
 double startTime;
@@ -100,35 +104,35 @@ void printDebugPlusStr(char text[], char strVar[]){
 
 void printHelp() {
     system("clear");
-    printf( "Hi! This is Random Image Generator (RIG) %s.\n"
+    printf( "Random Image Generator %s.\n"
             "Project website: https://github.com/SzBenedek2006/RIG-Linux\n"
-            "My website (^-^): https://szbenedek2006.me\n\n\n"
-
-
-            "RIG options:\n\n"
-
-            "Size (width x height):\n"
-            "    '-s' or '--size' <width height>\n"
-            "    (changed the order in 2.0)\n"
-            "Count:\n"
-            "    '-c' or '--count' <number>\n"
-            "Format:\n"
-            "    '-f' or '--format' 'png' or 'jpg'\n"
-            "    (When not used, defaults to png.)\n"
-            "Transparency:\n"
-            "    '-a' or '--alpha'\n"
-            "    (use transparent pixels in png. with jpg, this will be ignored)\n"
-            "Make images accessible out of termux:\n"
-            "    '--termux-external'\n"
-            "    (when used in Termux, images will be moved to your internal storage)\n"
-            "Print debug info to a log file"
-            "    '-d' or '--debug'\n"
-            "    (print debug info)\n"
-            "Help message"
-            "    '-h' or '--help'\n"
-            "    (prints this message to console)\n\n"
-
-            "    Example: -s 10 20 -a -c 10 -f png\n", VERSION);
+            "My website (^-^): https://szbenedek2006.me\n"
+            "\n"
+            "\n"
+            "RIG options:\n"
+            "\n"
+            "    "COLOR_BOLD "-s" COLOR_OFF " or "COLOR_BOLD "--size" COLOR_OFF " <width height>\n" // "COLOR_BOLD "" COLOR_OFF "
+            "    Changed the order in 2.0!\n"
+            "\n"
+            "    "COLOR_BOLD "-c" COLOR_OFF " or "COLOR_BOLD "--count" COLOR_OFF " <number>\n"
+            "\n"
+            "    "COLOR_BOLD "-f" COLOR_OFF " or "COLOR_BOLD "--format" COLOR_OFF " <image format>\n"
+            "    It supports \"png\" or \"jpeg\". When not used, defaults to png.\n"
+            "\n"
+            "    "COLOR_BOLD "-a" COLOR_OFF " or "COLOR_BOLD "--alpha" COLOR_OFF "\n"
+            "    Use transparent pixels in png. With jpeg, this will be ignored.\n"
+            "\n"
+            "    "COLOR_BOLD "--termux-external" COLOR_OFF "\n"
+            "    When used in Termux, images will be moved to your internal storage.\n"
+            "\n"
+            "    "COLOR_BOLD "-d" COLOR_OFF " or "COLOR_BOLD "--debug" COLOR_OFF "\n"
+            "    Print debug info.\n"
+            "\n"
+            "    "COLOR_BOLD "-h" COLOR_OFF " or "COLOR_BOLD "--help" COLOR_OFF "\n"
+            "    Prints this message to console.\n"
+            "\n"
+            "Example:\n"
+            "    -s 10 20 -a -c 10 -f png\n", VERSION);
 }
 
 
