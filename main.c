@@ -13,6 +13,7 @@
 
 
 const int MS = 1000;
+char format[] = "png";
 
 
 int main(int argc, char* argv[])
@@ -40,7 +41,7 @@ int main(int argc, char* argv[])
     char outDir[] = "out";
     char outDirTermux[] = "/storage/emulated/0/";
     int termuxPermissionNeeded = 0;
-    char format[6];
+
 
     // Terminal sizes:
 
@@ -68,16 +69,10 @@ int main(int argc, char* argv[])
     for (n = 1; n < argc; n++) {
         if (strcmp(argv[n], "-s") == 0 || strcmp(argv[n], "--size") == 0) { // -s,
             sCount++;
-            if (argv[n + 1] != NULL) {
-                if (atoi(argv[n + 1]) >= 0) {
-                    height = atoi(argv[n + 1]);
-                }
-            } else {
-                printf("size is not set\n");
-                return 2;
-            }
-            if (atoi(argv[n + 2]) >= 0) {
-                width = atoi(argv[n + 2]);
+            if (argv[n + 1] != NULL && argv[n + 1] != NULL) {
+                    height = atoi(argv[n + 2]);
+                    width = atoi(argv[n + 1]);
+                    n += 2;
             } else {
                 printf("size is not set\n");
                 return 2;
@@ -102,18 +97,30 @@ int main(int argc, char* argv[])
         } else if (strcmp(argv[n], "-d") == 0 || strcmp(argv[n], "--debug") == 0) { // If n-th arg -a,
             allowDebugInfo = true; // to implement
             dCount++; // to implement
-        } else if (strcmp(argv[n], "-f") == 0 || strcmp(argv[n], "--format") == 0) { // If n-th arg      -c,
-            if (strcmp(argv[n + 1], "png") == 0 || strcmp(argv[n + 1], "jpg") == 0) { // Segfaults here
-                strcpy(format, argv[n + 1]);
-                //fCount++;
-                printDebugPlusStr("format: ", format);
+        } else if (strcmp(argv[n], "-f") == 0 || strcmp(argv[n], "--format") == 0) { // If n-th arg -f
+            fCount++;
+            if ((argv[n + 1]) != NULL) {
+                if (strcmp(argv[n + 1], "png") == 0) { // Segfaults here
+                    strcpy(format, "png");
+                    printDebugPlusStr("format: ", format);
+                } else if (strcmp(argv[n + 1], "jpg") == 0) {
+                    strcpy(format, "jpg");
+                    printDebugPlusStr("format: ", format);
+                 } else {
+                    printf("RIG currently only supports png (default) and jpg as a format option");
+                    return 3;
+                 }
+
             } else {
-                printf("format is not set, defaulting to png\n");
-                strcpy(format, "png");
-                printDebugPlusStr("format (defaulted to): ", format);
+                printf("--format/-f is not set correctly or left empty.\nWrite image format after -f or --format\n");
                 return 3;
             }
+        } else {
+            printf("format is not set, defaulting to png\n");
+            strcpy(format, "png");
+            printDebugPlusStr("format (defaulted to): ", format);
         }
+
     }
     errorFileOpener();
 
