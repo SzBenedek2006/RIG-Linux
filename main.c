@@ -102,7 +102,7 @@ int main(int argc, char* argv[])
         } else if (strcmp(argv[n], "-f") == 0 || strcmp(argv[n], "--format") == 0) { // If n-th arg -f
             fCount++;
             if ((argv[n + 1]) != NULL) {
-                if (strcmp(argv[n + 1], "png") == 0) { // Segfaults here
+                if (strcmp(argv[n + 1], "png") == 0) {
                     strcpy(format, "png");
                     n++;
                 } else if (strcmp(argv[n + 1], "jpeg") == 0 || strcmp(argv[n + 1], "jpg") == 0) {
