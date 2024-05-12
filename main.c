@@ -1,5 +1,6 @@
 #include "PNG_generator.c"
 #include "dir_creator.c"
+#include "JPEG_generator.c"
 
 // my_utils.c is included in PNG_generator.c
 
@@ -12,6 +13,8 @@
 
 
 const int MS = 1000;
+char format[] = "png";
+
 
 int main(int argc, char* argv[])
 {
@@ -24,7 +27,8 @@ int main(int argc, char* argv[])
 
     *pStartTime = (double)ts.tv_sec + (double)ts.tv_nsec / 1.0e9;
 
-    // system("clear");
+
+
     printf("Welcome to RIG\n");
 
     // Declaring vars
@@ -38,6 +42,7 @@ int main(int argc, char* argv[])
     char outDir[] = "out";
     char outDirTermux[] = "/storage/emulated/0/";
     int termuxPermissionNeeded = 0;
+
 
     // Terminal sizes:
 
@@ -54,6 +59,7 @@ int main(int argc, char* argv[])
     short unsigned int hCount = 0; // -h --help
     short unsigned int tCount = 0; // --termux_external
     short unsigned int dCount = 0; // -d --debug
+    short unsigned int fCount = 0; // -f --format
 
     // Print the arguments
     // for (int i = 0; i <= argc+1; i++) {
@@ -64,16 +70,10 @@ int main(int argc, char* argv[])
     for (n = 1; n < argc; n++) {
         if (strcmp(argv[n], "-s") == 0 || strcmp(argv[n], "--size") == 0) { // -s,
             sCount++;
-            if (argv[n + 1] != NULL) {
-                if (atoi(argv[n + 1]) >= 0) {
-                    height = atoi(argv[n + 1]);
-                }
-            } else {
-                printf("size is not set\n");
-                return 2;
-            }
-            if (atoi(argv[n + 2]) >= 0) {
-                width = atoi(argv[n + 2]);
+            if (argv[n + 1] != NULL && argv[n + 1] != NULL) {
+                    width = atoi(argv[n + 1]);
+                    height = atoi(argv[n + 2]);
+                    n += 2;
             } else {
                 printf("size is not set\n");
                 return 2;
@@ -85,11 +85,11 @@ int main(int argc, char* argv[])
             if (argv[n + 1] != NULL) {
                 count = atoi(argv[n + 1]);
                 cCount++;
+                n++;
             } else {
                 printf("count is not set\n");
                 return 3;
             }
-
         } else if (strcmp(argv[n], "-h") == 0 || strcmp(argv[n], "--help") == 0) { // If n-th arg       -h,
             help = true;
             hCount++;
@@ -99,14 +99,44 @@ int main(int argc, char* argv[])
         } else if (strcmp(argv[n], "-d") == 0 || strcmp(argv[n], "--debug") == 0) { // If n-th arg -a,
             allowDebugInfo = true; // to implement
             dCount++; // to implement
+        } else if (strcmp(argv[n], "-f") == 0 || strcmp(argv[n], "--format") == 0) { // If n-th arg -f
+            fCount++;
+            if ((argv[n + 1]) != NULL) {
+                if (strcmp(argv[n + 1], "png") == 0) { // Segfaults here
+                    strcpy(format, "png");
+                    n++;
+                } else if (strcmp(argv[n + 1], "jpeg") == 0 || strcmp(argv[n + 1], "jpg") == 0) {
+                    strcpy(format, "jpg");
+                    n++;
+                 } else {
+                    printf("RIG currently only supports png (default) and jpg as a format option");
+                    return 3;
+                 }
+
+            } else {
+                printf("--format/-f is not set correctly or left empty.\nWrite image format after -f or --format\n");
+                return 3;
+            }
+        } else {
+            printf("format is not set, defaulting to png\n");
+            strcpy(format, "png");
         }
+
     }
+
+
+    // Depends on allowDebugInfo == true
     errorFileOpener();
 
+
+    // All printDebug depends on errorFileOpener
     printDebugPlusInt("sCount = ", sCount);
     printDebugPlusInt("aCount = ", aCount);
     printDebugPlusInt("cCount = ", cCount);
     printDebugPlusInt("hCount = ", hCount);
+    printDebugPlusInt("tCount = ", tCount);
+    printDebugPlusInt("dCount = ", dCount);
+    printDebugPlusInt("fCount = ", fCount);
 
     if (argc == 1) {
         printf("Use -h to print help message.\n");
@@ -143,7 +173,7 @@ int main(int argc, char* argv[])
         }
     }
 
-    // Generating PNG images
+    // Generating images
 
     srand((unsigned int)time(NULL)); // Seed the random number generator
     int i = 0;
@@ -159,17 +189,17 @@ int main(int argc, char* argv[])
     struct ProgressBarArgs* args = (struct ProgressBarArgs*)malloc(sizeof(struct ProgressBarArgs));
     pthread_create(&progressThread, NULL, multiThreadedProgressbar, (void*)args);
 
-    // Start of the image loop
-
-
-
-
-
-
     double genTime = 0;
     double genTime1 = 0;
     double genTime2 = (double)ts.tv_sec + (double)ts.tv_nsec / 1.0e9;
 
+    int quality = 100;
+    char fileExtension[5];
+
+
+
+
+    // Start of the image loop
     for (i = 1; i <= count; i++) {
         char imagename[30];
 
@@ -193,10 +223,20 @@ int main(int argc, char* argv[])
         //progressbar(i, count, terminalWidth - 30, genTime); -----------------------------
 
         // Create file for image
-        sprintf(imagename, "%s/random_image%d.png", outDir, i);
+        sprintf(imagename, "%s/random_image%d.%s", outDir, i, format);
 
-        // Generate images and count the errors.
-        errorCount = errorCount + generateImage(imagename, width, height, alpha, allowDebugInfo);
+
+        if (strcmp(format, "png") == 0) {
+            // Write PNG file
+            errorCount = errorCount + generatePNG(imagename, width, height, alpha, allowDebugInfo);
+        } else {
+            // Write JPEG file
+            write_JPEG_file(imagename, width, height, quality);
+        }
+
+
+
+
 
         if (i == 1) {
             printDebug("First iteration of image gen loop.");

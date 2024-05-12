@@ -1,8 +1,14 @@
 #include <stdbool.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <sys/ioctl.h>
 #include <unistd.h>
 #include <time.h>
+
+#include "version.c"
+
+#define COLOR_BOLD  "\e[1m"
+#define COLOR_OFF   "\033[m"
 
 
 // Global vars
@@ -97,13 +103,36 @@ void printDebugPlusStr(char text[], char strVar[]){
 }
 
 void printHelp() {
-    printf("Hi, options are the following:\n    '-s' or '--size' <height "
-               "width>\n    "
-               "'-a' or '--alpha' (this toggles transparency in image formats that "
-               "support it)\n    '-c' or '--count' <number>\n    "
-               "'--termux-external' (uses your internal storage on android)\n    "
-               "'-d' or '--debug' (print debug info)\n    '-h' or '--help' (this "
-               "message)\n\n    Example: -s 10 20 -a -c 10\n");
+    system("clear");
+    printf( "Random Image Generator %s.\n"
+            "Project website: https://github.com/SzBenedek2006/RIG-Linux\n"
+            "My website (^-^): https://szbenedek2006.me\n"
+            "\n"
+            "\n"
+            "RIG options:\n"
+            "\n"
+            "    "COLOR_BOLD "-s" COLOR_OFF " or "COLOR_BOLD "--size" COLOR_OFF " <width height>\n" // "COLOR_BOLD "" COLOR_OFF "
+            "    Changed the order in 2.0!\n"
+            "\n"
+            "    "COLOR_BOLD "-c" COLOR_OFF " or "COLOR_BOLD "--count" COLOR_OFF " <number>\n"
+            "\n"
+            "    "COLOR_BOLD "-f" COLOR_OFF " or "COLOR_BOLD "--format" COLOR_OFF " <image format>\n"
+            "    It supports png or jpg (jpeg) formats. When not used, defaults to png.\n"
+            "\n"
+            "    "COLOR_BOLD "-a" COLOR_OFF " or "COLOR_BOLD "--alpha" COLOR_OFF "\n"
+            "    Use transparent pixels in png. With jpeg, this will be ignored.\n"
+            "\n"
+            "    "COLOR_BOLD "--termux-external" COLOR_OFF "\n"
+            "    When used in Termux, images will be moved to your internal storage.\n"
+            "\n"
+            "    "COLOR_BOLD "-d" COLOR_OFF " or "COLOR_BOLD "--debug" COLOR_OFF "\n"
+            "    Print debug info.\n"
+            "\n"
+            "    "COLOR_BOLD "-h" COLOR_OFF " or "COLOR_BOLD "--help" COLOR_OFF "\n"
+            "    Prints this message to console.\n"
+            "\n"
+            "Example:\n"
+            "    -s 10 20 -a -c 10 -f png\n", VERSION);
 }
 
 
