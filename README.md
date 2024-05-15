@@ -20,7 +20,7 @@ On Fedora you also need `libpng-devel`.
 
 **Fedora**
 ```Fedora
-sudo dnf install libpng-devel clang make git
+sudo dnf install libpng-devel gcc make git
 ```
 
 **Termux**
@@ -30,7 +30,12 @@ pkg install libpng clang make git
 
 **Arch**
 ```Arch
-sudo pacman -Syu libpng clang make git
+sudo pacman -Syu libpng gcc make git
+```
+
+**Debian**
+```Debian
+pkg install libpng-dev gcc make git
 ```
 
 
@@ -64,6 +69,7 @@ sudo pacman -Syu libpng clang make git
 - [ ] Add haptic feedback on Android and speaker feedback in other supported devices
 - [x] Add a progressbar
 - [ ] Add CLI completion
+- [ ] Add a calculator for file size
 
 ## Supported OS-es
 GNU/Linux, Android/Linux (see the Termux section), and maybe MacOS and BSD systems.
