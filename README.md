@@ -51,7 +51,7 @@ pkg install libpng-dev gcc make git
 - [x] More output format
 - [x] Basic user input handling
 - [ ] User input handling for
-  - [ ] Formats
+  - [x] Formats
     - [x] PNG
     - [x] JPG
       - [ ] Compression toggle
