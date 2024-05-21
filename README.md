@@ -35,7 +35,7 @@ sudo pacman -Syu libpng gcc make git
 
 **Debian**
 ```Debian
-pkg install libpng-dev gcc make git
+sudo apt install gcc make git libpng-dev libjpeg-dev
 ```
 
 
