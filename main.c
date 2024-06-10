@@ -13,7 +13,7 @@
 
 
 const int MS = 1000;
-char format[] = "png";
+char format[4] = "png";
 
 
 int main(int argc, char* argv[])
@@ -29,7 +29,7 @@ int main(int argc, char* argv[])
 
 
 
-    printf("Welcome to RIG\n");
+    printf("Welcome to RIG %s!\n", VERSION);
 
     // Declaring vars
     unsigned int width = 0;
@@ -109,20 +109,35 @@ int main(int argc, char* argv[])
                     strcpy(format, "jpg");
                     n++;
                  } else {
-                    printf("RIG currently only supports png (default) and jpg as a format option");
+                    printf("RIG currently only supports png (default) and jpeg as a format option.");
                     return 3;
                  }
 
             } else {
-                printf("--format/-f is not set correctly or left empty.\nWrite image format after -f or --format\n");
+                printf("--format/-f is not set correctly or left empty.\nWrite image format after -f or --format.\n");
                 return 3;
             }
-        } else {
-            printf("format is not set, defaulting to png\n");
+        } else { // If there is no known argument at a given argc location.
+            printf("Unknown option \"%s\" at the %d. argument.\n", argv[n], n);
+        }
+    }
+
+    // Additional checks
+    if (!fCount) {
+            printf("format is not set, defaulting to png.\n");
             strcpy(format, "png");
+        } else if (aCount && (strcmp(format, "jpg") == 0) ) {
+            printf("--alpha (transparency) option will be ignored when using jpeg.\n");
         }
 
-    }
+
+
+
+
+
+
+
+
 
 
     // Depends on allowDebugInfo == true
