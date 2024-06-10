@@ -6,7 +6,7 @@
 
 
 /* Function to write a JPEG file */
-void write_JPEG_file(char *filename, long width, long height, int quality) {
+void generateJPEG(char *filename, long width, long height, int quality) {
     struct jpeg_compress_struct cinfo;
     struct jpeg_error_mgr jerr;
     FILE *outfile;
@@ -24,9 +24,9 @@ void write_JPEG_file(char *filename, long width, long height, int quality) {
     for (i = 0; i < height; i++) {
         for (j = 0; j < width; j++) {
             int index = (i * width + j) * 3; // Calculate index for RGB values
-            image_buffer[index] = rand() % 256; // Red
-            image_buffer[index + 1] = rand() % 256; // Green
-            image_buffer[index + 2] = rand() % 256; // Blue
+            image_buffer[index] = rand() % (255 + 1); // Red
+            image_buffer[index + 1] = rand() % (255 + 1); // Green
+            image_buffer[index + 2] = rand() % (255 + 1); // Blue
         }
     }
 

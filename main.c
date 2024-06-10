@@ -13,7 +13,7 @@
 
 
 const int MS = 1000;
-char format[4] = "png";
+char format[4];
 
 
 int main(int argc, char* argv[])
@@ -246,7 +246,7 @@ int main(int argc, char* argv[])
             errorCount = errorCount + generatePNG(imagename, width, height, alpha, allowDebugInfo);
         } else {
             // Write JPEG file
-            write_JPEG_file(imagename, width, height, quality);
+            generateJPEG(imagename, width, height, quality);
         }
 
 
