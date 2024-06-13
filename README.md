@@ -25,7 +25,7 @@ sudo dnf install libpng-devel gcc make git
 
 **Termux**
 ```Termux
-pkg install libpng clang make git
+pkg install libpng libjpeg-turbo clang make git
 ```
 
 **Arch**
@@ -35,7 +35,7 @@ sudo pacman -Syu libpng gcc make git
 
 **Debian**
 ```Debian
-pkg install libpng-dev gcc make git
+sudo apt install gcc make git libpng-dev libjpeg-dev
 ```
 
 
@@ -48,12 +48,12 @@ pkg install libpng-dev gcc make git
 
 
 ## Todo / The current state of the project
-- [ ] More output format
+- [x] More output format
 - [x] Basic user input handling
 - [ ] User input handling for
-  - [ ] Formats
+  - [x] Formats
     - [x] PNG
-    - [ ] JPG
+    - [x] JPG
       - [ ] Compression toggle
     - [ ] Webp
     - [ ] HEIC
@@ -64,7 +64,6 @@ pkg install libpng-dev gcc make git
 - [x] Fix memory leak
 - [x] Make use of termux setup-external-storage
 - [x] Add debug option
-  - [ ] Add more debug messages and make use of the stderr output.
   - [x] Make printing debug messages a function and fix rendering issue with the progressbar
 - [ ] Add haptic feedback on Android and speaker feedback in other supported devices
 - [x] Add a progressbar
