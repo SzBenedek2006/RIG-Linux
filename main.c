@@ -149,7 +149,7 @@ int main(int argc, char* argv[])
     } else if (aCount && (strcmp(format, "jpg") == 0) ) {
         printf("--alpha (transparency) option will be ignored when using jpeg.\n");
 
-    } else if (!qCount) {
+    } else if ((!qCount) && (strcmp(format, "jpg") == 0)) {
         printf("Quality is not set, defaulting to 100.\n");
     }
 
