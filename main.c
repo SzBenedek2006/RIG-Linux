@@ -13,7 +13,7 @@
 
 
 const int MS = 1000;
-char format[] = "png";
+char format[4];
 
 
 int main(int argc, char* argv[])
@@ -29,7 +29,7 @@ int main(int argc, char* argv[])
 
 
 
-    printf("Welcome to RIG\n");
+    printf("Welcome to RIG %s!\n", VERSION);
 
     // Declaring vars
     unsigned int width = 0;
@@ -42,6 +42,7 @@ int main(int argc, char* argv[])
     char outDir[] = "out";
     char outDirTermux[] = "/storage/emulated/0/";
     int termuxPermissionNeeded = 0;
+    int quality = 100;
 
 
     // Terminal sizes:
@@ -60,6 +61,8 @@ int main(int argc, char* argv[])
     short unsigned int tCount = 0; // --termux_external
     short unsigned int dCount = 0; // -d --debug
     short unsigned int fCount = 0; // -f --format
+    short unsigned int qCount = 0; // -f --format
+
 
     // Print the arguments
     // for (int i = 0; i <= argc+1; i++) {
@@ -75,8 +78,8 @@ int main(int argc, char* argv[])
                     height = atoi(argv[n + 2]);
                     n += 2;
             } else {
-                printf("size is not set\n");
-                return 2;
+                printf("Size is not specified!\n");
+                return 3;
             }
         } else if (strcmp(argv[n], "-a") == 0 || strcmp(argv[n], "--alpha") == 0) { // If n-th arg        -a,
             alpha = true;
@@ -87,7 +90,7 @@ int main(int argc, char* argv[])
                 cCount++;
                 n++;
             } else {
-                printf("count is not set\n");
+                printf("Count is not specified!\n");
                 return 3;
             }
         } else if (strcmp(argv[n], "-h") == 0 || strcmp(argv[n], "--help") == 0) { // If n-th arg       -h,
@@ -102,27 +105,62 @@ int main(int argc, char* argv[])
         } else if (strcmp(argv[n], "-f") == 0 || strcmp(argv[n], "--format") == 0) { // If n-th arg -f
             fCount++;
             if ((argv[n + 1]) != NULL) {
-                if (strcmp(argv[n + 1], "png") == 0) { // Segfaults here
+                if (strcmp(argv[n + 1], "png") == 0) {
                     strcpy(format, "png");
                     n++;
                 } else if (strcmp(argv[n + 1], "jpeg") == 0 || strcmp(argv[n + 1], "jpg") == 0) {
                     strcpy(format, "jpg");
                     n++;
                  } else {
-                    printf("RIG currently only supports png (default) and jpg as a format option");
+                    printf("RIG currently only supports png (default) and jpeg as a format option!");
                     return 3;
                  }
 
             } else {
-                printf("--format/-f is not set correctly or left empty.\nWrite image format after -f or --format\n");
+                printf("--format/-f is not set correctly or left empty, write image format after -f or --format!\n");
                 return 3;
             }
-        } else {
-            printf("format is not set, defaulting to png\n");
-            strcpy(format, "png");
-        }
+        } else if (strcmp(argv[n], "-q") == 0 || strcmp(argv[n], "--quality") == 0) { // If n-th arg -q
+            qCount++;
+            if ((argv[n + 1]) != NULL) {
+                quality = atoi(argv[n + 1]);
+                if (quality > 0 && quality <= 100) {
+                    n++;
+                } else {
+                    printf("Quality isn't set correctly!\n");
+                    return 3;
+                }
 
+            } else {
+                printf("Missing quality value after -q or --quality.\n");
+                return 3;
+            }
+
+        } else { // If there is no known argument at a given argc location.
+            printf("Unknown option \"%s\" at the %d. argument.\n", argv[n], n);
+        }
     }
+
+    // Additional checks
+    if (!fCount) {
+        printf("Format is not set, defaulting to png.\n");
+        strcpy(format, "png");
+
+    } else if (aCount && (strcmp(format, "jpg") == 0) ) {
+        printf("--alpha (transparency) option will be ignored when using jpeg.\n");
+
+    } else if ((!qCount) && (strcmp(format, "jpg") == 0)) {
+        printf("Quality is not set, defaulting to 100.\n");
+    }
+
+
+
+
+
+
+
+
+
 
 
     // Depends on allowDebugInfo == true
@@ -146,8 +184,7 @@ int main(int argc, char* argv[])
     // Too few arguments warning
     if ((width == 0 || height == 0 || count == 0) && !help) {
         printf("Too few arguments. Width, height or count is 0. Unexpected "
-               "behaviour may occur! (Argc = %d)\n",
-            argc);
+               "behaviour may occur! (Argc = %d)\n", argc);
         return 1;
     }
 
@@ -193,7 +230,7 @@ int main(int argc, char* argv[])
     double genTime1 = 0;
     double genTime2 = (double)ts.tv_sec + (double)ts.tv_nsec / 1.0e9;
 
-    int quality = 100;
+
     char fileExtension[5];
 
 
@@ -231,7 +268,7 @@ int main(int argc, char* argv[])
             errorCount = errorCount + generatePNG(imagename, width, height, alpha, allowDebugInfo);
         } else {
             // Write JPEG file
-            write_JPEG_file(imagename, width, height, quality);
+            generateJPEG(imagename, width, height, quality);
         }
 
 
