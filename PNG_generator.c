@@ -3,8 +3,9 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include "my_utils.h"
+#include "PNG_generator.h"
 
-#include "progressbar.c"
 
 int generatePNG(const char *filename, unsigned int width, unsigned int height, bool alpha, bool allowDebugInfo) {
   // Initialize PNG structures and open a file for writing

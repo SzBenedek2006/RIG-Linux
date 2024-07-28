@@ -1,8 +1,9 @@
-#include "PNG_generator.c"
-#include "dir_creator.c"
-#include "JPEG_generator.c"
-
-// my_utils.c is included in PNG_generator.c
+#include "PNG_generator.h"
+#include "dir_creator.h"
+#include "JPEG_generator.h"
+#include "my_utils.h" // my_utils.c is replaced
+#include "progressbar.h"
+#include "version.h"
 
 #include <stdbool.h>
 #include <stdio.h>
@@ -10,6 +11,7 @@
 #include <string.h>
 #include <sys/ioctl.h>
 #include <time.h>
+#include <pthread.h>
 
 
 const int MS = 1000;

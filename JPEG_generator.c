@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include "jpeglib.h"
-
+#include "JPEG_generator.h"
 
 
 /* Function to write a JPEG file */
