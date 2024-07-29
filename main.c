@@ -144,7 +144,7 @@ int main(int argc, char* argv[])
     }
 
     // Additional checks
-    if (!fCount) {
+    if (!fCount && !hCount) {
         printf("Format is not set, defaulting to png.\n");
         strcpy(format, "png");
 
