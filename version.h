@@ -1,7 +1,7 @@
 #ifndef VERSION_H
 #define VERSION_H
 
-#define VERSION "2.1"
+#define RIG_VERSION "2.2"
 
 
 #endif

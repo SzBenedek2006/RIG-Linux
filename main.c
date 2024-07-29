@@ -31,7 +31,7 @@ int main(int argc, char* argv[])
 
 
 
-    printf("Welcome to RIG %s!\n", VERSION);
+    printf("Welcome to RIG %s!\n", RIG_VERSION);
 
     // Declaring vars
     unsigned int width = 0;

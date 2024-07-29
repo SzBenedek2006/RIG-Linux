@@ -128,5 +128,5 @@ void printHelp() {
             "    Prints this message to console.\n"
             "\n"
             "Example:\n"
-            "    -s 10 20 -a -c 10 -f png\n", VERSION);
+            "    -s 10 20 -a -c 10 -f png\n", RIG_VERSION);
 }
