@@ -199,9 +199,9 @@ int main(int argc, char* argv[])
     }
 
     if (!termuxExternal) {
-        dirCreatorLinux(outDir, 0); // Creating dirs
+        dirCreatorLinux(outDir, termuxExternal); // Creating dirs
     } else {
-        dirCreatorLinux(outDir, 1); // Creating dirs
+        dirCreatorLinux(outDir, termuxExternal); // Creating dirs
         termuxPermissionNeeded = dirCreatorLinux(outDirTermux, 1); // Creating dirs
         if (termuxPermissionNeeded >= 1) {
             system("termux-setup-storage");
