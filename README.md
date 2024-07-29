@@ -20,12 +20,12 @@ On Fedora you also need `libpng-devel`.
 
 **Fedora**
 ```Fedora
-sudo dnf install libpng-devel libjpeg-turbo-devel gcc make git
+sudo dnf update && sudo dnf install libpng-devel libjpeg-turbo-devel gcc make git
 ```
 
 **Termux**
 ```Termux
-pkg install libpng libjpeg-turbo clang make git
+apt update && apt install libpng libjpeg-turbo clang make git
 ```
 
 **Arch**
@@ -35,7 +35,7 @@ sudo pacman -Syu libpng libjpeg-turbo gcc make git
 
 **Debian**
 ```Debian
-sudo apt install gcc make git libpng-dev libjpeg-dev
+sudo apt update && sudo apt install gcc make git libpng-dev libjpeg-dev
 ```
 
 
@@ -54,7 +54,7 @@ sudo apt install gcc make git libpng-dev libjpeg-dev
   - [x] Formats
     - [x] PNG
     - [x] JPG
-      - [ ] Compression toggle
+      - [x] Compression toggle
     - [ ] Webp
     - [ ] HEIC
   - [ ] Choosing between b&w and color output
