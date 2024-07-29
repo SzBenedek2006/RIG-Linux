@@ -5,6 +5,7 @@
 #include "progressbar.h"
 #include "version.h"
 
+#include <errno.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -202,16 +203,18 @@ int main(int argc, char* argv[])
     if (!termuxExternal) {
         dirCreatorLinux(outDir, termuxExternal); // Creating dirs
     } else {
-        termuxPermissionNeeded = dirCreatorLinux(outDirTermux, termuxExternal);
+        termuxPermissionNeeded = access(outDirTermux, W_OK);
         int rounds = 0;
-        while (termuxPermissionNeeded >= 1) {
+        while (termuxPermissionNeeded == -1) {
             rounds++;
             printf("Termux needs storage permission. Press allow in the following screen.\n");
             sleep(1);
             system("termux-setup-storage");
             sleep(rounds);
-            termuxPermissionNeeded = dirCreatorLinux(outDirTermux, termuxExternal);
-            if (termuxPermissionNeeded >= 1) {
+            termuxPermissionNeeded = access(outDirTermux, W_OK);
+            if (termuxPermissionNeeded == -1) {
+                printf("Error Number : %d\n", errno);
+                perror("Error Description:");
                 printf("Retry\n");
             }
         }
