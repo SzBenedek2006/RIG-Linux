@@ -140,11 +140,13 @@ int main(int argc, char* argv[])
 
         } else { // If there is no known argument at a given argc location.
             printf("Unknown option \"%s\" at the %d. argument. Use -h for help.\n", argv[n], n);
+            return 3;
         }
     }
 
     // Additional checks
-    if (!fCount && !hCount) {
+    if ((!fCount) && (!hCount) && argc > 1 ) {
+        printf("fCount: %d, hCount: %d \n", fCount, hCount);
         printf("Format is not set, defaulting to png.\n");
         strcpy(format, "png");
 
@@ -154,12 +156,6 @@ int main(int argc, char* argv[])
     } else if ((!qCount) && (strcmp(format, "jpg") == 0)) {
         printf("Quality is not set, defaulting to 100.\n");
     }
-
-
-
-
-
-
 
 
 
