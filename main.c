@@ -202,13 +202,21 @@ int main(int argc, char* argv[])
     if (!termuxExternal) {
         dirCreatorLinux(outDir, termuxExternal); // Creating dirs
     } else {
-        dirCreatorLinux(outDir, termuxExternal); // Creating dirs
-        termuxPermissionNeeded = dirCreatorLinux(outDirTermux, 1); // Creating dirs
-        if (termuxPermissionNeeded >= 1) {
+        termuxPermissionNeeded = dirCreatorLinux(outDirTermux, termuxExternal);
+        int rounds = 0;
+        while (termuxPermissionNeeded >= 1) {
+            rounds++;
             printf("Termux needs storage permission. Press allow in the following screen.\n");
             sleep(1);
             system("termux-setup-storage");
+            sleep(rounds);
+            termuxPermissionNeeded = dirCreatorLinux(outDirTermux, termuxExternal);
+            if (termuxPermissionNeeded >= 1) {
+                printf("Retry\n");
+            }
         }
+        dirCreatorLinux(outDir, termuxExternal); // Creating dirs
+         // Creating dirs
     }
 
     // Generating images
