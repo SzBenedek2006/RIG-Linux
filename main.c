@@ -12,6 +12,7 @@
 #include <sys/ioctl.h>
 #include <time.h>
 #include <pthread.h>
+#include <unistd.h>
 
 
 const int MS = 1000;
@@ -204,6 +205,8 @@ int main(int argc, char* argv[])
         dirCreatorLinux(outDir, termuxExternal); // Creating dirs
         termuxPermissionNeeded = dirCreatorLinux(outDirTermux, 1); // Creating dirs
         if (termuxPermissionNeeded >= 1) {
+            printf("Termux needs storage permission. Press allow in the following screen.\n");
+            sleep(1);
             system("termux-setup-storage");
         }
     }
