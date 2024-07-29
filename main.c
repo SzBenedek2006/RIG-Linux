@@ -139,7 +139,7 @@ int main(int argc, char* argv[])
             }
 
         } else { // If there is no known argument at a given argc location.
-            printf("Unknown option \"%s\" at the %d. argument.\n", argv[n], n);
+            printf("Unknown option \"%s\" at the %d. argument. Use -h for help.\n", argv[n], n);
         }
     }
 
@@ -205,7 +205,7 @@ int main(int argc, char* argv[])
     if (!termuxExternal) {
         dirCreatorLinux(outDir, 0); // Creating dirs
     } else {
-        dirCreatorLinux(outDir, 0); // Creating dirs
+        dirCreatorLinux(outDir, 1); // Creating dirs
         termuxPermissionNeeded = dirCreatorLinux(outDirTermux, 1); // Creating dirs
         if (termuxPermissionNeeded >= 1) {
             system("termux-setup-storage");
