@@ -175,7 +175,7 @@ int main(int argc, char* argv[])
     printDebugPlusInt("fCount = ", fCount);
 
     if (argc == 1) {
-        printf("Use -h to print help message.\n");
+        printf("Use -h to display help message.\n");
         return 0;
     }
 
