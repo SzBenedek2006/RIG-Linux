@@ -20,7 +20,7 @@ On Fedora you also need `libpng-devel`.
 
 **Fedora**
 ```Fedora
-sudo dnf install libpng-devel gcc make git
+sudo dnf install libpng-devel libjpeg-turbo-devel gcc make git
 ```
 
 **Termux**
@@ -30,7 +30,7 @@ pkg install libpng libjpeg-turbo clang make git
 
 **Arch**
 ```Arch
-sudo pacman -Syu libpng gcc make git
+sudo pacman -Syu libpng libjpeg-turbo gcc make git
 ```
 
 **Debian**
@@ -77,7 +77,3 @@ If it has the dependencies and mets the POSIX standard, it should probably run, 
 ## Termux
 The program can be run in Termux after installing the dependencies.
 Since the Termux update, you can use  `--termux-external` command to put the output files to your internal storage.
-
-
-
-
