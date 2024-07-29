@@ -1,6 +1,7 @@
 #include <dirent.h>
 #include <errno.h>
 #include <sys/stat.h>
+#include "dir_creator.h"
 
 int dirCreatorLinux(char dirName[], int isTermux) { // Starting of the function
 
