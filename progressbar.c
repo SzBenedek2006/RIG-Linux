@@ -3,33 +3,19 @@
 #include <stdlib.h>
 #include <pthread.h>
 
-#include "my_utils.c"
+#include "my_utils.h"
+#include "progressbar.h"
 
 
 pthread_mutex_t mutex;
 
-const unsigned short int needAveraging = 25;
-
+unsigned short int needAveraging = 25;
 double time1 = 0;
 double time2 = 0;
 unsigned int tCounter = 1;
-
 short unsigned int counter;
 
-struct ProgressBarArgs {
-        int progress;
-        int total;
-        int length;
-        double time;
-};
-
-
-
-struct Time {
-    int hours;
-    int minutes;
-    int seconds;
-};
+// Structs in header
 
 struct Time convertSeconds(int total_seconds) {
     struct Time time;

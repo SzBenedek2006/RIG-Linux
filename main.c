@@ -1,8 +1,9 @@
-#include "PNG_generator.c"
-#include "dir_creator.c"
-#include "JPEG_generator.c"
-
-// my_utils.c is included in PNG_generator.c
+#include "PNG_generator.h"
+#include "dir_creator.h"
+#include "JPEG_generator.h"
+#include "my_utils.h" // my_utils.c is replaced
+#include "progressbar.h"
+#include "version.h"
 
 #include <stdbool.h>
 #include <stdio.h>
@@ -10,6 +11,7 @@
 #include <string.h>
 #include <sys/ioctl.h>
 #include <time.h>
+#include <pthread.h>
 
 
 const int MS = 1000;
@@ -29,7 +31,7 @@ int main(int argc, char* argv[])
 
 
 
-    printf("Welcome to RIG %s!\n", VERSION);
+    printf("Welcome to RIG %s!\n", RIG_VERSION);
 
     // Declaring vars
     unsigned int width = 0;
@@ -137,12 +139,14 @@ int main(int argc, char* argv[])
             }
 
         } else { // If there is no known argument at a given argc location.
-            printf("Unknown option \"%s\" at the %d. argument.\n", argv[n], n);
+            printf("Unknown option \"%s\" at the %d. argument. Use -h for help.\n", argv[n], n);
+            return 3;
         }
     }
 
     // Additional checks
-    if (!fCount) {
+    if ((!fCount) && (!hCount) && argc > 1 ) {
+        printf("fCount: %d, hCount: %d \n", fCount, hCount);
         printf("Format is not set, defaulting to png.\n");
         strcpy(format, "png");
 
@@ -152,12 +156,6 @@ int main(int argc, char* argv[])
     } else if ((!qCount) && (strcmp(format, "jpg") == 0)) {
         printf("Quality is not set, defaulting to 100.\n");
     }
-
-
-
-
-
-
 
 
 
@@ -203,7 +201,7 @@ int main(int argc, char* argv[])
     if (!termuxExternal) {
         dirCreatorLinux(outDir, 0); // Creating dirs
     } else {
-        dirCreatorLinux(outDir, 0); // Creating dirs
+        dirCreatorLinux(outDir, 1); // Creating dirs
         termuxPermissionNeeded = dirCreatorLinux(outDirTermux, 1); // Creating dirs
         if (termuxPermissionNeeded >= 1) {
             system("termux-setup-storage");

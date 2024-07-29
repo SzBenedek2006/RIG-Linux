@@ -4,8 +4,8 @@
 #include <sys/ioctl.h>
 #include <unistd.h>
 #include <time.h>
+#include "my_utils.h"
 
-#include "version.c"
 
 #define COLOR_BOLD  "\e[1m"
 #define COLOR_OFF   "\033[m"
@@ -15,10 +15,6 @@
 struct timespec ts;
 double startTime;
 double *pStartTime = &startTime;
-
-
-
-
 int writeCoordinate[2] = {0, 1};
 bool allowDebugInfo = false;
 unsigned short int terminalHeight = 0;
@@ -132,12 +128,5 @@ void printHelp() {
             "    Prints this message to console.\n"
             "\n"
             "Example:\n"
-            "    -s 10 20 -a -c 10 -f png\n", VERSION);
+            "    -s 10 20 -a -c 10 -f png\n", RIG_VERSION);
 }
-
-
-
-
-
-
-

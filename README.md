@@ -20,22 +20,22 @@ On Fedora you also need `libpng-devel`.
 
 **Fedora**
 ```Fedora
-sudo dnf install libpng-devel gcc make git
+sudo dnf update && sudo dnf install libpng-devel libjpeg-turbo-devel gcc make git
 ```
 
 **Termux**
 ```Termux
-pkg install libpng libjpeg-turbo clang make git
+apt update && apt install libpng libjpeg-turbo clang make git
 ```
 
 **Arch**
 ```Arch
-sudo pacman -Syu libpng gcc make git
+sudo pacman -Syu libpng libjpeg-turbo gcc make git
 ```
 
 **Debian**
 ```Debian
-sudo apt install gcc make git libpng-dev libjpeg-dev
+sudo apt update && sudo apt install gcc make git libpng-dev libjpeg-dev
 ```
 
 
@@ -54,7 +54,7 @@ sudo apt install gcc make git libpng-dev libjpeg-dev
   - [x] Formats
     - [x] PNG
     - [x] JPG
-      - [ ] Compression toggle
+      - [x] Compression toggle
     - [ ] Webp
     - [ ] HEIC
   - [ ] Choosing between b&w and color output
@@ -77,7 +77,4 @@ If it has the dependencies and mets the POSIX standard, it should probably run, 
 ## Termux
 The program can be run in Termux after installing the dependencies.
 Since the Termux update, you can use  `--termux-external` command to put the output files to your internal storage.
-
-
-
-
+This is recommended for easier access to the generated pictures.
