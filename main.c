@@ -5,7 +5,6 @@
 #include "progressbar.h"
 #include "version.h"
 
-#include <errno.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -44,8 +43,7 @@ int main(int argc, char* argv[])
     bool help = false;
     bool termuxExternal = false;
     char outDir[] = "out";
-    char outDirTermux[] = "/storage/emulated/0/";
-    int termuxPermissionNeeded = 0;
+    char androidInternalPath[] = "/storage/emulated/0/";
     int quality = 100;
 
 
@@ -200,28 +198,10 @@ int main(int argc, char* argv[])
         return 0;
     }
 
-    if (!termuxExternal) {
-        dirCreatorLinux(outDir, termuxExternal); // Creating dirs
-    } else { // TODO: Simplify this part and move the logic to dir creator!!!
-        termuxPermissionNeeded = access(outDirTermux, W_OK);
-        int rounds = 0;
-        printf("Termux needs storage permission. Press allow in the following screen.\n");
-        while (termuxPermissionNeeded == -1) {
-            rounds++;
-            sleep(1);
-            system("termux-setup-storage");
-            printf("Waiting %d seconds before retrying\n", rounds);
-            sleep(rounds);
-            termuxPermissionNeeded = access(outDirTermux, W_OK);
-            if (termuxPermissionNeeded == -1) {
-                printDebugPlusInt("Error Number : %d\n", errno);
-                perror("Error");
-                printf("Retry\n");
-            }
-        }
-        dirCreatorLinux(outDir, termuxExternal); // Creating dirs
-         // Creating dirs
-    }
+    // New:
+    dirCreatorLinux(outDir, termuxExternal);
+    //TODO: Merge outDir and androidInternalPath
+
 
     // Generating images
 
@@ -318,14 +298,14 @@ int main(int argc, char* argv[])
 
     if (termuxExternal) {
         printf("Moving images to internal storage...\n");
-        int shellCommandLenght = strlen("mv ") + strlen(outDir) + strlen(" ") + strlen(outDirTermux) + 1;
+        int shellCommandLenght = strlen("mv ") + strlen(outDir) + strlen(" ") + strlen(androidInternalPath) + 1;
         char shellCommand[shellCommandLenght];
 
         shellCommand[0] = '\0'; // Initialize it as an empty string
 
         strcat(shellCommand, "rm -rf ");
-        strcat(shellCommand, outDirTermux);
-        strcat(shellCommand, "out");
+        strcat(shellCommand, androidInternalPath);
+        strcat(shellCommand, outDir);
         printDebugPlusStr("Shell command: ", shellCommand);
 
         system(shellCommand); // Removing dirs to avoid write error
@@ -335,7 +315,7 @@ int main(int argc, char* argv[])
         strcat(shellCommand, "mv ");
         strcat(shellCommand, outDir);
         strcat(shellCommand, " ");
-        strcat(shellCommand, outDirTermux);
+        strcat(shellCommand, androidInternalPath);
         printDebugPlusStr("Shell command: %s\n", shellCommand);
 
         system(shellCommand); // Moving dirs to external

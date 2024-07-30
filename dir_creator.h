@@ -1,6 +1,10 @@
 #ifndef DIR_CREATOR
 #define DIR_CREATOR
 
-int dirCreatorLinux(char dirName[], int isTermux);
+#include <stdbool.h>
+extern int termuxPermissionNeeded;
+extern char androidInternalPath[];
+
+int dirCreatorLinux(char dirName[], bool isTermux);
 
 #endif
