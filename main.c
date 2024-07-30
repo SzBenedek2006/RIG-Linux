@@ -200,7 +200,6 @@ int main(int argc, char* argv[])
 
     // New:
     dirCreatorLinux(outDir, termuxExternal);
-    //TODO: Merge outDir and androidInternalPath
 
 
     // Generating images
@@ -301,6 +300,7 @@ int main(int argc, char* argv[])
         int shellCommandLenght = strlen("mv ") + strlen(outDir) + strlen(" ") + strlen(androidInternalPath) + 1;
         char shellCommand[shellCommandLenght];
 
+        printf("    removing previously generated folder\n");
         shellCommand[0] = '\0'; // Initialize it as an empty string
 
         strcat(shellCommand, "rm -rf ");
@@ -310,6 +310,7 @@ int main(int argc, char* argv[])
 
         system(shellCommand); // Removing dirs to avoid write error
 
+        printf("    Moving files\n"); // A nice progressbar would look good here
         shellCommand[0] = '\0'; // Initialize it as an empty string
 
         strcat(shellCommand, "mv ");
