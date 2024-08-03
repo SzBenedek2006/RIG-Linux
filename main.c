@@ -232,7 +232,7 @@ int main(int argc, char* argv[])
     for (i = 1; i <= count; i++) {
         char imagename[30];
 
-        printDebugPlusFloat("gentime: ", genTime);
+        printDebugPlusFloat("gentime:", genTime);
         getTerminalSize(&terminalHeight, &terminalWidth);
 
         if (clock_gettime(CLOCK_REALTIME, &ts) == -1) {
@@ -246,7 +246,7 @@ int main(int argc, char* argv[])
         args->length = terminalWidth - 35;
         args->time = genTime * (args->total - args->progress); // To modify
 
-        printDebugPlusFloat("time: ", genTime * (args->total - args->progress));
+        printDebugPlusFloat("time:", genTime * (args->total - args->progress));
 
 
         //progressbar(i, count, terminalWidth - 30, genTime); -----------------------------
@@ -280,8 +280,8 @@ int main(int argc, char* argv[])
         genTime = genTime2 - genTime1;
 
 
-        printDebugPlusFloat("genTime1: ", genTime1);
-        printDebugPlusFloat("genTime2: ", genTime2);
+        printDebugPlusFloat("genTime1:", genTime1);
+        printDebugPlusFloat("genTime2:", genTime2);
 
     }
 
@@ -306,11 +306,14 @@ int main(int argc, char* argv[])
         strcat(shellCommand, "rm -rf ");
         strcat(shellCommand, androidInternalPath);
         strcat(shellCommand, outDir);
-        printDebugPlusStr("Shell command: ", shellCommand);
+        printDebugPlusStr("Shell command:", shellCommand);
 
         system(shellCommand); // Removing dirs to avoid write error
 
         printf("    Moving files\n"); // A nice progressbar would look good here
+        // TODO: Make a progressbar
+        // To do that, I need to manually move the files.
+        // The directory will be made with dirCreatorLinux, so the files should be only moved to it.
         shellCommand[0] = '\0'; // Initialize it as an empty string
 
         strcat(shellCommand, "mv ");

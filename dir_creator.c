@@ -9,6 +9,15 @@
 #include "my_utils.h"
 #include <stdbool.h>
 
+static int termux_setup_storage = false;
+
+bool check_access_termux () {
+    if (access(androidInternalPath, W_OK) == 0)
+    return true;
+    else
+    return false;
+}
+
 int termuxPermissionNeeded = 0; //TODO: replace this with a function
 char androidInternalPath[] = "/storage/emulated/0/";
 
@@ -20,28 +29,32 @@ int dirCreatorLinux(char dirName[], bool isTermux) { // Starting of the function
 
         DIR *dir = opendir(dirName); // dir = dirName.
 
-        if (dir) { // If dir exists
+        printDebug("Dir struct created");
 
+        if (dir != NULL) {
+            printDebug("Output directory created");
             closedir(dir);              // Close dir!
             return 0;                   // Return directory exists.
         } else if (ENOENT == errno) { // If dir not exists
+            printDebug("Output directory doesn't exist");
             return 1;                   // Return directory does not exist.
         } else {                      // If other fail
+            printDebug("Output directory may or may not exist");
             return 2; // Return opendir() failed for some other reason.
         }
-    } else { // This is currently the same as the non-termux variant.
+    } else {
         termuxPermissionNeeded = access(androidInternalPath, W_OK);
-
+        printDebugPlusInt("check_access_termux():", check_access_termux());
         int rounds = 0;
         printf("Termux needs storage permission. Press allow in the following screen.\n");
-        while (termuxPermissionNeeded == -1) {
+        while (!check_access_termux()) {
             rounds++;
             sleep(1);
             system("termux-setup-storage");
             printf("Waiting %d seconds before retrying\n", rounds);
             sleep(rounds);
             termuxPermissionNeeded = access(androidInternalPath, W_OK);
-            if (termuxPermissionNeeded == -1) {
+            if (!check_access_termux()) {
                 printDebugPlusInt("Error Number : %d\n", errno);
                 perror("Error");
                 printf("Retry\n");
