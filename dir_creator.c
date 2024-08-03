@@ -18,7 +18,6 @@ bool check_access_termux () {
     return false;
 }
 
-int termuxPermissionNeeded = 0; //TODO: replace this with a function
 char androidInternalPath[] = "/storage/emulated/0/";
 
 int dirCreatorLinux(char dirName[], bool isTermux) { // Starting of the function
@@ -43,7 +42,6 @@ int dirCreatorLinux(char dirName[], bool isTermux) { // Starting of the function
             return 2; // Return opendir() failed for some other reason.
         }
     } else {
-        termuxPermissionNeeded = access(androidInternalPath, W_OK);
         printDebugPlusInt("check_access_termux():", check_access_termux());
         int rounds = 0;
         printf("Termux needs storage permission. Press allow in the following screen.\n");
@@ -53,7 +51,6 @@ int dirCreatorLinux(char dirName[], bool isTermux) { // Starting of the function
             system("termux-setup-storage");
             printf("Waiting %d seconds before retrying\n", rounds);
             sleep(rounds);
-            termuxPermissionNeeded = access(androidInternalPath, W_OK);
             if (!check_access_termux()) {
                 printDebugPlusInt("Error Number : %d\n", errno);
                 perror("Error");
