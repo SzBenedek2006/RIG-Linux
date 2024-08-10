@@ -11,6 +11,7 @@ Users can currently specify:
 - Image count (how many images will be generated)
 - To put the images in android internal storage instead of termux home directory when specified
 - Output debug info
+- Quality for JPEG images
 
 
 
