@@ -254,7 +254,7 @@ int main(int argc, char* argv[])
 
         // Create file for image
         sprintf(imagename, "%s/random_image%d.%s", outDir, i, format);
-
+        printDebugPlusStr("Image name:", imagename);
 
         if (strcmp(format, "png") == 0) {
             // Write PNG file
@@ -321,7 +321,7 @@ int main(int argc, char* argv[])
         strcat(shellCommand, outDir);
         strcat(shellCommand, " ");
         strcat(shellCommand, androidInternalPath);
-        printDebugPlusStr("Shell command: %s\n", shellCommand);
+        printDebugPlusStr("Shell command:", shellCommand);
 
         system(shellCommand); // Moving dirs to external
     }
