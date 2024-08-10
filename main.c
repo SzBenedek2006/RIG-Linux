@@ -12,6 +12,7 @@
 #include <sys/ioctl.h>
 #include <time.h>
 #include <pthread.h>
+#include <unistd.h>
 
 
 const int MS = 1000;
@@ -42,8 +43,7 @@ int main(int argc, char* argv[])
     bool help = false;
     bool termuxExternal = false;
     char outDir[] = "out";
-    char outDirTermux[] = "/storage/emulated/0/";
-    int termuxPermissionNeeded = 0;
+    char androidInternalPath[] = "/storage/emulated/0/";
     int quality = 100;
 
 
@@ -146,7 +146,8 @@ int main(int argc, char* argv[])
 
     // Additional checks
     if ((!fCount) && (!hCount) && argc > 1 ) {
-        printf("fCount: %d, hCount: %d \n", fCount, hCount);
+        printDebugPlusInt("fCount: %d", fCount);
+        printDebugPlusInt("hCount: %d", hCount);
         printf("Format is not set, defaulting to png.\n");
         strcpy(format, "png");
 
@@ -175,7 +176,7 @@ int main(int argc, char* argv[])
     printDebugPlusInt("fCount = ", fCount);
 
     if (argc == 1) {
-        printf("Use -h to print help message.\n");
+        printf("Use -h to display help message.\n");
         return 0;
     }
 
@@ -198,15 +199,9 @@ int main(int argc, char* argv[])
         return 0;
     }
 
-    if (!termuxExternal) {
-        dirCreatorLinux(outDir, 0); // Creating dirs
-    } else {
-        dirCreatorLinux(outDir, 1); // Creating dirs
-        termuxPermissionNeeded = dirCreatorLinux(outDirTermux, 1); // Creating dirs
-        if (termuxPermissionNeeded >= 1) {
-            system("termux-setup-storage");
-        }
-    }
+    // New:
+    dirCreatorLinux(outDir, termuxExternal);
+
 
     // Generating images
 
@@ -238,7 +233,7 @@ int main(int argc, char* argv[])
     for (i = 1; i <= count; i++) {
         char imagename[30];
 
-        printDebugPlusFloat("gentime: ", genTime);
+        printDebugPlusFloat("gentime:", genTime);
         getTerminalSize(&terminalHeight, &terminalWidth);
 
         if (clock_gettime(CLOCK_REALTIME, &ts) == -1) {
@@ -252,14 +247,14 @@ int main(int argc, char* argv[])
         args->length = terminalWidth - 35;
         args->time = genTime * (args->total - args->progress); // To modify
 
-        printDebugPlusFloat("time: ", genTime * (args->total - args->progress));
+        printDebugPlusFloat("time:", genTime * (args->total - args->progress));
 
 
         //progressbar(i, count, terminalWidth - 30, genTime); -----------------------------
 
         // Create file for image
         sprintf(imagename, "%s/random_image%d.%s", outDir, i, format);
-
+        printDebugPlusStr("Image name:", imagename);
 
         if (strcmp(format, "png") == 0) {
             // Write PNG file
@@ -286,8 +281,8 @@ int main(int argc, char* argv[])
         genTime = genTime2 - genTime1;
 
 
-        printDebugPlusFloat("genTime1: ", genTime1);
-        printDebugPlusFloat("genTime2: ", genTime2);
+        printDebugPlusFloat("genTime1:", genTime1);
+        printDebugPlusFloat("genTime2:", genTime2);
 
     }
 
@@ -303,25 +298,30 @@ int main(int argc, char* argv[])
 
     if (termuxExternal) {
         printf("Moving images to internal storage...\n");
-        int shellCommandLenght = strlen("mv ") + strlen(outDir) + strlen(" ") + strlen(outDirTermux) + 1;
+        int shellCommandLenght = strlen("mv ") + strlen(outDir) + strlen(" ") + strlen(androidInternalPath) + 1;
         char shellCommand[shellCommandLenght];
 
+        printf("    Removing previously generated folder\n");
         shellCommand[0] = '\0'; // Initialize it as an empty string
 
         strcat(shellCommand, "rm -rf ");
-        strcat(shellCommand, outDirTermux);
-        strcat(shellCommand, "out");
-        printDebugPlusStr("Shell command: ", shellCommand);
+        strcat(shellCommand, androidInternalPath);
+        strcat(shellCommand, outDir);
+        printDebugPlusStr("Shell command:", shellCommand);
 
         system(shellCommand); // Removing dirs to avoid write error
 
+        printf("    Moving files\n");
+        // TODO: Make a progressbar
+        // To do that, I need to manually move the files.
+        // The directory will be made with dirCreatorLinux, so the files should be only moved to it.
         shellCommand[0] = '\0'; // Initialize it as an empty string
 
         strcat(shellCommand, "mv ");
         strcat(shellCommand, outDir);
         strcat(shellCommand, " ");
-        strcat(shellCommand, outDirTermux);
-        printDebugPlusStr("Shell command: %s\n", shellCommand);
+        strcat(shellCommand, androidInternalPath);
+        printDebugPlusStr("Shell command:", shellCommand);
 
         system(shellCommand); // Moving dirs to external
     }

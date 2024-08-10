@@ -3,7 +3,7 @@ DESCRIPTION
 
 # Changes
 - CHANGE1
-- CANGE2
+- CHANGE2
 - CHANGE3
 
 
