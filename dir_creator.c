@@ -10,6 +10,8 @@
 #include <stdbool.h>
 
 static int termux_setup_storage = false;
+char androidInternalPath[120] = "/storage/emulated/0/";
+
 
 bool check_access_termux () {
     if (access(androidInternalPath, W_OK) == 0)
@@ -18,7 +20,6 @@ bool check_access_termux () {
     return false;
 }
 
-char androidInternalPath[] = "/storage/emulated/0/";
 
 int dirCreatorLinux(char dirName[], bool isTermux) { // Starting of the function
 
