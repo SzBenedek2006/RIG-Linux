@@ -300,7 +300,7 @@ int main(int argc, char* argv[])
         int shellCommandLenght = strlen("mv ") + strlen(outDir) + strlen(" ") + strlen(androidInternalPath) + 1;
         char shellCommand[shellCommandLenght];
 
-        printf("    removing previously generated folder\n");
+        printf("    Removing previously generated folder\n");
         shellCommand[0] = '\0'; // Initialize it as an empty string
 
         strcat(shellCommand, "rm -rf ");
@@ -310,7 +310,7 @@ int main(int argc, char* argv[])
 
         system(shellCommand); // Removing dirs to avoid write error
 
-        printf("    Moving files\n"); // A nice progressbar would look good here
+        printf("    Moving files\n");
         // TODO: Make a progressbar
         // To do that, I need to manually move the files.
         // The directory will be made with dirCreatorLinux, so the files should be only moved to it.
