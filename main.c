@@ -146,7 +146,8 @@ int main(int argc, char* argv[])
 
     // Additional checks
     if ((!fCount) && (!hCount) && argc > 1 ) {
-        printf("fCount: %d, hCount: %d \n", fCount, hCount);
+        printDebugPlusInt("fCount: %d", fCount);
+        printDebugPlusInt("hCount: %d", hCount);
         printf("Format is not set, defaulting to png.\n");
         strcpy(format, "png");
 
