@@ -50,10 +50,7 @@ int generatePNG(const char *filename, unsigned int width, unsigned int height, b
   if (alpha == true) { // If alpha true run
     png_bytep *row_pointers = (png_bytep *)malloc(sizeof(png_bytep) * height);
     for (int y = 0; y < height; y++) {
-      row_pointers[y] =
-          (png_byte *)malloc(4 * width); // 4 bytes per pixel (RGBA)
-
-      // Fill row_pointers[y] with your image data for this row.
+      row_pointers[y] = (png_byte *)malloc(4 * width); // 4 bytes per pixel (RGBA)
 
       for (int x = 0; x < width; x++) {
         row_pointers[y][4 * x] = rand() % (255 + 1);     // Red channel
@@ -84,10 +81,7 @@ int generatePNG(const char *filename, unsigned int width, unsigned int height, b
     // Write the image data
     png_bytep *row_pointers = (png_bytep *)malloc(sizeof(png_bytep) * height);
     for (int y = 0; y < height; y++) {
-      row_pointers[y] =
-          (png_byte *)malloc(3 * width); // 4 bytes per pixel (RGBA)
-
-      // Fill row_pointers[y] with your image data for this row.
+      row_pointers[y] = (png_byte *)malloc(3 * width); // 3 bytes per pixel (RGB)
 
       for (int x = 0; x < width; x++) {
         row_pointers[y][3 * x] = rand() % (255 + 1);     // Red channel
