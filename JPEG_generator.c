@@ -20,10 +20,9 @@ void generateJPEG(char *filename, long width, long height, int quality) {
         exit(1);
     }
 
-    int i, j;
-    for (i = 0; i < height; i++) {
-        for (j = 0; j < width; j++) {
-            int index = (i * width + j) * 3; // Calculate index for RGB values
+    for (int y = 0; y < height; y++) {
+        for (int x = 0; x < width; x++) {
+            int index = (y * width + x) * 3; // Calculate index for RGB values
             image_buffer[index] = rand() % (255 + 1); // Red
             image_buffer[index + 1] = rand() % (255 + 1); // Green
             image_buffer[index + 2] = rand() % (255 + 1); // Blue
