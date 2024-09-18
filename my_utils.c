@@ -4,6 +4,8 @@
 #include <sys/ioctl.h>
 #include <unistd.h>
 #include <time.h>
+#include <stdint.h>
+#include <math.h>
 #include "my_utils.h"
 
 
@@ -129,4 +131,28 @@ void printHelp() {
             "\n"
             "Example:\n"
             "    -s 10 20 -a -c 10 -f png\n", RIG_VERSION);
+}
+
+uint8_t random_pixel(uint8_t max_value, float multiplier) {
+    //printf("\nmao\n");
+    uint8_t pixel = 0;
+    if (max_value == 0) {
+        return pixel;
+    }
+    if (multiplier < 0.1) {
+        multiplier = 1.0;
+    }
+    if (multiplier < 0.2) {
+        multiplier = 0.3;
+    }
+    if (multiplier < 0.3) {
+        multiplier = 0.5;
+    }
+    multiplier = sqrt(multiplier);
+    pixel = rand() % (uint16_t)((max_value + 1) * multiplier);
+
+    //printDebugPlusInt("Max value:", max_value);
+    //printDebugPlusFloat("Multiplier:", multiplier); //printf("Multiplier: %lf\n", multiplier);
+    //printDebugPlusInt("Pixel:", pixel);
+    return pixel;
 }

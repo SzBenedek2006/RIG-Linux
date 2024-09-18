@@ -1,12 +1,17 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
+#include <sys/types.h>
 #include <time.h>
+#include <stdint.h>
 #include "jpeglib.h"
 #include "JPEG_generator.h"
+#include "my_utils.h"
 
 
 /* Function to write a JPEG file */
-void generateJPEG(char *filename, long width, long height, int quality) {
+void generateJPEG(char *filename, long width, long height, int quality, uint8_t r, uint8_t g, uint8_t b, bool random_multiplier) {
+    float multiplier = 0.0f;
     struct jpeg_compress_struct cinfo;
     struct jpeg_error_mgr jerr;
     FILE *outfile;
@@ -19,13 +24,21 @@ void generateJPEG(char *filename, long width, long height, int quality) {
         fprintf(stderr, "\nFailed to allocate memory for image buffer\n");
         exit(1);
     }
+    // 1x1
+
+
 
     for (int y = 0; y < height; y++) {
+        if (random_multiplier == true) {
+            multiplier = (rand() % 11)/10.0f;
+        } else {
+            multiplier = 1.0f;
+        }
         for (int x = 0; x < width; x++) {
             int index = (y * width + x) * 3; // Calculate index for RGB values
-            image_buffer[index] = rand() % (255 + 1); // Red
-            image_buffer[index + 1] = rand() % (255 + 1); // Green
-            image_buffer[index + 2] = rand() % (255 + 1); // Blue
+            image_buffer[index] = random_pixel(r, multiplier); // Red
+            image_buffer[index + 1] = random_pixel(g, multiplier); // Green
+            image_buffer[index + 2] = random_pixel(b, multiplier); // Blue
         }
     }
 

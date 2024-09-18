@@ -13,6 +13,7 @@
 #include <time.h>
 #include <pthread.h>
 #include <unistd.h>
+#include <stdint.h>
 
 
 const int MS = 1000;
@@ -42,10 +43,13 @@ int main(int argc, char* argv[])
     int n;
     bool help = false;
     bool termuxExternal = false;
+    bool random_multiplier = false;
     char outDir[] = "out";
     char androidInternalPath[] = "/storage/emulated/0/";
-    int quality = 100;
-
+    uint8_t quality = 100;
+    uint8_t r = 255; // Test values
+    uint8_t g = 255;
+    uint8_t b = 255;
 
     // Terminal sizes:
 
@@ -56,20 +60,18 @@ int main(int argc, char* argv[])
     }*/
 
     // Number of the same arguments
-    short unsigned int sCount = 0; // -s, --size
-    short unsigned int cCount = 0; // -c --count
-    short unsigned int aCount = 0; // -a --alpha
-    short unsigned int hCount = 0; // -h --help
-    short unsigned int tCount = 0; // --termux_external
-    short unsigned int dCount = 0; // -d --debug
-    short unsigned int fCount = 0; // -f --format
-    short unsigned int qCount = 0; // -f --format
+    short unsigned int sCount = 0;      // -s, --size
+    short unsigned int cCount = 0;      // -c --count
+    short unsigned int aCount = 0;      // -a --alpha
+    short unsigned int hCount = 0;      // -h --help
+    short unsigned int tCount = 0;      // --termux_external
+    short unsigned int dCount = 0;      // -d --debug
+    short unsigned int fCount = 0;      // -f --format
+    short unsigned int qCount = 0;      // -q --quality
+    short unsigned int rgbCount = 0;    // --rgb --RGB
+    short unsigned int snCount = 0;     // --sensor-noise
 
 
-    // Print the arguments
-    // for (int i = 0; i <= argc+1; i++) {
-    //  printf("Argv%d = %s\n", i, argv[i]);
-    //}
 
     // Handle the arguments.
     for (n = 1; n < argc; n++) {
@@ -137,7 +139,47 @@ int main(int argc, char* argv[])
                 printf("Missing quality value after -q or --quality.\n");
                 return 3;
             }
+        } else if (strcmp(argv[n], "--rgb") == 0 || strcmp(argv[n], "--RGB") == 0) {
+            if ((argv[n + 1]) != NULL) {
+                r = atoi(argv[n + 1]);
+                if (r <= 255 && r >= 0) {
 
+                } else {
+                    printf("Red value isn't set correctly!\n");
+                    return 3;
+                }
+            } else {
+                printf("Red value missing!\n");
+                return 3;
+            }
+            if ((argv[n + 2]) != NULL) {
+                g = atoi(argv[n + 2]);
+                if (g <= 255 && g >= 0) {
+
+                } else {
+                    printf("Green value isn't set correctly!\n");
+                    return 3;
+                }
+            } else {
+                printf("Green value missing!\n");
+                return 3;
+            }
+            if ((argv[n + 3]) != NULL) {
+                b = atoi(argv[n + 3]);
+                if (b <= 255 && b >= 0) {
+
+                } else {
+                    printf("Blue value isn't set correctly!\n");
+                    return 3;
+                }
+            } else {
+                printf("Blue value missing!\n");
+                return 3;
+            }
+            n += 3;
+        } else if (strcmp(argv[n], "--sensor-noise") == 0) {
+            random_multiplier = true;
+            n++;
         } else { // If there is no known argument at a given argc location.
             printf("Unknown option \"%s\" at the %d. argument. Use -h for help.\n", argv[n], n);
             return 3;
@@ -160,6 +202,9 @@ int main(int argc, char* argv[])
 
 
 
+    printDebugPlusInt("r", r);
+    printDebugPlusInt("g", g);
+    printDebugPlusInt("b", b);
 
 
     // Depends on allowDebugInfo == true
@@ -199,7 +244,6 @@ int main(int argc, char* argv[])
         return 0;
     }
 
-    // New:
     dirCreatorLinux(outDir, termuxExternal);
 
 
@@ -250,7 +294,6 @@ int main(int argc, char* argv[])
         printDebugPlusFloat("time:", genTime * (args->total - args->progress));
 
 
-        //progressbar(i, count, terminalWidth - 30, genTime); -----------------------------
 
         // Create file for image
         sprintf(imagename, "%s/random_image%d.%s", outDir, i, format);
@@ -258,10 +301,10 @@ int main(int argc, char* argv[])
 
         if (strcmp(format, "png") == 0) {
             // Write PNG file
-            errorCount = errorCount + generatePNG(imagename, width, height, alpha, allowDebugInfo);
+            errorCount = errorCount + generatePNG(imagename, width, height, alpha, allowDebugInfo, r, g, b, random_multiplier);
         } else {
             // Write JPEG file
-            generateJPEG(imagename, width, height, quality);
+            generateJPEG(imagename, width, height, quality, r, g, b, random_multiplier);
         }
 
 
@@ -313,7 +356,7 @@ int main(int argc, char* argv[])
 
         printf("    Moving files\n");
         // TODO: Make a progressbar
-        // To do that, I need to manually move the files.
+        // use ls and mv -v (verbose flag) to check the strings
         // The directory will be made with dirCreatorLinux, so the files should be only moved to it.
         shellCommand[0] = '\0'; // Initialize it as an empty string
 
