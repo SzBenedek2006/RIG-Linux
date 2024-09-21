@@ -12,6 +12,8 @@
 #define COLOR_BOLD  "\e[1m"
 #define COLOR_OFF   "\033[m"
 
+#define BOLD(x) "\e[1m"x"\033[m"
+
 
 // Global vars
 struct timespec ts;
@@ -100,6 +102,8 @@ void printDebugPlusStr(char text[], char strVar[]){
     }
 }
 
+
+
 void printHelp() {
     system("clear");
     printf( "Random Image Generator %s.\n"
@@ -109,24 +113,24 @@ void printHelp() {
             "\n"
             "RIG options:\n"
             "\n"
-            "    "COLOR_BOLD "-s" COLOR_OFF " or "COLOR_BOLD "--size" COLOR_OFF " <width height>\n" // "COLOR_BOLD "" COLOR_OFF "
+            "    " BOLD("-s") " or " BOLD("--size") " <width height>\n"
             "    Changed the order in 2.0!\n"
             "\n"
-            "    "COLOR_BOLD "-c" COLOR_OFF " or "COLOR_BOLD "--count" COLOR_OFF " <number>\n"
+            "    " BOLD("-c") " or " BOLD("--count") " <number>\n"
             "\n"
-            "    "COLOR_BOLD "-f" COLOR_OFF " or "COLOR_BOLD "--format" COLOR_OFF " <image format>\n"
+            "    " BOLD("-f") " or " BOLD("--format") " <image format>\n"
             "    It supports png or jpg (jpeg) formats. When not used, defaults to png.\n"
             "\n"
-            "    "COLOR_BOLD "-a" COLOR_OFF " or "COLOR_BOLD "--alpha" COLOR_OFF "\n"
+            "    " BOLD("-a") " or " BOLD("--alpha") "\n"
             "    Use transparent pixels in png. With jpeg, this will be ignored.\n"
             "\n"
-            "    "COLOR_BOLD "--termux-external" COLOR_OFF "\n"
+            "    " BOLD("--termux-external") "\n"
             "    When used in Termux, images will be moved to your internal storage.\n"
             "\n"
-            "    "COLOR_BOLD "-d" COLOR_OFF " or "COLOR_BOLD "--debug" COLOR_OFF "\n"
+            "    " BOLD("-d") " or " BOLD("--debug") "\n"
             "    Print debug info.\n"
             "\n"
-            "    "COLOR_BOLD "-h" COLOR_OFF " or "COLOR_BOLD "--help" COLOR_OFF "\n"
+            "    " BOLD("-h") " or " BOLD("--help") "\n"
             "    Prints this message to console.\n"
             "\n"
             "Example:\n"
