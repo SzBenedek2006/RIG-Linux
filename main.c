@@ -50,6 +50,7 @@ int main(int argc, char* argv[])
     uint8_t r = 255; // Test values
     uint8_t g = 255;
     uint8_t b = 255;
+    int temp = 0;
 
     // Terminal sizes:
 
@@ -141,11 +142,11 @@ int main(int argc, char* argv[])
             }
         } else if (strcmp(argv[n], "--rgb") == 0 || strcmp(argv[n], "--RGB") == 0) {
             if ((argv[n + 1]) != NULL) {
-                r = atoi(argv[n + 1]);
-                if (r <= 255 && r >= 0) {
-
+                temp = atoi(argv[n + 1]);
+                if (temp <= 255 && r >= 0) {
+                    r = temp;
                 } else {
-                    printf("Red value isn't set correctly!\n");
+                    printf("Red value is outside of the range (0-255)!\n");
                     return 3;
                 }
             } else {
@@ -153,11 +154,11 @@ int main(int argc, char* argv[])
                 return 3;
             }
             if ((argv[n + 2]) != NULL) {
-                g = atoi(argv[n + 2]);
-                if (g <= 255 && g >= 0) {
-
+                temp = atoi(argv[n + 2]);
+                if (temp <= 255 && g >= 0) {
+                    g = temp;
                 } else {
-                    printf("Green value isn't set correctly!\n");
+                    printf("Green value is outside of the range (0-255)!\n");
                     return 3;
                 }
             } else {
@@ -165,11 +166,12 @@ int main(int argc, char* argv[])
                 return 3;
             }
             if ((argv[n + 3]) != NULL) {
-                b = atoi(argv[n + 3]);
-                if (b <= 255 && b >= 0) {
-
+                temp = atoi(argv[n + 3]);
+                printf("atoi %d\n", temp);
+                if (temp <= 255 && b >= 0) {
+                    b = temp;
                 } else {
-                    printf("Blue value isn't set correctly!\n");
+                    printf("Blue value is outside of the range (0-255)!\n");
                     return 3;
                 }
             } else {
@@ -202,14 +204,16 @@ int main(int argc, char* argv[])
 
 
 
-    printDebugPlusInt("r", r);
-    printDebugPlusInt("g", g);
-    printDebugPlusInt("b", b);
 
 
+
+    printf("mao\n");
     // Depends on allowDebugInfo == true
     errorFileOpener();
 
+    printDebugPlusInt("r", r);
+    printDebugPlusInt("g", g);
+    printDebugPlusInt("b", b);
 
     // All printDebug depends on errorFileOpener
     printDebugPlusInt("sCount = ", sCount);

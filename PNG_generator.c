@@ -34,7 +34,7 @@ int generatePNG(const char *filename, unsigned int width, unsigned int height, b
   if (!info_ptr) {
     png_destroy_write_struct(&png_ptr, NULL);
     fclose(fp);
-    printDebug("Error creating tunsigned inthe image file. png error 3");
+    printDebug("Error creating unsigned int image file. png error 3");
     return 3;
   }
 

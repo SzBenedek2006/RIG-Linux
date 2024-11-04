@@ -132,7 +132,7 @@ void printHelp() {
             "    Print debug info.\n"
             "\n"
             "    " BOLD("--rgb") " or " BOLD("--RGB") " <RED GREEN BLUE>\n"
-            "    This sets the max values in each channel, so you can make colorful or darker images.\n"
+            "    This sets the values in each channel, so you can make colorful or darker images.\n"
             "\n"
             "    " BOLD("--sensor-noise") "\n"
             "    Puts lines on the pictures, like image sensors with high iso.\n"
