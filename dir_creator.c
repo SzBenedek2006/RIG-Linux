@@ -21,7 +21,7 @@ bool check_access_termux () {
 }
 
 
-int dirCreatorLinux(char dirName[], bool isTermux) { // Starting of the function
+int dirCreatorLinux(char dirName[], bool isTermux) {
 
     mkdir(dirName, 0700);
 
@@ -33,14 +33,14 @@ int dirCreatorLinux(char dirName[], bool isTermux) { // Starting of the function
 
         if (dir != NULL) {
             printDebug("Output directory created");
-            closedir(dir);              // Close dir!
-            return 0;                   // Return directory exists.
-        } else if (ENOENT == errno) { // If dir not exists
+            closedir(dir);
+            return 0;
+        } else if (ENOENT == errno) {
             printDebug("Output directory doesn't exist");
-            return 1;                   // Return directory does not exist.
-        } else {                      // If other fail
-            printDebug("Output directory may or may not exist");
-            return 2; // Return opendir() failed for some other reason.
+            return 1;
+        } else {
+            printDebug("Output directory is in a superposition");
+            return 2;
         }
     } else {
         printDebugPlusInt("check_access_termux():", check_access_termux());
@@ -69,18 +69,15 @@ int dirCreatorLinux(char dirName[], bool isTermux) { // Starting of the function
         }
         DIR *dir = opendir(androidInternalPath); // androidInternalPath should now be the dir where pics will be placed.
 
-        if (dir) { // If dir exists
+        if (dir) {
 
             closedir(dir);
-            // Close dir!
-            return 0;                   // Return directory exists.
-        } else if (ENOENT == errno) { // If dir not exists
-            return 1;                   // Return directory does not exist.
+            return 0;
+        } else if (ENOENT == errno) {
+            return 1;
 
-        } else {    // If other fail
-            return 2; // Return opendir() failed for some other reason.
+        } else {
+            return 2;
         }
     }
 }
-
-// Megcsinálni a termux-setup-storage-t

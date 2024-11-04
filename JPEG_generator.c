@@ -24,7 +24,7 @@ void generateJPEG(char *filename, long width, long height, int quality, uint8_t 
         fprintf(stderr, "\nFailed to allocate memory for image buffer\n");
         exit(1);
     }
-    // 1x1
+
 
 
 
@@ -35,10 +35,10 @@ void generateJPEG(char *filename, long width, long height, int quality, uint8_t 
             multiplier = 1.0f;
         }
         for (int x = 0; x < width; x++) {
-            int index = (y * width + x) * 3; // Calculate index for RGB values
-            image_buffer[index] = random_pixel(r, multiplier); // Red
-            image_buffer[index + 1] = random_pixel(g, multiplier); // Green
-            image_buffer[index + 2] = random_pixel(b, multiplier); // Blue
+            int index = (y * width + x) * 3;
+            image_buffer[index] = random_pixel(r, multiplier);     // R
+            image_buffer[index + 1] = random_pixel(g, multiplier); // G
+            image_buffer[index + 2] = random_pixel(b, multiplier); // B
         }
     }
 

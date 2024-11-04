@@ -1,7 +1,7 @@
 #include "PNG_generator.h"
 #include "dir_creator.h"
 #include "JPEG_generator.h"
-#include "my_utils.h" // my_utils.c is replaced
+#include "my_utils.h"
 #include "progressbar.h"
 #include "version.h"
 
@@ -47,12 +47,11 @@ int main(int argc, char* argv[])
     char outDir[] = "out";
     char androidInternalPath[] = "/storage/emulated/0/";
     uint8_t quality = 100;
-    uint8_t r = 255; // Test values
+    uint8_t r = 255;
     uint8_t g = 255;
     uint8_t b = 255;
     int temp = 0;
 
-    // Terminal sizes:
 
     getTerminalSize(&terminalHeight, &terminalWidth);
 
