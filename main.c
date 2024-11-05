@@ -206,7 +206,7 @@ int main(int argc, char* argv[])
 
 
 
-    printf("mao\n");
+
     // Depends on allowDebugInfo == true
     errorFileOpener();
 
