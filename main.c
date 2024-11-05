@@ -119,7 +119,6 @@ int main(int argc, char* argv[])
                     printf("RIG currently only supports png (default) and jpeg as a format option!");
                     return 3;
                  }
-
             } else {
                 printf("--format/-f is not set correctly or left empty, write image format after -f or --format!\n");
                 return 3;
@@ -134,7 +133,6 @@ int main(int argc, char* argv[])
                     printf("Quality isn't set correctly!\n");
                     return 3;
                 }
-
             } else {
                 printf("Missing quality value after -q or --quality.\n");
                 return 3;
@@ -180,7 +178,6 @@ int main(int argc, char* argv[])
             n += 3;
         } else if (strcmp(argv[n], "--sensor-noise") == 0) {
             random_multiplier = true;
-            n++;
         } else { // If there is no known argument at a given argc location.
             printf("Unknown option \"%s\" at the %d. argument. Use -h for help.\n", argv[n], n);
             return 3;
