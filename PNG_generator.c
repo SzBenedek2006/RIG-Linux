@@ -1,4 +1,3 @@
-// Include necessary header files
 #include <png.h>
 #include <stdbool.h>
 #include <stdio.h>
@@ -7,8 +6,11 @@
 #include "PNG_generator.h"
 
 
-int generatePNG(const char *filename, unsigned int width, unsigned int height, bool alpha, bool allowDebugInfo) {
-  // Initialize PNG structures and open a file for writing
+int generatePNG(const char *filename, unsigned int width, unsigned int height, bool alpha, bool allowDebugInfo, uint8_t r, uint8_t g, uint8_t b, bool random_multiplier) {
+
+    float multiplier = 0.0f;
+
+    // Initialize PNG structures and open a file for writing
   FILE *fp = fopen(filename, "wb");
 
   // Handle file opening error
@@ -32,7 +34,7 @@ int generatePNG(const char *filename, unsigned int width, unsigned int height, b
   if (!info_ptr) {
     png_destroy_write_struct(&png_ptr, NULL);
     fclose(fp);
-    printDebug("Error creating tunsigned inthe image file. png error 3");
+    printDebug("Error creating unsigned int image file. png error 3");
     return 3;
   }
 
@@ -50,17 +52,19 @@ int generatePNG(const char *filename, unsigned int width, unsigned int height, b
   if (alpha == true) { // If alpha true run
     png_bytep *row_pointers = (png_bytep *)malloc(sizeof(png_bytep) * height);
     for (int y = 0; y < height; y++) {
-      row_pointers[y] =
-          (png_byte *)malloc(4 * width); // 4 bytes per pixel (RGBA)
+        if (random_multiplier == true) {
+            multiplier = (rand() % 11)/10.0f;
+        } else {
+            multiplier = 1.0f;
+        }
 
-      // Fill row_pointers[y] with your image data for this row.
-
-      for (int x = 0; x < width; x++) {
-        row_pointers[y][4 * x] = rand() % (255 + 1);     // Red channel
-        row_pointers[y][4 * x + 1] = rand() % (255 + 1); // Green channel
-        row_pointers[y][4 * x + 2] = rand() % (255 + 1); // Blue channel
-        row_pointers[y][4 * x + 3] = rand() % (255 + 1); // Alpha channel
-      }
+        row_pointers[y] = (png_byte *)malloc(4 * width); // 4 bytes per pixel (RGBA)
+        for (int x = 0; x < width; x++) {
+            row_pointers[y][4 * x] = random_pixel(r, multiplier);     // Red channel
+            row_pointers[y][4 * x + 1] = random_pixel(g, multiplier); // Green channel
+            row_pointers[y][4 * x + 2] = random_pixel(b, multiplier); // Blue channel
+            row_pointers[y][4 * x + 3] = random_pixel(255, multiplier); // Alpha channel
+        }
     }
 
     int color_type = PNG_COLOR_TYPE_RGBA;
@@ -83,17 +87,21 @@ int generatePNG(const char *filename, unsigned int width, unsigned int height, b
   } else { // If alpha false, run
     // Write the image data
     png_bytep *row_pointers = (png_bytep *)malloc(sizeof(png_bytep) * height);
+
     for (int y = 0; y < height; y++) {
-      row_pointers[y] =
-          (png_byte *)malloc(3 * width); // 4 bytes per pixel (RGBA)
+        if (random_multiplier == true) {
+            multiplier = (rand() % 11)/10.0f;
+        } else {
+            multiplier = 1.0f;
+        }
 
-      // Fill row_pointers[y] with your image data for this row.
-
-      for (int x = 0; x < width; x++) {
-        row_pointers[y][3 * x] = rand() % (255 + 1);     // Red channel
-        row_pointers[y][3 * x + 1] = rand() % (255 + 1); // Green channel
-        row_pointers[y][3 * x + 2] = rand() % (255 + 1); // Blue channel
-      }
+        //printf("multiplier: %f\n", multiplier);
+        row_pointers[y] = (png_byte *)malloc(3 * width); // 3 bytes per pixel (RGB)
+        for (int x = 0; x < width; x++) {
+            row_pointers[y][3 * x] = random_pixel(r, multiplier); printDebugPlusInt("r:", r);     // Red channel
+            row_pointers[y][3 * x + 1] = random_pixel(g, multiplier); printDebugPlusInt("g:", g);   // Green channel
+            row_pointers[y][3 * x + 2] = random_pixel(b, multiplier); printDebugPlusInt("g:", b);   // Blue channel
+        }
     }
 
     int color_type = PNG_COLOR_TYPE_RGB;

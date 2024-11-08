@@ -7,6 +7,8 @@
 #include <sys/ioctl.h>
 #include <unistd.h>
 #include <time.h>
+#include <stdint.h>
+#include <math.h>
 
 #include "version.h"
 
@@ -34,5 +36,7 @@ void printDebugPlusInt(char text[], int numVar);
 void printDebugPlusFloat(char text[], double flVar);
 void printDebugPlusStr(char text[], char strVar[]);
 void printHelp();
+uint8_t random_pixel(uint8_t max_value, float multipier);
+
 
 #endif

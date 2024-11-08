@@ -4,11 +4,15 @@
 #include <sys/ioctl.h>
 #include <unistd.h>
 #include <time.h>
+#include <stdint.h>
+#include <math.h>
 #include "my_utils.h"
 
 
 #define COLOR_BOLD  "\e[1m"
 #define COLOR_OFF   "\033[m"
+
+#define BOLD(x) "\e[1m"x"\033[m"
 
 
 // Global vars
@@ -98,6 +102,8 @@ void printDebugPlusStr(char text[], char strVar[]){
     }
 }
 
+
+
 void printHelp() {
     system("clear");
     printf( "Random Image Generator %s.\n"
@@ -107,26 +113,57 @@ void printHelp() {
             "\n"
             "RIG options:\n"
             "\n"
-            "    "COLOR_BOLD "-s" COLOR_OFF " or "COLOR_BOLD "--size" COLOR_OFF " <width height>\n" // "COLOR_BOLD "" COLOR_OFF "
+            "    " BOLD("-s") " or " BOLD("--size") " <width height>\n"
             "    Changed the order in 2.0!\n"
             "\n"
-            "    "COLOR_BOLD "-c" COLOR_OFF " or "COLOR_BOLD "--count" COLOR_OFF " <number>\n"
+            "    " BOLD("-c") " or " BOLD("--count") " <number>\n"
+            "    This many images will be generated.\n"
             "\n"
-            "    "COLOR_BOLD "-f" COLOR_OFF " or "COLOR_BOLD "--format" COLOR_OFF " <image format>\n"
+            "    " BOLD("-f") " or " BOLD("--format") " <image format>\n"
             "    It supports png or jpg (jpeg) formats. When not used, defaults to png.\n"
             "\n"
-            "    "COLOR_BOLD "-a" COLOR_OFF " or "COLOR_BOLD "--alpha" COLOR_OFF "\n"
+            "    " BOLD("-a") " or " BOLD("--alpha") "\n"
             "    Use transparent pixels in png. With jpeg, this will be ignored.\n"
             "\n"
-            "    "COLOR_BOLD "--termux-external" COLOR_OFF "\n"
+            "    " BOLD("--termux-external") "\n"
             "    When used in Termux, images will be moved to your internal storage.\n"
             "\n"
-            "    "COLOR_BOLD "-d" COLOR_OFF " or "COLOR_BOLD "--debug" COLOR_OFF "\n"
+            "    " BOLD("-d") " or " BOLD("--debug") "\n"
             "    Print debug info.\n"
             "\n"
-            "    "COLOR_BOLD "-h" COLOR_OFF " or "COLOR_BOLD "--help" COLOR_OFF "\n"
+            "    " BOLD("--rgb") " or " BOLD("--RGB") " <RED GREEN BLUE>\n"
+            "    This sets the values in each channel, so you can make colorful or darker images.\n"
+            "\n"
+            "    " BOLD("--sensor-noise") "\n"
+            "    Puts lines on the pictures, like image sensors with high iso.\n"
+            "\n"
+            "    " BOLD("-h") " or " BOLD("--help") "\n"
             "    Prints this message to console.\n"
             "\n"
             "Example:\n"
             "    -s 10 20 -a -c 10 -f png\n", RIG_VERSION);
+}
+
+uint8_t random_pixel(uint8_t max_value, float multiplier) {
+    //printf("\nmao\n");
+    uint8_t pixel = 0;
+    if (max_value == 0) {
+        return pixel;
+    }
+    if (multiplier < 0.1) {
+        multiplier = 1.0;
+    }
+    if (multiplier < 0.2) {
+        multiplier = 0.3;
+    }
+    if (multiplier < 0.3) {
+        multiplier = 0.5;
+    }
+    multiplier = sqrt(multiplier);
+    pixel = rand() % (uint16_t)((max_value + 1) * multiplier);
+
+    //printDebugPlusInt("Max value:", max_value);
+    //printDebugPlusFloat("Multiplier:", multiplier); //printf("Multiplier: %lf\n", multiplier);
+    //printDebugPlusInt("Pixel:", pixel);
+    return pixel;
 }
