@@ -25,6 +25,15 @@ unsigned short int terminalHeight = 0;
 unsigned short int terminalWidth = 0;
 FILE *log_file;
 
+uint32_t rand32_state;
+
+// 8bit XOR + bitshift random function based on George Marsaglia's work and gpt-4o.
+static inline uint8_t rand8_xorshift(void) {
+    rand32_state ^= rand32_state << 13;
+    rand32_state ^= rand32_state >> 17;
+    rand32_state ^= rand32_state << 5;
+    return (uint8_t)rand32_state;
+}
 
 int errorFileOpener() {
     if (allowDebugInfo) {
@@ -160,7 +169,8 @@ uint8_t random_pixel(uint8_t max_value, float multiplier) {
         multiplier = 0.5;
     }
     multiplier = sqrt(multiplier);
-    pixel = rand() % (uint16_t)((max_value + 1) * multiplier);
+    //pixel = rand() % (uint16_t)roundf((max_value + 1) * multiplier);
+    pixel = rand8_xorshift() % (uint16_t)(max_value + 1) * multiplier;
 
     //printDebugPlusInt("Max value:", max_value);
     //printDebugPlusFloat("Multiplier:", multiplier); //printf("Multiplier: %lf\n", multiplier);

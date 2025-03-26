@@ -15,6 +15,8 @@
 #define COLOR_BOLD  "\e[1m"
 #define COLOR_OFF   "\033[m"
 
+extern uint32_t rand32_state;
+
 // Global vars
 extern struct timespec ts;
 extern double startTime;
