@@ -8,6 +8,8 @@
 
 int generatePNG(const char *filename, unsigned int width, unsigned int height, bool alpha, bool allowDebugInfo, uint8_t r, uint8_t g, uint8_t b, bool random_multiplier) {
 
+
+
     float multiplier = 0.0f;
 
     FILE *fp = fopen(filename, "wb");
