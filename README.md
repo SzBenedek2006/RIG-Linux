@@ -1,23 +1,35 @@
 # RIG-Linux - (Random Image Generator)
-This project is work in progress... [![GitHub stars](https://img.shields.io/github/stars/SzBenedek2006/RIG-Linux.svg)](https://github.com/SzBenedek2006/RIG-Linux/stargazers)
+[![GitHub stars](https://img.shields.io/github/stars/SzBenedek2006/RIG-Linux.svg)](https://github.com/SzBenedek2006/RIG-Linux/stargazers)
  [![License](https://img.shields.io/github/license/SzBenedek2006/RIG-Linux.svg)](https://github.com/SzBenedek2006/RIG-Linux/blob/main/GPL-3.0) [![Code Size](https://img.shields.io/github/languages/code-size/SzBenedek2006/RIG-Linux.svg)](https://github.com/SzBenedek2006/RIG-Linux)
-
 
 
 ## This program creates images from random pixels, based on user input.
 Users can currently specify:
-- Size (width x height)
-- The use of alpha channel in PNG (transparency)
-- Image count (how many images will be generated)
-- To put the images in android internal storage instead of termux home directory when specified
-- Output debug info
-- Quality for JPEG images
+- **-s** or **--size** <width height>
+	- Changed the order in 2.0!
+- **-c** or **--count** <number>
+	- This many images will be generated.
+- **-f** or **--format** <image format>
+	- It supports png or jpg (jpeg) formats. When not used, defaults to png.
+- **-a** or **--alpha**
+    - Use transparent pixels in png. With jpeg, this will be ignored.
+- **--termux-external**
+	- When used in Termux, images will be moved to your internal storage.
+- **-d** or **--debug**
+	- Print debug info.
+- **--rgb** or **--RGB** <RED GREEN BLUE>
+	- This sets the values in each channel, so you can make colorful or darker images.
+- **--sensor-noise**
+	- Puts lines on the pictures, like image sensors with high iso.
+- **-h** or **--help**
+	- Prints this message to console.
 
+## Download
+Head to the releases section and download from there if I don't forget to release the executable files. After unpacking, if you have permission issues, usually a `chmod +x` solves the issue. If you don't find the executables you need, build from source.
 
 
 ## Dependencies
-You need to have `clang`, `make`, `git`, and `libpng` installed on your GNU/Linux machine.
-On Fedora you also need `libpng-devel`.
+You need to have `clang`, `make`, `git`, `libpng` and a variant of `libjpeg` installed on your GNU/Linux machine.
 
 **Fedora**
 ```Fedora
