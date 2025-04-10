@@ -1,6 +1,7 @@
 #ifndef PROGRESSBAR
 #define PROGRESSBAR
 
+#include <stdint.h>
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -14,7 +15,7 @@ extern unsigned short int needAveraging;
 extern double time1;
 extern double time2;
 extern unsigned int tCounter;
-extern short unsigned int counter;
+extern uint8_t counter;
 
 struct ProgressBarArgs {
     int progress;
@@ -26,16 +27,17 @@ struct ProgressBarArgs {
 
 
 struct Time {
-    int hours;
-    int minutes;
-    int seconds;
+    long hours;
+    long minutes;
+    long seconds;
 };
 
-struct Time convertSeconds(int total_seconds);
+struct Time convertSeconds(long total_seconds);
 
-void progressbar(int progress, int total, int length, double time);
+void progressbar(int progress, int total, int length, double time, uint8_t counter);
 
 void* multiThreadedProgressbar(void* arg);
+void progress_indicator();
 
 
 #endif

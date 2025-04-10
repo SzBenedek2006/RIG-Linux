@@ -4,6 +4,7 @@
 #include "my_utils.h"
 #include "progressbar.h"
 #include "version.h"
+#include "args.h"
 
 #include <stdbool.h>
 #include <stdio.h>
@@ -20,8 +21,8 @@ const int MS = 1000;
 char format[4];
 
 
-int main(int argc, char* argv[])
-{
+
+int main(int argc, char* argv[]) {
 
     // Get the current time in UTC
     if (clock_gettime(CLOCK_REALTIME, &ts) == -1) {
@@ -31,7 +32,7 @@ int main(int argc, char* argv[])
 
     *pStartTime = (double)ts.tv_sec + (double)ts.tv_nsec / 1.0e9;
 
-
+    rand32_state = (uint32_t)time(NULL);
 
     printf("Welcome to RIG %s!\n", RIG_VERSION);
 
@@ -40,7 +41,7 @@ int main(int argc, char* argv[])
     unsigned int height = 0;
     bool alpha = false;
     unsigned int count;
-    int n;
+
     bool help = false;
     bool termuxExternal = false;
     bool random_multiplier = false;
@@ -50,7 +51,7 @@ int main(int argc, char* argv[])
     uint8_t r = 255;
     uint8_t g = 255;
     uint8_t b = 255;
-    int temp = 0;
+
 
 
     getTerminalSize(&terminalHeight, &terminalWidth);
@@ -59,142 +60,45 @@ int main(int argc, char* argv[])
      *   printf("\n");
     }*/
 
-    // Number of the same arguments
-    short unsigned int sCount = 0;      // -s, --size
-    short unsigned int cCount = 0;      // -c --count
-    short unsigned int aCount = 0;      // -a --alpha
-    short unsigned int hCount = 0;      // -h --help
-    short unsigned int tCount = 0;      // --termux_external
-    short unsigned int dCount = 0;      // -d --debug
-    short unsigned int fCount = 0;      // -f --format
-    short unsigned int qCount = 0;      // -q --quality
-    short unsigned int rgbCount = 0;    // --rgb --RGB
-    short unsigned int snCount = 0;     // --sensor-noise
 
 
-
+    struct Counts counts = {0};
     // Handle the arguments.
-    for (n = 1; n < argc; n++) {
-        if (strcmp(argv[n], "-s") == 0 || strcmp(argv[n], "--size") == 0) { // -s,
-            sCount++;
-            if (argv[n + 1] != NULL && argv[n + 1] != NULL) {
-                    width = atoi(argv[n + 1]);
-                    height = atoi(argv[n + 2]);
-                    n += 2;
-            } else {
-                printf("Size is not specified!\n");
-                return 3;
-            }
-        } else if (strcmp(argv[n], "-a") == 0 || strcmp(argv[n], "--alpha") == 0) { // If n-th arg        -a,
-            alpha = true;
-            aCount++;
-        } else if (strcmp(argv[n], "-c") == 0 || strcmp(argv[n], "--count") == 0) { // If n-th arg      -c,
-            if (argv[n + 1] != NULL) {
-                count = atoi(argv[n + 1]);
-                cCount++;
-                n++;
-            } else {
-                printf("Count is not specified!\n");
-                return 3;
-            }
-        } else if (strcmp(argv[n], "-h") == 0 || strcmp(argv[n], "--help") == 0) { // If n-th arg       -h,
-            help = true;
-            hCount++;
-        } else if (strcmp(argv[n], "--termux-external") == 0) { // If n-th arg -a,
-            termuxExternal = true; // to implement
-            tCount++; // to implement
-        } else if (strcmp(argv[n], "-d") == 0 || strcmp(argv[n], "--debug") == 0) { // If n-th arg -a,
-            allowDebugInfo = true; // to implement
-            dCount++; // to implement
-        } else if (strcmp(argv[n], "-f") == 0 || strcmp(argv[n], "--format") == 0) { // If n-th arg -f
-            fCount++;
-            if ((argv[n + 1]) != NULL) {
-                if (strcmp(argv[n + 1], "png") == 0) {
-                    strcpy(format, "png");
-                    n++;
-                } else if (strcmp(argv[n + 1], "jpeg") == 0 || strcmp(argv[n + 1], "jpg") == 0) {
-                    strcpy(format, "jpg");
-                    n++;
-                 } else {
-                    printf("RIG currently only supports png (default) and jpeg as a format option!");
-                    return 3;
-                 }
-            } else {
-                printf("--format/-f is not set correctly or left empty, write image format after -f or --format!\n");
-                return 3;
-            }
-        } else if (strcmp(argv[n], "-q") == 0 || strcmp(argv[n], "--quality") == 0) { // If n-th arg -q
-            qCount++;
-            if ((argv[n + 1]) != NULL) {
-                quality = atoi(argv[n + 1]);
-                if (quality > 0 && quality <= 100) {
-                    n++;
-                } else {
-                    printf("Quality isn't set correctly!\n");
-                    return 3;
-                }
-            } else {
-                printf("Missing quality value after -q or --quality.\n");
-                return 3;
-            }
-        } else if (strcmp(argv[n], "--rgb") == 0 || strcmp(argv[n], "--RGB") == 0) {
-            if ((argv[n + 1]) != NULL) {
-                temp = atoi(argv[n + 1]);
-                if (temp <= 255 && r >= 0) {
-                    r = temp;
-                } else {
-                    printf("Red value is outside of the range (0-255)!\n");
-                    return 3;
-                }
-            } else {
-                printf("Red value missing!\n");
-                return 3;
-            }
-            if ((argv[n + 2]) != NULL) {
-                temp = atoi(argv[n + 2]);
-                if (temp <= 255 && g >= 0) {
-                    g = temp;
-                } else {
-                    printf("Green value is outside of the range (0-255)!\n");
-                    return 3;
-                }
-            } else {
-                printf("Green value missing!\n");
-                return 3;
-            }
-            if ((argv[n + 3]) != NULL) {
-                temp = atoi(argv[n + 3]);
-                printf("atoi %d\n", temp);
-                if (temp <= 255 && b >= 0) {
-                    b = temp;
-                } else {
-                    printf("Blue value is outside of the range (0-255)!\n");
-                    return 3;
-                }
-            } else {
-                printf("Blue value missing!\n");
-                return 3;
-            }
-            n += 3;
-        } else if (strcmp(argv[n], "--sensor-noise") == 0) {
-            random_multiplier = true;
-        } else { // If there is no known argument at a given argc location.
-            printf("Unknown option \"%s\" at the %d. argument. Use -h for help.\n", argv[n], n);
-            return 3;
+    {
+        int ret = args(
+            argc,
+            argv,
+            &counts,
+            &width,
+            &height,
+            &alpha,
+            &count,
+            &help,
+            &termuxExternal,
+            &random_multiplier,
+            &quality,
+            &r,
+            &g,
+            &b,
+            format
+        );
+        if (ret != 0) {
+            return ret;
         }
     }
 
+
     // Additional checks
-    if ((!fCount) && (!hCount) && argc > 1 ) {
-        printDebugPlusInt("fCount: %d", fCount);
-        printDebugPlusInt("hCount: %d", hCount);
+    if ((!counts.fCount) && (!counts.hCount) && argc > 1 ) {
+        printDebugPlusInt("counts.fCount: %d", counts.fCount);
+        printDebugPlusInt("counts.hCount: %d", counts.hCount);
         printf("Format is not set, defaulting to png.\n");
         strcpy(format, "png");
 
-    } else if (aCount && (strcmp(format, "jpg") == 0) ) {
+    } else if (counts.aCount && (strcmp(format, "jpg") == 0) ) {
         printf("--alpha (transparency) option will be ignored when using jpeg.\n");
 
-    } else if ((!qCount) && (strcmp(format, "jpg") == 0)) {
+    } else if ((!counts.qCount) && (strcmp(format, "jpg") == 0)) {
         printf("Quality is not set, defaulting to 100.\n");
     }
 
@@ -212,13 +116,13 @@ int main(int argc, char* argv[])
     printDebugPlusInt("b", b);
 
     // All printDebug depends on errorFileOpener
-    printDebugPlusInt("sCount = ", sCount);
-    printDebugPlusInt("aCount = ", aCount);
-    printDebugPlusInt("cCount = ", cCount);
-    printDebugPlusInt("hCount = ", hCount);
-    printDebugPlusInt("tCount = ", tCount);
-    printDebugPlusInt("dCount = ", dCount);
-    printDebugPlusInt("fCount = ", fCount);
+    printDebugPlusInt("counts.sCount = ", counts.sCount);
+    printDebugPlusInt("counts.aCount = ", counts.aCount);
+    printDebugPlusInt("counts.cCount = ", counts.cCount);
+    printDebugPlusInt("counts.hCount = ", counts.hCount);
+    printDebugPlusInt("counts.tCount = ", counts.tCount);
+    printDebugPlusInt("counts.dCount = ", counts.dCount);
+    printDebugPlusInt("counts.fCount = ", counts.fCount);
 
     if (argc == 1) {
         printf("Use -h to display help message.\n");
@@ -233,7 +137,7 @@ int main(int argc, char* argv[])
     }
 
     // Too many arguments
-    if (sCount > 1 || cCount > 1 || aCount > 1 || hCount > 1 || tCount > 1) {
+    if (counts.sCount > 1 || counts.cCount > 1 || counts.aCount > 1 || counts.hCount > 1 || counts.tCount > 1) {
         printf("Too many arguments in the same type.");
         return 1;
     }
@@ -288,7 +192,7 @@ int main(int argc, char* argv[])
 
         args->progress = i;
         args->total = count;
-        args->length = terminalWidth - 35;
+        args->length = terminalWidth - 40;
         args->time = genTime * (args->total - args->progress); // To modify
 
         printDebugPlusFloat("time:", genTime * (args->total - args->progress));
