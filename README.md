@@ -25,7 +25,7 @@ Users can currently specify:
 	- Prints this message to console.
 
 ## Download
-Head to the releases section and download from there if I don't forget to release the executable files. After unpacking, if you have permission issues, usually a `chmod +x` solves the issue. If you don't find the executables you need, build from source.
+Head to the [releases](https://github.com/SzBenedek2006/RIG-Linux/releases) section and download from there if I don't forget to release the executable files. After unpacking, if you have permission issues, usually a `chmod +x` solves the issue. If you don't find the executables you need, [build from source](https://github.com/SzBenedek2006/RIG-Linux?tab=readme-ov-file#how-to-download-and-build-from-source).
 
 
 ## Dependencies
