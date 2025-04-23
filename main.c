@@ -32,6 +32,12 @@ int main(int argc, char* argv[]) {
 
     *pStartTime = (double)ts.tv_sec + (double)ts.tv_nsec / 1.0e9;
 
+    if (set_affinity(0)) {
+        //Success
+    } else {
+        //Fail
+    }
+
     rand32_state = (uint32_t)time(NULL);
 
     printf("Welcome to RIG %s!\n", RIG_VERSION);

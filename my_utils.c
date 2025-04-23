@@ -1,3 +1,8 @@
+#define _GNU_SOURCE
+#include <sched.h>
+#include <errno.h>
+#include <string.h>
+
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -176,4 +181,16 @@ uint8_t random_pixel(uint8_t max_value, float multiplier) {
     //printDebugPlusFloat("Multiplier:", multiplier); //printf("Multiplier: %lf\n", multiplier);
     //printDebugPlusInt("Pixel:", pixel);
     return pixel;
+}
+
+int set_affinity(int core_id) {
+    cpu_set_t cpuset;
+    CPU_ZERO(&cpuset);
+    CPU_SET(core_id, &cpuset);
+    int ret = sched_setaffinity(0, sizeof(cpu_set_t), &cpuset);
+    if (ret != 0) {
+        fprintf(stderr, "sched_setaffinity failed: %s\n", strerror(errno));
+        return 0;
+    }
+    return 1;
 }

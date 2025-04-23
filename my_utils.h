@@ -39,6 +39,6 @@ void printDebugPlusFloat(char text[], double flVar);
 void printDebugPlusStr(char text[], char strVar[]);
 void printHelp();
 uint8_t random_pixel(uint8_t max_value, float multipier);
-
+int set_affinity(int core_id);
 
 #endif
