@@ -39,8 +39,6 @@ jobs:
   release:
     needs: build
     runs-on: ubuntu-latest
-    permissions:
-      contents: write  # Required for releases
     steps:
       - name: Download build artifacts
         uses: actions/download-artifact@v4
@@ -48,14 +46,19 @@ jobs:
           name: myproject-${{ needs.build.outputs.version }}
           path: ./dist
 
-      - name: Create Release and Upload Assets
-        uses: softprops/action-gh-release@v2
+      - name: Create GitHub Release
+        uses: actions/create-release@v1
         with:
+          token: ${{ secrets.GITHUB_TOKEN }}
           tag_name: ${{ needs.build.outputs.version }}
-          name: V${{ needs.build.outputs.version }}
-          body: |
+          release_name: V${{ needs.build.outputs.version }}
+          body: | # "Release for version ${{ needs.build.outputs.version }}"
             # My first automated build and release
             **This is a test version, stay on the 2.4.1 version released on Apr 10!**
           draft: true
           prerelease: true
+
+      - name: Upload Release Assets
+        uses: softprops/action-gh-release@v2
+        with:
           files: ./dist/*
