@@ -44,19 +44,19 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: RIG-${{ steps.extract_version.outputs.version }}
-          path: dist/*.tar.xz  # Fixed path
+          path: bin/*
 
   release:
     needs: build
     runs-on: ubuntu-latest
     permissions:
-      contents: write
+      contents: write  # Required for releases
     steps:
       - name: Download build artifacts
         uses: actions/download-artifact@v4
         with:
           name: RIG-${{ needs.build.outputs.version }}
-          path: dist/  # Directory instead of glob
+          path: ./dist/*.tar.xz
 
       - name: Create Release and Upload Assets
         uses: softprops/action-gh-release@v2
@@ -68,4 +68,4 @@ jobs:
             **This is a test version, stay on the 2.4.1 version released on Apr 10!**
           draft: true
           prerelease: true
-          files: dist/*.tar.xz  # Match actual files
+          files: ./dist/*
