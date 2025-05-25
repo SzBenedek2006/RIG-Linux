@@ -3,9 +3,11 @@ RIG-*
 
 # Exclude the out/ directory
 out/
+bin/
 
 # Exclude txt files
 *.txt
+*.log
 
 # Exclude kate saves
 *.kate-swp
