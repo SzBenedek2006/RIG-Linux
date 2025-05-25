@@ -49,6 +49,7 @@ jobs:
       - name: Create GitHub Release
         uses: actions/create-release@v1
         with:
+          token: ${{ secrets.GITHUB_TOKEN }}
           tag_name: ${{ needs.build.outputs.version }}
           release_name: V${{ needs.build.outputs.version }}
           body: | # "Release for version ${{ needs.build.outputs.version }}"
