@@ -30,6 +30,16 @@ jobs:
           make clean
           make
 
+      - name: Compress binaries into tar.xz
+        run: |
+          mkdir -p dist
+          shopt -s nullglob
+          for binary in bin/*; do
+            base=$(basename "$binary")
+            tar -cJf "dist/${base}.tar.xz" -C bin/ "$base"
+          done
+          shopt -u nullglob
+
       - name: Upload binaries
         uses: actions/upload-artifact@v4
         with:
@@ -46,7 +56,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: myproject-${{ needs.build.outputs.version }}
-          path: ./dist
+          path: ./dist/*.tar.xz
 
       - name: Create Release and Upload Assets
         uses: softprops/action-gh-release@v2
