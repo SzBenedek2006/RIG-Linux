@@ -47,12 +47,12 @@ jobs:
           path: ./dist
 
       - name: Create GitHub Release
-        uses: actions/create-release@v2
+        uses: actions/create-release@v1
         with:
           tag_name: ${{ needs.build.outputs.version }}
           release_name: V${{ needs.build.outputs.version }}
           body: | # "Release for version ${{ needs.build.outputs.version }}"
-            # My first automated test build and release
+            # My first automated build and release
             **This is a test version, stay on the 2.4.1 version released on Apr 10!**
           draft: true
           prerelease: true
