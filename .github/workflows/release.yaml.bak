@@ -17,20 +17,21 @@ jobs:
       - name: Extract version from tag
         id: extract_version
         run: |
+          # Strip off "refs/tags/" → leaves "1.2.3"
           VERSION=${GITHUB_REF#refs/tags/}
           echo "Version is $VERSION"
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "::set-output name=version::$VERSION"
 
-      - name: Build project
-        run: |
-          make clean
-          make
+        - name: Build project
+          run: |
+            make clean
+            make
 
-      - name: Upload binaries
-        uses: actions/upload-artifact@v3
-        with:
-          name: myproject-${{ steps.extract_version.outputs.version }}
-          path: bin/*
+        - name: Upload binaries
+          uses: actions/upload-artifact@v3
+          with:
+            name: myproject-${{ steps.extract_version.outputs.version }}
+            path: bin/* # Currently this doesn't work, NEEDFIX
 
   release:
     needs: build
@@ -41,29 +42,33 @@ jobs:
 
       - name: Download build artifacts
         uses: actions/download-artifact@v3
-        with:
-          name: myproject-${{ needs.build.outputs.version }}
-          path: ./dist
+        with: myproject-${{ needs.build.outputs.version }}
+        path: ./dist
 
       - name: Prepare release notes (TODO)
         id: notes
-        run: echo "TODO" > release_notes.md
+        run: print "TODO"
 
       - name: Create GitHub Release
         uses: actions/create-release@v1
         with:
           tag_name: ${{ needs.build.outputs.version }}
           release_name: V${{ needs.build.outputs.version }}
+          
+          # body_path file.md (if I implement it like this)
           body: |
             # My first automated test build and release
             **This is a test version, stay on the 2.4.1 version released on Apr 10!**
+
           draft: true
           prerelease: true
 
       - name: Upload Release Assets
+        # Maybe move to github.com/softprops/action-gh-release
         uses: softprops/action-upload-release-asset@v1
         with:
           tag: ${{ needs.build.outputs.version }}
           asset_path: ./dist/
           asset_name: myproject-${{ needs.build.outputs.version }}.tar.gz
           asset_content_type: application/gzip
+
