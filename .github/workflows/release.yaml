@@ -44,7 +44,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: RIG-${{ steps.extract_version.outputs.version }}
-          path: dist/*.tar.xz  # Fixed path
+          path: dist/*.tar.xz # Here the path means each file's path
 
   release:
     needs: build
@@ -56,16 +56,17 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: RIG-${{ needs.build.outputs.version }}
-          path: dist/  # Directory instead of glob
+          path: dist/ # Directory
 
       - name: Create Release and Upload Assets
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ needs.build.outputs.version }}
           name: V${{ needs.build.outputs.version }}
-          body: |
-            # My first automated build and release
-            **This is a test version, stay on the 2.4.1 version released on Apr 10!**
+          body_path: RELEASE_TEMPLATE.md
+          #body: |
+          #  # My first automated build and release
+          #  **This is a test version, stay on the 2.4.1 version released on Apr 10!**
           draft: true
-          prerelease: true
-          files: dist/*.tar.xz  # Match actual files
+          prerelease: false
+          files: dist/*.tar.xz
