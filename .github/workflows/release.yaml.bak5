@@ -1,0 +1,71 @@
+name: Build and release
+
+on:
+  push:
+    tags:
+      - '*.*.*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.extract_version.outputs.version }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential libpng-dev libjpeg-dev
+
+      - name: Extract version from tag
+        id: extract_version
+        run: |
+          VERSION=${GITHUB_REF#refs/tags/}
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Build project
+        run: |
+          make clean
+          make
+
+      - name: Compress binaries into tar.xz
+        run: |
+          mkdir -p dist
+          shopt -s nullglob
+          for binary in bin/*; do
+            base=$(basename "$binary")
+            tar -cJf "dist/${base}.tar.xz" -C bin/ "$base"
+          done
+          shopt -u nullglob
+
+      - name: Upload binaries
+        uses: actions/upload-artifact@v4
+        with:
+          name: RIG-${{ steps.extract_version.outputs.version }}
+          path: bin/*
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write  # Required for releases
+    steps:
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: RIG-${{ needs.build.outputs.version }}
+          path: ./dist/*.tar.xz
+
+      - name: Create Release and Upload Assets
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ needs.build.outputs.version }}
+          name: V${{ needs.build.outputs.version }}
+          body: |
+            # My first automated build and release
+            **This is a test version, stay on the 2.4.1 version released on Apr 10!**
+          draft: true
+          prerelease: true
+          files: ./dist/*

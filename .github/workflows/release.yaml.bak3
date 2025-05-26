@@ -1,0 +1,67 @@
+name: Build and release
+
+on:
+  push:
+    tags:
+      - '*.*.*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.extract_version.outputs.version }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Extract version from tag
+        id: extract_version
+        run: |
+          VERSION=${GITHUB_REF#refs/tags/}
+          echo "Version is $VERSION"
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Build project
+        run: |
+          make clean
+          make
+
+      - name: Upload binaries
+        uses: actions/upload-artifact@v4
+        with:
+          name: myproject-${{ steps.extract_version.outputs.version }}
+          path: bin/*
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: myproject-${{ needs.build.outputs.version }}
+          path: ./dist
+
+      - name: Prepare release notes
+        id: notes
+        run: echo "TODO" > release_notes.md
+
+      - name: Create GitHub Release
+        uses: actions/create-release@v2
+        with:
+          tag_name: ${{ needs.build.outputs.version }}
+          release_name: V${{ needs.build.outputs.version }}
+          body: |
+            # My first automated test build and release
+            **This is a test version, stay on the 2.4.1 version released on Apr 10!**
+          draft: true
+          prerelease: true
+
+      - name: Upload Release Assets
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            ./dist/*

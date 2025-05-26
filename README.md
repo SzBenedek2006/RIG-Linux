@@ -5,6 +5,7 @@
 
 ## This program creates images from random pixels, based on user input.
 Users can currently specify:
+
 - **-s** or **--size** <width height>
 	- Changed the order in 2.0!
 - **-c** or **--count** <number>
@@ -21,6 +22,8 @@ Users can currently specify:
 	- This sets the values in each channel, so you can make colorful or darker images.
 - **--sensor-noise**
 	- Puts lines on the pictures, like image sensors with high iso.
+- **-q** or **--quality**
+  - Specifies the quality for JPEG images, unaffective in png.
 - **-h** or **--help**
 	- Prints this message to console.
 
@@ -57,7 +60,7 @@ sudo apt update && sudo apt install gcc make git libpng-dev libjpeg-dev
 1. $ `git clone https://github.com/SzBenedek2006/RIG-Linux.git`
 2. $ `cd RIG-Linux/`
 3. $ `make` It will make an executable named RIG-<your\_architecture>. (For example RIG-x86_64 or RIG-aarch64)
-4. $ `./RIG-<your_architecture> -h` This will run the program and print the help message. If you don't know your architecture, try autocomplete after `./RIG-` with the tab key.
+4. $ `bin/RIG-<your_architecture> -h` This will run the program and print the help message. If you don't know your architecture, try autocomplete after `./RIG-` with the tab key.
 
 
 ## Todo / The current state of the project
@@ -82,10 +85,14 @@ sudo apt update && sudo apt install gcc make git libpng-dev libjpeg-dev
 - [x] Add a progressbar
 - [ ] Add CLI completion
 - [ ] Add a calculator for file size
+- [ ] Move to stb libraries for image handling.
+- [x] Add an automatic release workflow
+  - [ ] Support more architectures
+  - [ ] Support automatically making a new tag based on the version in version.h
 
 ## Supported OS-es
 GNU/Linux, Android/Linux (see the Termux section), and maybe MacOS and BSD systems.
-If it has the dependencies and mets the POSIX standard, it should probably run, but the program only has official support for Linux and Android (Termux).
+If it has the dependencies and meets the POSIX standard, it should probably run, but the program only has official support for Linux and Android (Termux).
 
 ## Termux
 The program can be run in Termux after installing the dependencies.
