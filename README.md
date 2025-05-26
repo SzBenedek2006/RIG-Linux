@@ -7,10 +7,13 @@ This project is work in progress... [![GitHub stars](https://img.shields.io/gith
 ## This program creates images from random pixels, based on user input.
 Users can currently specify:
 - Size (width x height)
-- The use of alpha channel in PNG (transparency)
 - Image count (how many images will be generated)
+- Image format (PNG or JPEG)
+- The use of alpha channel in PNG (transparency)
 - To put the images in android internal storage instead of termux home directory when specified
 - Output debug info
+- The max value for each color
+- Sensor noise artifact
 - Quality for JPEG images
 
 
@@ -73,7 +76,7 @@ sudo apt update && sudo apt install gcc make git libpng-dev libjpeg-dev
 
 ## Supported OS-es
 GNU/Linux, Android/Linux (see the Termux section), and maybe MacOS and BSD systems.
-If it has the dependencies and mets the POSIX standard, it should probably run, but the program only has official support for Linux and Android (Termux).
+If it has the dependencies and meets the POSIX standard, it should probably run, but the program only has official support for Linux and Android (Termux).
 
 ## Termux
 The program can be run in Termux after installing the dependencies.
