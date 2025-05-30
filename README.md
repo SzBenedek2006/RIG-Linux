@@ -57,10 +57,16 @@ sudo apt update && sudo apt install gcc make git libpng-dev libjpeg-dev
 
 ## How to download and build from source
 0. You need to have the dependencies _(listed in their section above)_ installed. If you don't know how to do it, search how to install _*package name*_ on _*your Linux distro's name*_
-1. $ `git clone https://github.com/SzBenedek2006/RIG-Linux.git`
+1. $ `git clone --recurse-submodules https://github.com/SzBenedek2006/RIG-Linux.git`
 2. $ `cd RIG-Linux/`
 3. $ `make` It will make an executable named RIG-\<your\_architecture\>. (For example RIG-x86_64 or RIG-aarch64)
 4. $ `bin/RIG-\<your_architecture\> -h` This will run the program and print the help message. If you don't know your architecture, try autocomplete after `./RIG-` with the tab key.
+
+### Updating
+1. $ `git pull`
+
+**IMPORTAN: If you cloned the repo before the addition of the sdl library directory (or before an sdl update), you should run the following command too, after the first.**
+2. $ `git submodule update --init --recursive`
 
 
 ## Todo / The current state of the project
