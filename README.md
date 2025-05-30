@@ -65,7 +65,7 @@ sudo apt update && sudo apt install gcc make git libpng-dev libjpeg-dev
 ### Updating
 1. $ `git pull`
 
-**IMPORTAN: If you cloned the repo before the addition of the sdl library directory (or before an sdl update), you should run the following command too, after the first.**
+**IMPORTAN: If you cloned the repo before the addition of the stb library directory (or before an stb update), you should run the following command too, after the first.**
 2. $ `git submodule update --init --recursive`
 
 
