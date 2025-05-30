@@ -6,11 +6,11 @@
 ## This program creates images from random pixels, based on user input.
 Users can currently specify:
 
-- **-s** or **--size** <width height>
+- **-s** or **--size** \<width height\>
 	- Changed the order in 2.0!
-- **-c** or **--count** <number>
+- **-c** or **--count** \<number\>
 	- This many images will be generated.
-- **-f** or **--format** <image format>
+- **-f** or **--format** \<image format\>
 	- It supports png or jpg (jpeg) formats. When not used, defaults to png.
 - **-a** or **--alpha**
     - Use transparent pixels in png. With jpeg, this will be ignored.
@@ -18,7 +18,7 @@ Users can currently specify:
 	- When used in Termux, images will be moved to your internal storage.
 - **-d** or **--debug**
 	- Print debug info.
-- **--rgb** or **--RGB** <RED GREEN BLUE>
+- **--rgb** or **--RGB** \<RED GREEN BLUE\>
 	- This sets the values in each channel, so you can make colorful or darker images.
 - **--sensor-noise**
 	- Puts lines on the pictures, like image sensors with high iso.
@@ -59,8 +59,8 @@ sudo apt update && sudo apt install gcc make git libpng-dev libjpeg-dev
 0. You need to have the dependencies _(listed in their section above)_ installed. If you don't know how to do it, search how to install _*package name*_ on _*your Linux distro's name*_
 1. $ `git clone https://github.com/SzBenedek2006/RIG-Linux.git`
 2. $ `cd RIG-Linux/`
-3. $ `make` It will make an executable named RIG-<your\_architecture>. (For example RIG-x86_64 or RIG-aarch64)
-4. $ `bin/RIG-<your_architecture> -h` This will run the program and print the help message. If you don't know your architecture, try autocomplete after `./RIG-` with the tab key.
+3. $ `make` It will make an executable named RIG-\<your\_architecture\>. (For example RIG-x86_64 or RIG-aarch64)
+4. $ `bin/RIG-\<your_architecture\> -h` This will run the program and print the help message. If you don't know your architecture, try autocomplete after `./RIG-` with the tab key.
 
 
 ## Todo / The current state of the project
