@@ -14,6 +14,8 @@ jobs:
 
     - name: Install dependencies
       run: sudo apt-get update && sudo apt-get install -y libpng-dev libjpeg-dev
+      with:
+        submodules: recursive
 
     - name: make
       run: make
