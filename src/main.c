@@ -1,28 +1,29 @@
-#include "PNG_generator.h"
-#include "dir_creator.h"
 #include "JPEG_generator.h"
+#include "PNG_generator.h"
+#include "args.h"
+#include "dir_creator.h"
 #include "my_utils.h"
 #include "progressbar.h"
 #include "version.h"
-#include "args.h"
 
+#include <pthread.h>
 #include <stdbool.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/ioctl.h>
 #include <time.h>
-#include <pthread.h>
 #include <unistd.h>
-#include <stdint.h>
 
+#define STB_IMAGE_WRITE_IMPLEMENTATION
+#include "../stb/stb_image_write.h"
 
 const int MS = 1000;
 char format[4];
 
-
-
-int main(int argc, char* argv[]) {
+int main(int argc, char* argv[])
+{
 
     // Get the current time in UTC
     if (clock_gettime(CLOCK_REALTIME, &ts) == -1) {
@@ -59,17 +60,13 @@ int main(int argc, char* argv[]) {
     uint8_t g = 255;
     uint8_t b = 255;
 
-
-
     getTerminalSize(&terminalHeight, &terminalWidth);
 
     /*for (int i = 0; i < terminalHeight - 3; i++) {
      *   printf("\n");
     }*/
 
-
-
-    struct Counts counts = {0};
+    struct Counts counts = { 0 };
     // Handle the arguments.
     {
         int ret = args(
@@ -87,33 +84,25 @@ int main(int argc, char* argv[]) {
             &r,
             &g,
             &b,
-            format
-        );
+            format);
         if (ret != 0) {
             return ret;
         }
     }
 
-
     // Additional checks
-    if ((!counts.fCount) && (!counts.hCount) && argc > 1 ) {
+    if ((!counts.fCount) && (!counts.hCount) && argc > 1) {
         printDebugPlusInt("counts.fCount: %d", counts.fCount);
         printDebugPlusInt("counts.hCount: %d", counts.hCount);
         printf("Format is not set, defaulting to png.\n");
         strcpy(format, "png");
 
-    } else if (counts.aCount && (strcmp(format, "jpg") == 0) ) {
+    } else if (counts.aCount && (strcmp(format, "jpg") == 0)) {
         printf("--alpha (transparency) option will be ignored when using jpeg.\n");
 
     } else if ((!counts.qCount) && (strcmp(format, "jpg") == 0)) {
         printf("Quality is not set, defaulting to 100.\n");
     }
-
-
-
-
-
-
 
     // Depends on allowDebugInfo == true
     errorFileOpener();
@@ -139,7 +128,8 @@ int main(int argc, char* argv[]) {
     // Too few arguments warning
     if ((width == 0 || height == 0 || count == 0) && !help) {
         printf("Too few arguments. Width, height or count is 0. Unexpected "
-               "behaviour may occur! (Argc = %d)\n", argc);
+               "behaviour may occur! (Argc = %d)\n",
+            argc);
         return 1;
     }
 
@@ -157,7 +147,6 @@ int main(int argc, char* argv[]) {
 
     dirCreatorLinux(outDir, termuxExternal);
 
-
     // Generating images
 
     srand((unsigned int)time(NULL)); // Seed the random number generator
@@ -166,7 +155,6 @@ int main(int argc, char* argv[]) {
 
     printDebugPlusInt("Terminal height = ", terminalHeight);
     printDebugPlusInt("Terminal width = ", terminalWidth);
-
 
     // Multithread stuff
     pthread_mutex_init(&mutex, NULL); // init the mutex.
@@ -178,11 +166,7 @@ int main(int argc, char* argv[]) {
     double genTime1 = 0;
     double genTime2 = (double)ts.tv_sec + (double)ts.tv_nsec / 1.0e9;
 
-
     char fileExtension[5];
-
-
-
 
     // Start of the image loop
     for (i = 1; i <= count; i++) {
@@ -196,15 +180,12 @@ int main(int argc, char* argv[]) {
             return 1;
         }
 
-
         args->progress = i;
         args->total = count;
         args->length = terminalWidth - 40;
         args->time = genTime * (args->total - args->progress); // To modify
 
         printDebugPlusFloat("time:", genTime * (args->total - args->progress));
-
-
 
         // Create file for image
         sprintf(imagename, "%s/random_image%d.%s", outDir, i, format);
@@ -218,31 +199,18 @@ int main(int argc, char* argv[]) {
             generateJPEG(imagename, width, height, quality, r, g, b, random_multiplier);
         }
 
-
-
-
-
         if (i == 1) {
             printDebug("First iteration of image gen loop.");
         }
-
-
-
 
         // Time for the progressbar
         genTime1 = genTime2;
         genTime2 = (double)ts.tv_sec + (double)ts.tv_nsec / 1.0e9;
         genTime = genTime2 - genTime1;
 
-
         printDebugPlusFloat("genTime1:", genTime1);
         printDebugPlusFloat("genTime2:", genTime2);
-
     }
-
-
-
-
 
     pthread_join(progressThread, NULL);
     pthread_mutex_destroy(&mutex);
