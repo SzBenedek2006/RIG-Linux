@@ -196,7 +196,7 @@ int main(int argc, char* argv[])
             errorCount = errorCount + generatePNG2(imagename, width, height, alpha, allowDebugInfo, r, g, b, random_multiplier);
         } else {
             // Write JPEG file
-            generateJPEG(imagename, width, height, quality, r, g, b, random_multiplier);
+            generateJPEG2(imagename, width, height, quality, r, g, b, random_multiplier);
         }
 
         if (i == 1) {

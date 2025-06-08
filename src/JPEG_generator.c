@@ -78,3 +78,15 @@ void generateJPEG(char *filename, long width, long height, int quality, uint8_t 
     jpeg_destroy_compress(&cinfo);
     free(image_buffer);
 }
+
+
+
+void generateJPEG2(char *filename, long width, long height, int quality, uint8_t r, uint8_t g, uint8_t b, bool random_multiplier) {
+    int pixel_components = 3;
+    bool alpha = false;
+
+    unsigned char* data = generatePixelMapData(width, height, alpha, r, g, b, random_multiplier);
+
+    int stride_in_bytes = width * pixel_components;
+    int value2 = stbi_write_jpg(filename, width, height, pixel_components, data, quality);
+}

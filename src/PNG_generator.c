@@ -122,9 +122,6 @@ int generatePNG(const char *filename, unsigned int width, unsigned int height, b
 
 
 int generatePNG2(const char *filename, unsigned int width, unsigned int height, bool alpha, bool allowDebugInfo, uint8_t r, uint8_t g, uint8_t b, bool random_multiplier){
-
-
-
     int pixel_components;
     if (alpha) {
         pixel_components = 4;
@@ -132,19 +129,11 @@ int generatePNG2(const char *filename, unsigned int width, unsigned int height, 
         pixel_components = 3;
     }
 
-    //unsigned char* data = stbi_load("input.png", &width, &height, &pixel_components, 0);
-    //free(data);
-
-    //if (data == NULL) {
-    //    printf("shit\n");
-    //}
-    //
     unsigned char* data = generatePixelMapData(width, height, alpha, r, g, b, random_multiplier);
 
-
-    // If I read image with stbi_load, stride_in_bytes should always look like this:
     int stride_in_bytes = width * pixel_components;
     int value1 = stbi_write_png(filename, width, height, pixel_components, data, stride_in_bytes);
+    free(data);
 
     return 0;
 }
