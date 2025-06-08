@@ -11,6 +11,7 @@
 #include <math.h>
 
 #include "version.h"
+#include "../stb/stb_image_write.h"
 
 #define COLOR_BOLD  "\e[1m"
 #define COLOR_OFF   "\033[m"
@@ -40,5 +41,6 @@ void printDebugPlusStr(char text[], char strVar[]);
 void printHelp();
 uint8_t random_pixel(uint8_t max_value, float multipier);
 int set_affinity(int core_id);
+unsigned char* generatePixelMapData(unsigned int width, unsigned int height, bool alpha, uint8_t r, uint8_t g, uint8_t b, bool random_multiplier);
 
 #endif

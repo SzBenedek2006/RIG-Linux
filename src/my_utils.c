@@ -12,6 +12,7 @@
 #include <stdint.h>
 #include <math.h>
 #include "my_utils.h"
+#include "../stb/stb_image_write.h"
 
 
 #define COLOR_BOLD  "\e[1m"
@@ -184,6 +185,54 @@ uint8_t random_pixel(uint8_t max_value, float multiplier) {
     //printDebugPlusFloat("Multiplier:", multiplier); //printf("Multiplier: %lf\n", multiplier);
     //printDebugPlusInt("Pixel:", pixel);
     return pixel;
+}
+
+static inline void generateRGB(int width, int height, unsigned char* data, int channels, uint8_t r, uint8_t g, uint8_t b, bool random_multiplier) {
+    float current_multiplier = 0;
+    for (int y = 0; y < height; y++) {
+        if (random_multiplier == true) {
+            current_multiplier = (rand() % 11)/10.0f;
+        } else {
+            current_multiplier = 1.0f;
+        }
+        for (int x = 0; x < width; x++) {
+            data[(y * width + x) * channels + 0] = random_pixel(r, current_multiplier);
+            data[(y * width + x) * channels + 1] = random_pixel(g, current_multiplier);
+            data[(y * width + x) * channels + 2] = random_pixel(b, current_multiplier);
+        }
+    }
+}
+
+static inline void generateRGBA(int width, int height, unsigned char* data, int channels, uint8_t r, uint8_t g, uint8_t b, bool random_multiplier) {
+    float current_multiplier = 0;
+    for (int y = 0; y < height; y++) {
+        if (random_multiplier == true) {
+            current_multiplier = (rand() % 11)/10.0f;
+        } else {
+            current_multiplier = 1.0f;
+        }
+        for (int x = 0; x < width; x++) {
+            data[(y * width + x) * channels + 0] = random_pixel(r, current_multiplier);
+            data[(y * width + x) * channels + 1] = random_pixel(g, current_multiplier);
+            data[(y * width + x) * channels + 2] = random_pixel(b, current_multiplier);
+            data[(y * width + x) * channels + 3] = random_pixel(255, 1.0);
+        }
+    }
+}
+
+unsigned char* generatePixelMapData(unsigned int width, unsigned int height, bool alpha, uint8_t r, uint8_t g, uint8_t b, bool random_multiplier) {
+    int channels = (alpha) ? 4 : 3;
+    int image_size = width * height * channels; // this may be the correct one
+    int image_size_px = width * height;
+    unsigned char* data = malloc(image_size);
+
+    if (alpha) {
+        generateRGBA(width, height, data, channels, r, g, b, random_multiplier);
+    } else {
+        generateRGB(width, height, data, channels, r, g, b, random_multiplier);
+    }
+
+    return data;
 }
 
 int set_affinity(int core_id) {

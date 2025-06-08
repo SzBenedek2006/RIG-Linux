@@ -193,7 +193,7 @@ int main(int argc, char* argv[])
 
         if (strcmp(format, "png") == 0) {
             // Write PNG file
-            errorCount = errorCount + generatePNG(imagename, width, height, alpha, allowDebugInfo, r, g, b, random_multiplier);
+            errorCount = errorCount + generatePNG2(imagename, width, height, alpha, allowDebugInfo, r, g, b, random_multiplier);
         } else {
             // Write JPEG file
             generateJPEG(imagename, width, height, quality, r, g, b, random_multiplier);
