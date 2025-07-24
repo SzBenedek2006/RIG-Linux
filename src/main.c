@@ -21,6 +21,8 @@
 
 const int MS = 1000;
 char format[4];
+const char* image_name = "random_image";
+
 
 int main(int argc, char* argv[])
 {
@@ -188,7 +190,7 @@ int main(int argc, char* argv[])
         printDebugPlusFloat("time:", genTime * (args->total - args->progress));
 
         // Create file for image
-        sprintf(imagename, "%s/random_image%d.%s", outDir, i, format);
+        sprintf(imagename, "%s/%s%d.%s", outDir, image_name, i, format);
         printDebugPlusStr("Image name:", imagename);
 
         if (strcmp(format, "png") == 0) {
