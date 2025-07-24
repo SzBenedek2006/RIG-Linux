@@ -170,9 +170,11 @@ int main(int argc, char* argv[])
 
     char fileExtension[5];
 
+
+    char imagename[strlen(outDir) + strlen(image_name) + strlen("2147483647") + strlen(format) + 1];
+
     // Start of the image loop
     for (i = 1; i <= count; i++) {
-        char imagename[30];
 
         printDebugPlusFloat("gentime:", genTime);
         getTerminalSize(&terminalHeight, &terminalWidth);
