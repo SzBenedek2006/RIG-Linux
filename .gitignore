@@ -3,7 +3,12 @@ RIG-*
 
 # Exclude the out/ directory
 out/
+
+# Exclude executable files
 bin/
+
+# Exclude build artifacts
+/build
 
 # Exclude txt files
 *.txt
