@@ -4,7 +4,7 @@ SOURCES := $(wildcard src/*.c)
 
 bin/RIG-$(ARCH): src/*.?
 	mkdir -p bin
-	gcc -o bin/RIG-$(ARCH) src/*.c -Ofast -lpng -ljpeg
+	gcc -o bin/RIG-$(ARCH) $(SOURCES) -Ofast -lpng -ljpeg
 
 
 clean:
