@@ -12,7 +12,7 @@ RESET := \033[0m
 
 bin/RIG-$(ARCH): $(OBJECTS) | dirs
 	@echo -e "\n$(CYAN)[Linking]$(RESET)\t$@"; \
-	gcc -o $@ $(OBJECTS) -Ofast -lpng -ljpeg; \
+	gcc -o $@ $(OBJECTS) -Ofast; \
 
 
 

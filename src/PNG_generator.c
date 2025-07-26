@@ -1,10 +1,10 @@
 #include <png.h>
 #include <stdbool.h>
-#include <stdio.h>
+/*#include <stdio.h>*/
 #include <stdlib.h>
 #include "my_utils.h"
 
-
+/*
 int generatePNG(const char *filename, unsigned int width, unsigned int height, bool alpha, bool allowDebugInfo, uint8_t r, uint8_t g, uint8_t b, bool random_multiplier) {
 
 
@@ -119,7 +119,7 @@ int generatePNG(const char *filename, unsigned int width, unsigned int height, b
 
     return 0;
 }
-
+*/
 
 int generatePNG2(const char *filename, unsigned int width, unsigned int height, bool alpha, bool allowDebugInfo, uint8_t r, uint8_t g, uint8_t b, bool random_multiplier){
     int pixel_components;

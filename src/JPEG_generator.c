@@ -1,15 +1,16 @@
-#include <stdio.h>
-#include <stdlib.h>
+/*#include <stdio.h>
+#include <stdlib.h>*/
 #include <stdbool.h>
 #include <sys/types.h>
-#include <time.h>
+/*#include <time.h>*/
 #include <stdint.h>
-#include "jpeglib.h"
+/*#include "jpeglib.h"*/
 #include "JPEG_generator.h"
 #include "my_utils.h"
 
 
 /* Function to write a JPEG file */
+/*
 void generateJPEG(char *filename, long width, long height, int quality, uint8_t r, uint8_t g, uint8_t b, bool random_multiplier) {
     float multiplier = 0.0f;
     struct jpeg_compress_struct cinfo;
@@ -78,6 +79,7 @@ void generateJPEG(char *filename, long width, long height, int quality, uint8_t 
     jpeg_destroy_compress(&cinfo);
     free(image_buffer);
 }
+*/
 
 
 
