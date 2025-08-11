@@ -1,6 +1,7 @@
 /*#include <stdio.h>
 #include <stdlib.h>*/
 #include <stdbool.h>
+#include <stdlib.h>
 #include <sys/types.h>
 /*#include <time.h>*/
 #include <stdint.h>
@@ -91,4 +92,5 @@ void generateJPEG2(char *filename, long width, long height, int quality, uint8_t
 
     int stride_in_bytes = width * pixel_components;
     int value2 = stbi_write_jpg(filename, width, height, pixel_components, data, quality);
+    free(data);
 }
