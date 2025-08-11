@@ -16,8 +16,7 @@
 #include <time.h>
 #include <unistd.h>
 
-#define STB_IMAGE_WRITE_IMPLEMENTATION
-#include "../stb/stb_image_write.h"
+
 
 const int MS = 1000;
 char format[4];
