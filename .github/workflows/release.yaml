@@ -13,6 +13,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          submodules: true
 
       - name: Install build dependencies
         run: |
@@ -54,6 +56,8 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
+        with:
+          submodules: true
 
       - name: Download build artifacts
         uses: actions/download-artifact@v4
