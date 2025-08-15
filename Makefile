@@ -1,7 +1,14 @@
 ARCH := $(shell uname -m)
+
+# Cross-compiler prefix (leave empty for native)
+CROSS_COMPILE ?=
+CC := $(CROSS_COMPILE)gcc
+
 SOURCES := $(wildcard src/*.c)
-OBJECTS := $(patsubst src/%.c, build/%.o, $(SOURCES)) # $(patsubst PATTERN, REPLACEMENT, TEXT_TO_APPLY_PATTERN)
-OBJECTS_DBG := $(patsubst src/%.c, build/%-debug.o, $(SOURCES))
+BUILD_DIR := build/$(ARCH)
+
+OBJECTS := $(patsubst src/%.c, $(BUILD_DIR)/%.o, $(SOURCES)) # $(patsubst PATTERN, REPLACEMENT, TEXT_TO_APPLY_PATTERN)
+OBJECTS_DBG := $(patsubst src/%.c, $(BUILD_DIR)/%-debug.o, $(SOURCES))
 
 CFLAGS :=
 CFLAGS_OPT := $(CFLAGS) -Ofast
@@ -24,23 +31,23 @@ BUILD_COLOR := $(CYAN)
 # Release build
 bin/RIG-$(ARCH): $(OBJECTS) | dirs
 	@echo -e "\n$(BUILD_COLOR)[Linking]$(RESET)\t$@"; \
-	gcc -o $@ $(OBJECTS) $(LDLIBS)
+	$(CC) -o $@ $(OBJECTS) $(LDLIBS)
 
 
-build/%.o: src/%.c | dirs
+$(BUILD_DIR)/%.o: src/%.c | dirs
 	@echo -e "$(BUILD_COLOR)[Compiling]$(RESET)\t$<"; \
-	gcc -c $< -o $@ $(CFLAGS_OPT);
+	$(CC) -c $< -o $@ $(CFLAGS_OPT);
 
 
 # Debug build
 bin/RIG-debug-$(ARCH): $(OBJECTS_DBG) | dirs
 	@echo -e "\n$(BUILD_COLOR)[Linking]$(RESET)\t$@"; \
-	gcc -o $@ $(OBJECTS_DBG) $(LDLIBS);
+	$(CC) -o $@ $(OBJECTS_DBG) $(LDLIBS);
 
 
-build/%-debug.o: src/%.c | dirs
+$(BUILD_DIR)/%-debug.o: src/%.c | dirs
 	@echo -e "$(BUILD_COLOR)[Compiling]$(RESET)\t$<"; \
-	gcc -c $< -o $@ $(CFLAGS_DBG);
+	$(CC) -c $< -o $@ $(CFLAGS_DBG);
 
 
 
@@ -52,7 +59,7 @@ debug: bin/RIG-debug-$(ARCH)
 
 
 dirs:
-	@mkdir -p build
+	@mkdir -p $(BUILD_DIR)
 	@mkdir -p bin
 
 clean:

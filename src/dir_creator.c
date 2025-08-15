@@ -9,7 +9,6 @@
 #include "my_utils.h"
 #include <stdbool.h>
 
-static int termux_setup_storage = false;
 char androidInternalPath[120] = "/storage/emulated/0/";
 
 

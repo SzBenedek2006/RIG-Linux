@@ -97,7 +97,7 @@ int args(
         } else if (strcmp(argv[n], "--rgb") == 0 || strcmp(argv[n], "--RGB") == 0) {
             if ((argv[n + 1]) != NULL) {
                 temp = atoi(argv[n + 1]);
-                if (temp <= 255 && r >= 0) {
+                if (temp <= 255) {
                     *r = temp;
                 } else {
                     printf("Red value is outside of the range (0-255)!\n");
@@ -109,7 +109,7 @@ int args(
             }
             if ((argv[n + 2]) != NULL) {
                 temp = atoi(argv[n + 2]);
-                if (temp <= 255 && g >= 0) {
+                if (temp <= 255) {
                     *g = temp;
                 } else {
                     printf("Green value is outside of the range (0-255)!\n");
@@ -121,7 +121,7 @@ int args(
             }
             if ((argv[n + 3]) != NULL) {
                 temp = atoi(argv[n + 3]);
-                if (temp <= 255 && b >= 0) {
+                if (temp <= 255) {
                     *b = temp;
                 } else {
                     printf("Blue value is outside of the range (0-255)!\n");
