@@ -39,7 +39,7 @@ You need to have `gcc`, `make`, `git`, `libpng` and a variant of `libjpeg` insta
 sudo dnf update && sudo dnf install gcc make git
 ```
 
-**Termux** *clang should work in termux as it has an alias*
+**Termux** *// clang should work in termux as it has an alias*
 ```Termux
 apt update && apt install libpng clang make git
 ```
