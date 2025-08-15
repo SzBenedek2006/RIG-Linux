@@ -16,3 +16,7 @@ bin/
 
 # Exclude kate saves
 *.kate-swp
+
+# Core dump
+*.dump
+core
