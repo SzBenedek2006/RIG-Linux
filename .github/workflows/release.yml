@@ -1,0 +1,85 @@
+name: Build and release
+
+on:
+  push:
+    tags:
+      - '*.*.*'
+      - '*.*.*-*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.extract_version.outputs.version }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential gcc-aarch64-linux-gnu gcc-arm-linux-gnueabihf gcc-i686-linux-gnu gcc-riscv64-linux-gnu
+
+      - name: Extract version from tag
+        id: extract_version
+        run: |
+          VERSION=${GITHUB_REF#refs/tags/}
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Build project
+        run: |
+          make clean
+          make ARCH=x86_64 CROSS_COMPILE=
+          make ARCH=aarch64 CROSS_COMPILE=aarch64-linux-gnu-
+          make ARCH=armv7l CROSS_COMPILE=arm-linux-gnueabihf-
+          make ARCH=i686 CROSS_COMPILE=i686-linux-gnu-
+          make ARCH=riscv64 CROSS_COMPILE=riscv64-linux-gnu-
+          make ARCH=riscv32 CROSS_COMPILE=riscv64-linux-gnu- CFLAGS="-march=rv32imafdc -mabi=ilp32d"
+
+      - name: Compress binaries into tar.xz
+        run: |
+          mkdir -p dist
+          shopt -s nullglob
+          for binary in bin/*; do
+            base=$(basename "$binary")
+            tar -cJf "dist/${base}.tar.xz" -C bin/ "$base"
+          done
+          shopt -u nullglob
+
+      - name: Upload binaries
+        uses: actions/upload-artifact@v4
+        with:
+          name: RIG-${{ steps.extract_version.outputs.version }}
+          path: dist/*.tar.xz # Here the path means each file's path
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: RIG-${{ needs.build.outputs.version }}
+          path: dist/ # Directory
+
+      - name: Create Release and Upload Assets
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ needs.build.outputs.version }}
+          name: V${{ needs.build.outputs.version }}
+          body_path: RELEASE_TEMPLATE.md
+          #body: |
+          #  # My first automated build and release
+          #  **This is a test version, stay on the 2.4.1 version released on Apr 10!**
+          draft: true
+          prerelease: false
+          files: dist/*.tar.xz
