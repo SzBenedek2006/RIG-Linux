@@ -35,8 +35,8 @@ jobs:
           make ARCH=aarch64 CROSS_COMPILE=aarch64-linux-gnu-
           make ARCH=armv7l CROSS_COMPILE=arm-linux-gnueabihf-
           make ARCH=i686 CROSS_COMPILE=i686-linux-gnu-
-          make ARCH=riscv64 CROSS_COMPILE=riscv64-linux-gnu-
-          make ARCH=riscv32 CROSS_COMPILE=riscv64-linux-gnu- CFLAGS="-march=rv32imafdc -mabi=ilp32d"
+#          make ARCH=riscv64 CROSS_COMPILE=riscv64-linux-gnu-
+#          make ARCH=riscv32 CROSS_COMPILE=riscv64-linux-gnu- CFLAGS="-march=rv32imafdc -mabi=ilp32d"
 
       - name: Compress binaries into tar.xz
         run: |
