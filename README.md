@@ -32,26 +32,26 @@ Head to the [releases](https://github.com/SzBenedek2006/RIG-Linux/releases) sect
 
 
 ## Dependencies
-You need to have `clang`, `make`, `git`, `libpng` and a variant of `libjpeg` installed on your GNU/Linux machine.
+You need to have `gcc`, `make`, `git`, `libpng` and a variant of `libjpeg` installed on your GNU/Linux machine.
 
 **Fedora**
 ```Fedora
-sudo dnf update && sudo dnf install libpng-devel libjpeg-turbo-devel gcc make git
+sudo dnf update && sudo dnf install gcc make git
 ```
 
-**Termux**
+**Termux** *clang should work in termux as it has an alias*
 ```Termux
-apt update && apt install libpng libjpeg-turbo clang make git
+apt update && apt install libpng clang make git
 ```
 
 **Arch**
 ```Arch
-sudo pacman -Syu libpng libjpeg-turbo gcc make git
+sudo pacman -Syu gcc make git
 ```
 
 **Debian**
 ```Debian
-sudo apt update && sudo apt install gcc make git libpng-dev libjpeg-dev
+sudo apt update && sudo apt install gcc make git
 ```
 
 
