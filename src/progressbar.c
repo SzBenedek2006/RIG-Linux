@@ -29,23 +29,18 @@ struct Time convertSeconds(long total_seconds) {
     time.minutes = (total_seconds % seconds_in_hour) / minutes_in_hour;
     time.seconds = total_seconds % seconds_in_hour % seconds_in_minute ;
 
-    return time; // you can return struct vars in c
+    return time;
 }
 
 
-void progressbar(int progress, int total, int length, double time, uint8_t counter) { // For single threaded use:
-
-
-
-
-
+void progressbar(int progress, int total, int length, double time, uint8_t counter) {
 
     long seconds = time;
     printDebugPlusInt("Seconds:", seconds);
 
     double milliseconds = time - seconds;
 
-    struct Time realTime = convertSeconds(seconds); // Update eta before this point!!!
+    struct Time realTime = convertSeconds(seconds);
 
     if (length >= 30) {
 
