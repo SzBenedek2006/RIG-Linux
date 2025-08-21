@@ -16,6 +16,8 @@ double time1 = 0;
 double time2 = 0;
 unsigned int tCounter = 1;
 const long seconds_in_hour = 3600;
+const long minutes_in_hour = 60;
+const long seconds_in_minute = 60;
 uint8_t counter = 0;
 
 // Structs in header
@@ -24,8 +26,8 @@ struct Time convertSeconds(long total_seconds) {
     struct Time time;
 
     time.hours = total_seconds / seconds_in_hour;
-    time.minutes = (total_seconds % seconds_in_hour) / 60;
-    time.seconds = total_seconds % seconds_in_hour;
+    time.minutes = (total_seconds % seconds_in_hour) / minutes_in_hour;
+    time.seconds = total_seconds % seconds_in_hour % seconds_in_minute ;
 
     return time; // you can return struct vars in c
 }
