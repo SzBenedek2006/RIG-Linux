@@ -59,3 +59,15 @@ jobs:
     - name: make ARCH=armv7l CROSS_COMPILE=arm-linux-gnueabihf-
       run: make
 
+  build-riscv64:
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/szbenedek2006/rig-linux:latest
+    steps:
+    - name: Clone repo
+      uses: actions/checkout@v4
+      with:
+        submodules: recursive
+
+    - name: make ARCH=riscv64 CROSS_COMPILE=riscv64-linux-gnu-
+      run: make
