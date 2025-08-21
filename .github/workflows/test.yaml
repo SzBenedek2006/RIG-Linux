@@ -10,7 +10,7 @@ jobs:
   build-x86_64:
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/${GITHUB_REPOSITORY,,}:latest
+      image: ghcr.io/szbenedek2006/rig-linux:latest
     steps:
     - name: Clone repo
       uses: actions/checkout@v4
