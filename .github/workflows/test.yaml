@@ -9,6 +9,8 @@ on:
 jobs:
   build-x86_64:
     runs-on: ubuntu-latest
+    container:
+      image: IMAGE=ghcr.io/${GITHUB_REPOSITORY,,}:latest
     steps:
     - name: Clone repo
       uses: actions/checkout@v4
