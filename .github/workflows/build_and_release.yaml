@@ -23,16 +23,14 @@ jobs:
   build-x86_64:
     name: Build for x86_64
     runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/szbenedek2006/rig-linux:latest
     needs: extract-version
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
           submodules: true
-      - name: Install build dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y build-essential
       - name: Build project
         run: |
           make clean
@@ -57,18 +55,14 @@ jobs:
   build-i686:
     name: Build for i686
     runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/szbenedek2006/rig-linux:latest
     needs: extract-version
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
           submodules: true
-
-      - name: Install build dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y build-essential gcc-i686-linux-gnu
-
 
       - name: Build project
         run: |
@@ -94,6 +88,8 @@ jobs:
   build-aarch64:
     name: Build for aarch64
     runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/szbenedek2006/rig-linux:latest
     needs: extract-version
     steps:
       - name: Checkout code
@@ -101,10 +97,6 @@ jobs:
         with:
           submodules: true
 
-      - name: Install build dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y build-essential gcc-aarch64-linux-gnu
       - name: Build project
         run: |
           make clean
@@ -129,6 +121,8 @@ jobs:
   build-armv7l:
     name: Build for armv7l
     runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/szbenedek2006/rig-linux:latest
     needs: extract-version
     steps:
       - name: Checkout code
@@ -136,10 +130,6 @@ jobs:
         with:
           submodules: true
 
-      - name: Install build dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y build-essential gcc-arm-linux-gnueabihf
       - name: Build project
         run: |
           make clean
@@ -165,6 +155,8 @@ jobs:
   build-riscv64:
     name: Build for riscv64
     runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/szbenedek2006/rig-linux:latest
     needs: extract-version
     steps:
       - name: Checkout code
@@ -172,10 +164,6 @@ jobs:
         with:
           submodules: true
 
-      - name: Install build dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y build-essential gcc-arm-linux-gnueabihf
       - name: Build project
         run: |
           make clean
@@ -221,9 +209,6 @@ jobs:
           tag_name: ${{ needs.extract_version.outputs.version }}
           name: V${{ needs.extract_version.outputs.version }}
           body_path: RELEASE_TEMPLATE.md
-          #body: |
-          #  # My first automated build and release
-          #  **This is a test version, stay on the 2.4.1 version released on Apr 10!**
           draft: true
           prerelease: false
           files: dist/*.tar.xz
