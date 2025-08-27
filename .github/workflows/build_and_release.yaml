@@ -36,21 +36,17 @@ jobs:
           make clean
           make ARCH=x86_64 CROSS_COMPILE=
 
-      - name: Compress binaries into tar.xz
+      - name: Compress binaries into .xz
         run: |
           mkdir -p dist
-          shopt -s nullglob
-          for binary in bin/*; do
-            base=$(basename "$binary")
-            tar -cJf "dist/${base}.tar.xz" -C bin/ "$base"
-          done
-          shopt -u nullglob
+          binary=$(basename bin/*)
+          xz -9e -c "bin/$binary" > "dist/${binary}.xz"
 
       - name: Upload binaries
         uses: actions/upload-artifact@v4
         with:
           name: RIG-x86_64-${{ needs.extract_version.outputs.version }}
-          path: dist/*.tar.xz # Here the path means each file's path
+          path: dist/*.xz # Here the path means each file's path
 
   build-i686:
     name: Build for i686
@@ -69,21 +65,17 @@ jobs:
           make clean
           make ARCH=i686 CROSS_COMPILE=i686-linux-gnu-
 
-      - name: Compress binaries into tar.xz
+      - name: Compress binaries into .xz
         run: |
           mkdir -p dist
-          shopt -s nullglob
-          for binary in bin/*; do
-            base=$(basename "$binary")
-            tar -cJf "dist/${base}.tar.xz" -C bin/ "$base"
-          done
-          shopt -u nullglob
+          binary=$(basename bin/*)
+          xz -9e -c "bin/$binary" > "dist/${binary}.xz"
 
       - name: Upload binaries
         uses: actions/upload-artifact@v4
         with:
           name: RIG-i686-${{ needs.extract_version.outputs.version }}
-          path: dist/*.tar.xz # Here the path means each file's path
+          path: dist/*.xz # Here the path means each file's path
 
   build-aarch64:
     name: Build for aarch64
@@ -102,21 +94,17 @@ jobs:
           make clean
           make ARCH=aarch64 CROSS_COMPILE=aarch64-linux-gnu-
 
-      - name: Compress binaries into tar.xz
+      - name: Compress binaries into .xz
         run: |
           mkdir -p dist
-          shopt -s nullglob
-          for binary in bin/*; do
-            base=$(basename "$binary")
-            tar -cJf "dist/${base}.tar.xz" -C bin/ "$base"
-          done
-          shopt -u nullglob
+          binary=$(basename bin/*)
+          xz -9e -c "bin/$binary" > "dist/${binary}.xz"
 
       - name: Upload binaries
         uses: actions/upload-artifact@v4
         with:
           name: RIG-aarch64-${{ needs.extract_version.outputs.version }}
-          path: dist/*.tar.xz # Here the path means each file's path
+          path: dist/*.xz # Here the path means each file's path
 
   build-armv7l:
     name: Build for armv7l
@@ -135,21 +123,17 @@ jobs:
           make clean
           make ARCH=armv7l CROSS_COMPILE=arm-linux-gnueabihf-
 
-      - name: Compress binaries into tar.xz
+      - name: Compress binaries into .xz
         run: |
           mkdir -p dist
-          shopt -s nullglob
-          for binary in bin/*; do
-            base=$(basename "$binary")
-            tar -cJf "dist/${base}.tar.xz" -C bin/ "$base"
-          done
-          shopt -u nullglob
+          binary=$(basename bin/*)
+          xz -9e -c "bin/$binary" > "dist/${binary}.xz"
 
       - name: Upload binaries
         uses: actions/upload-artifact@v4
         with:
           name: RIG-armv7l-${{ needs.extract_version.outputs.version }}
-          path: dist/*.tar.xz # Here the path means each file's path
+          path: dist/*.xz # Here the path means each file's path
 
 
   build-riscv64:
@@ -169,21 +153,17 @@ jobs:
           make clean
           make ARCH=riscv64 CROSS_COMPILE=riscv64-linux-gnu-
 
-      - name: Compress binaries into tar.xz
+      - name: Compress binaries into .xz
         run: |
           mkdir -p dist
-          shopt -s nullglob
-          for binary in bin/*; do
-            base=$(basename "$binary")
-            tar -cJf "dist/${base}.tar.xz" -C bin/ "$base"
-          done
-          shopt -u nullglob
+          binary=$(basename bin/*)
+          xz -9e -c "bin/$binary" > "dist/${binary}.xz"
 
       - name: Upload binaries
         uses: actions/upload-artifact@v4
         with:
           name: RIG-riscv64-${{ needs.extract_version.outputs.version }}
-          path: dist/*.tar.xz # Here the path means each file's path
+          path: dist/*.xz # Here the path means each file's path
 
 
   release:
@@ -211,4 +191,4 @@ jobs:
           body_path: RELEASE_TEMPLATE.md
           draft: true
           prerelease: false
-          files: dist/*.tar.xz
+          files: dist/*.xz
