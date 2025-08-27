@@ -37,8 +37,6 @@ jobs:
         run: |
           make clean
           make ARCH=x86_64 CROSS_COMPILE=
-#          make ARCH=riscv64 CROSS_COMPILE=riscv64-linux-gnu-
-#          make ARCH=riscv32 CROSS_COMPILE=riscv64-linux-gnu- CFLAGS="-march=rv32imafdc -mabi=ilp32d"
 
       - name: Compress binaries into tar.xz
         run: |
@@ -76,8 +74,6 @@ jobs:
         run: |
           make clean
           make ARCH=i686 CROSS_COMPILE=i686-linux-gnu-
-#          make ARCH=riscv64 CROSS_COMPILE=riscv64-linux-gnu-
-#          make ARCH=riscv32 CROSS_COMPILE=riscv64-linux-gnu- CFLAGS="-march=rv32imafdc -mabi=ilp32d"
 
       - name: Compress binaries into tar.xz
         run: |
@@ -113,8 +109,6 @@ jobs:
         run: |
           make clean
           make ARCH=aarch64 CROSS_COMPILE=aarch64-linux-gnu-
-#          make ARCH=riscv64 CROSS_COMPILE=riscv64-linux-gnu-
-#          make ARCH=riscv32 CROSS_COMPILE=riscv64-linux-gnu- CFLAGS="-march=rv32imafdc -mabi=ilp32d"
 
       - name: Compress binaries into tar.xz
         run: |
@@ -150,8 +144,6 @@ jobs:
         run: |
           make clean
           make ARCH=armv7l CROSS_COMPILE=arm-linux-gnueabihf-
-#          make ARCH=riscv64 CROSS_COMPILE=riscv64-linux-gnu-
-#          make ARCH=riscv32 CROSS_COMPILE=riscv64-linux-gnu- CFLAGS="-march=rv32imafdc -mabi=ilp32d"
 
       - name: Compress binaries into tar.xz
         run: |
@@ -170,10 +162,44 @@ jobs:
           path: dist/*.tar.xz # Here the path means each file's path
 
 
+  build-riscv64:
+    name: Build for riscv64
+    runs-on: ubuntu-latest
+    needs: extract-version
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential gcc-arm-linux-gnueabihf
+      - name: Build project
+        run: |
+          make clean
+          make ARCH=riscv64 CROSS_COMPILE=riscv64-linux-gnu-
+
+      - name: Compress binaries into tar.xz
+        run: |
+          mkdir -p dist
+          shopt -s nullglob
+          for binary in bin/*; do
+            base=$(basename "$binary")
+            tar -cJf "dist/${base}.tar.xz" -C bin/ "$base"
+          done
+          shopt -u nullglob
+
+      - name: Upload binaries
+        uses: actions/upload-artifact@v4
+        with:
+          name: RIG-riscv64-${{ needs.extract_version.outputs.version }}
+          path: dist/*.tar.xz # Here the path means each file's path
 
 
   release:
-    needs: [build-x86_64, build-i686, build-aarch64, build-armv7l]
+    needs: [build-x86_64, build-i686, build-aarch64, build-armv7l, build-riscv64]
     runs-on: ubuntu-latest
     permissions:
       contents: write
