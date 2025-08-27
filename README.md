@@ -32,17 +32,18 @@ Head to the [releases](https://github.com/SzBenedek2006/RIG-Linux/releases) sect
 
 
 ## Dependencies
-You need to have `gcc`, `make`, `git`, `libpng` and a variant of `libjpeg` installed on your GNU/Linux machine.
+You need to have `gcc`, `make`, `git` installed.
 
 **Fedora**
 ```Fedora
 sudo dnf update && sudo dnf install gcc make git
 ```
 
-**Termux** *// clang should work in termux as it has an alias*
+**Termux**
 ```Termux
-apt update && apt install libpng clang make git
+apt update && apt install clang make git
 ```
+*(Termux doesn't have gcc in default repo. Clang should work instead as it has an alias)*
 
 **Arch**
 ```Arch
@@ -60,10 +61,10 @@ sudo apt update && sudo apt install gcc make git
 1. $ `git clone --recurse-submodules https://github.com/SzBenedek2006/RIG-Linux.git`
 2. $ `cd RIG-Linux/`
 3. $ `make` It will make an executable named RIG-\<your\_architecture\>. (For example RIG-x86_64 or RIG-aarch64)
-4. $ `bin/RIG-\<your_architecture\> -h` This will run the program and print the help message. If you don't know your architecture, try autocomplete after `./RIG-` with the tab key.
+4. $ `bin/RIG-\<your_architecture\> -h` This will run the program and print the help message.
 
 ### Updating
-1. $ `git pull`
+1. $ `git pull && git submodule update --recursive`
 
 **IMPORTAN: If you cloned the repo before the addition of the stb library directory (or before an stb update), you should run the following command too, after the first.**
 2. $ `git submodule update --init --recursive`
@@ -83,17 +84,15 @@ sudo apt update && sudo apt install gcc make git
   - [x] Resolution
   - [x] Image count
   - [x] Alpha channel (PNG)
-- [x] Fix memory leak
 - [x] Make use of termux setup-external-storage
 - [x] Add debug option
   - [x] Make printing debug messages a function and fix rendering issue with the progressbar
-- [ ] Add haptic feedback on Android and speaker feedback in other supported devices
 - [x] Add a progressbar
 - [ ] Add CLI completion
 - [ ] Add a calculator for file size
-- [ ] Move to stb libraries for image handling.
+- [x] Move to stb libraries for image handling.
 - [x] Add an automatic release workflow
-  - [ ] Support more architectures
+  - [x] Support more architectures
   - [ ] Support automatically making a new tag based on the version in version.h
 
 ## Supported OS-es
