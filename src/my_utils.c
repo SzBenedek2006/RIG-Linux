@@ -178,7 +178,6 @@ uint8_t random_pixel(uint8_t max_value, float multiplier) {
         multiplier = 0.5;
     }
     multiplier = sqrt(multiplier);
-    //pixel = rand() % (uint16_t)roundf((max_value + 1) * multiplier);
     pixel = rand8_xorshift() % (uint16_t)(max_value + 1) * multiplier;
 
     //printDebugPlusInt("Max value:", max_value);
@@ -191,7 +190,7 @@ static inline void generateRGB(int width, int height, unsigned char* data, int c
     float current_multiplier = 0;
     for (int y = 0; y < height; y++) {
         if (random_multiplier == true) {
-            current_multiplier = (rand() % 11)/10.0f;
+            current_multiplier = (rand8_xorshift() % 11)/10.0f;
         } else {
             current_multiplier = 1.0f;
         }
@@ -207,7 +206,7 @@ static inline void generateRGBA(int width, int height, unsigned char* data, int 
     float current_multiplier = 0;
     for (int y = 0; y < height; y++) {
         if (random_multiplier == true) {
-            current_multiplier = (rand() % 11)/10.0f;
+            current_multiplier = (rand8_xorshift() % 11)/10.0f;
         } else {
             current_multiplier = 1.0f;
         }
