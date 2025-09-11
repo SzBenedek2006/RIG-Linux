@@ -45,19 +45,19 @@ int dirCreatorLinux(char dirName[], bool isTermux) {
         printDebugPlusInt("check_access_termux():", check_access_termux());
 
         if (!check_access_termux()) {
-            int rounds = 0;
+            int wait_seconds = 0;
             printf("Termux needs storage permission. Press allow in the following screen.\n");
 
             while (true) {
-                rounds++;
+                wait_seconds += 5;
                 sleep(1);
                 system("termux-setup-storage");
-                sleep(rounds);
+                sleep(wait_seconds);
 
                 if (!check_access_termux()) {
                     printDebugPlusInt("Error Number : %d\n", errno);
                     perror("Error");
-                    printf("Waiting %d seconds before rechecking\n", rounds);
+                    printf("Waiting %d seconds before rechecking\n", wait_seconds);
 
                 } else {
                     break;
