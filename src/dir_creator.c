@@ -13,7 +13,7 @@ char androidInternalPath[120] = "/storage/emulated/0/";
 
 
 bool check_access_termux () {
-    if (access(androidInternalPath, W_OK) == 0)
+    if (access(androidInternalPath, W_OK) == 0) // access() is included in unistd.h
     return true;
     else
     return false;
@@ -47,16 +47,20 @@ int dirCreatorLinux(char dirName[], bool isTermux) {
         if (!check_access_termux()) {
             int rounds = 0;
             printf("Termux needs storage permission. Press allow in the following screen.\n");
-            while (!check_access_termux()) {
+
+            while (true) {
                 rounds++;
                 sleep(1);
                 system("termux-setup-storage");
-                printf("Waiting %d seconds before retrying\n", rounds);
                 sleep(rounds);
+
                 if (!check_access_termux()) {
                     printDebugPlusInt("Error Number : %d\n", errno);
                     perror("Error");
-                    printf("Retry\n");
+                    printf("Waiting %d seconds before rechecking\n", rounds);
+
+                } else {
+                    break;
                 }
             }
         }
