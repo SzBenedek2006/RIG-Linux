@@ -1,5 +1,5 @@
-#ifndef DIR_CREATOR
-#define DIR_CREATOR
+#ifndef DIR_UTILS
+#define DIR_UTILS
 
 #include <stdbool.h>
 extern char androidInternalPath[];

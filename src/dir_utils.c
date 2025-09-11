@@ -1,4 +1,4 @@
-#include "dir_creator.h"
+#include "dir_utils.h"
 #include <dirent.h>
 #include <errno.h>
 #include <string.h>

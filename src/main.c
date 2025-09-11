@@ -1,7 +1,7 @@
 #include "JPEG_generator.h"
 #include "PNG_generator.h"
 #include "args.h"
-#include "dir_creator.h"
+#include "dir_utils.h"
 #include "my_utils.h"
 #include "progressbar.h"
 #include "version.h"
