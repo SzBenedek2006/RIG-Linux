@@ -69,6 +69,22 @@ int dirCreatorLinux(char dirName[], bool isTermux) {
         //This part is the original, doing the same thing as the non termux part
         if (strlen(dirName) + strlen(androidInternalPath) < sizeof(androidInternalPath)) {
             strcat(androidInternalPath, dirName);
+        } else {
+            printf(
+                    "The programmer was stupid, and made a mistake,\n"
+                    "if you see this, please report it on GitHub.\n"
+                    "Additional details:\n"
+                    "\tdirName: %s, strlen: %ld\n"
+                    "\tandroidInternalPath: %s, strlen: %ld\n"
+                    "\tsizeof(androidInternalPath): %ld\n"
+                    "Thank you!\n",
+                    dirName,
+                    strlen(dirName),
+                    androidInternalPath,
+                    strlen(androidInternalPath),
+                    sizeof(androidInternalPath)
+                    );
+            return 3;
         }
         DIR *dir = opendir(androidInternalPath); // androidInternalPath should now be the dir where pics will be placed.
 
