@@ -221,9 +221,11 @@ static inline void generateRGBA(int width, int height, unsigned char* data, int 
 
 unsigned char* generatePixelMapData(unsigned int width, unsigned int height, bool alpha, uint8_t r, uint8_t g, uint8_t b, bool random_multiplier) {
     int channels = (alpha) ? 4 : 3;
-    int image_size = width * height * channels; // this may be the correct one
+    int image_size = width * height * channels;
     int image_size_px = width * height;
     unsigned char* data = malloc(image_size);
+
+    if (data == NULL) return NULL;
 
     if (alpha) {
         generateRGBA(width, height, data, channels, r, g, b, random_multiplier);

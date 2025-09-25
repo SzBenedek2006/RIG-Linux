@@ -29,6 +29,15 @@ extern unsigned short int terminalHeight;
 extern unsigned short int terminalWidth;
 extern FILE *log_file;
 
+
+// Enums
+
+enum Errors {
+
+};
+
+
+
 // Function prototypes
 int errorFileOpener();
 int errorFileCloser();
