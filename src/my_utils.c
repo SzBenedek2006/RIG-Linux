@@ -153,7 +153,7 @@ void printHelp() {
             "    Puts lines on the pictures, like image sensors with high iso.\n"
             "\n"
             "    " BOLD("-q") " or " BOLD("--quality") "\n"
-            "    Specifies the quality for JPEG images, unaffective in png.\n"
+            "    Specifies the quality for JPEG images, uneffective in png.\n"
             "\n"
             "    " BOLD("-h") " or " BOLD("--help") "\n"
             "    Prints this message to console.\n"
