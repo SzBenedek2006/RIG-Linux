@@ -31,11 +31,11 @@ extern FILE *log_file;
 
 
 // Enums
-
+/*
 enum Errors {
 
 };
-
+*/
 
 
 // Function prototypes
