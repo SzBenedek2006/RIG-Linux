@@ -163,30 +163,33 @@ int main(int argc, char* argv[])
     struct ProgressBarArgs* args = (struct ProgressBarArgs*)malloc(sizeof(struct ProgressBarArgs));
     pthread_create(&progressThread, NULL, multiThreadedProgressbar, (void*)args);
 
-    double genTime = 0;
-    double genTime1 = 0;
-    double genTime2 = (double)ts.tv_sec + (double)ts.tv_nsec / 1.0e9;
+
+    double genTime, genTime1, genTime2  = 0;
 
     char fileExtension[5];
-
-
     char imagename[strlen(outDir) + strlen(image_name) + strlen("2147483647") + strlen(format) + 1];
 
     // Start of the image loop
     for (i = 1; i <= count; i++) {
 
-        printDebugPlusFloat("gentime:", genTime);
-        getTerminalSize(&terminalHeight, &terminalWidth);
 
         if (clock_gettime(CLOCK_REALTIME, &ts) == -1) {
             perror("clock_gettime");
             return 1;
         }
+        genTime1 = (double)ts.tv_sec + (double)ts.tv_nsec / 1.0e9;
 
+
+        printDebugPlusInt("Start of loop:", i);
+
+        getTerminalSize(&terminalHeight, &terminalWidth);
+
+        pthread_mutex_lock(&mutex);
         args->progress = i;
         args->total = count;
         args->length = terminalWidth - 40;
         args->time = genTime * (args->total - args->progress); // To modify
+        pthread_mutex_unlock(&mutex);
 
         printDebugPlusFloat("time:", genTime * (args->total - args->progress));
 
@@ -206,13 +209,17 @@ int main(int argc, char* argv[])
             printDebug("First iteration of image gen loop.");
         }
 
-        // Time for the progressbar
-        genTime1 = genTime2;
+        if (clock_gettime(CLOCK_REALTIME, &ts) == -1) {
+            perror("clock_gettime");
+            return 1;
+        }
         genTime2 = (double)ts.tv_sec + (double)ts.tv_nsec / 1.0e9;
         genTime = genTime2 - genTime1;
 
         printDebugPlusFloat("genTime1:", genTime1);
         printDebugPlusFloat("genTime2:", genTime2);
+        printDebugPlusFloat("genTime:", genTime);
+        printDebugPlusInt("End of loop:", i);
     }
 
     pthread_join(progressThread, NULL);

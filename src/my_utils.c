@@ -87,7 +87,8 @@ void getTerminalSize(unsigned short int* rows, unsigned short int* cols)
 // Replacing if (allowDebugInfo) mess with a cleaner approach
 void printDebug(char text[]) {
     if (allowDebugInfo) {
-        clock_gettime(CLOCK_REALTIME, &ts);
+        struct timespec _ts;
+        clock_gettime(CLOCK_REALTIME, &_ts);
         double msgTime =( (double)ts.tv_sec + (double)ts.tv_nsec / 1.0e9 ) - *pStartTime;
         fprintf(log_file, "%lf: %s\n", msgTime, text);
     }
@@ -95,7 +96,8 @@ void printDebug(char text[]) {
 
 void printDebugPlusInt(char text[], int numVar){
     if (allowDebugInfo) {
-        clock_gettime(CLOCK_REALTIME, &ts);
+        struct timespec _ts;
+        clock_gettime(CLOCK_REALTIME, &_ts);
         double msgTime =( (double)ts.tv_sec + (double)ts.tv_nsec / 1.0e9 ) - *pStartTime;
         fprintf(log_file, "%lf: %s %d\n", msgTime, text, numVar);
     }
@@ -103,7 +105,8 @@ void printDebugPlusInt(char text[], int numVar){
 
 void printDebugPlusFloat(char text[], double flVar){
     if (allowDebugInfo) {
-        clock_gettime(CLOCK_REALTIME, &ts);
+        struct timespec _ts;
+        clock_gettime(CLOCK_REALTIME, &_ts);
         double msgTime =( (double)ts.tv_sec + (double)ts.tv_nsec / 1.0e9 ) - *pStartTime;
         fprintf(log_file, "%lf: %s %lf\n", msgTime, text, flVar);
     }
@@ -111,7 +114,8 @@ void printDebugPlusFloat(char text[], double flVar){
 
 void printDebugPlusStr(char text[], char strVar[]){
     if (allowDebugInfo) {
-        clock_gettime(CLOCK_REALTIME, &ts);
+        struct timespec _ts;
+        clock_gettime(CLOCK_REALTIME, &_ts);
         double msgTime =( (double)ts.tv_sec + (double)ts.tv_nsec / 1.0e9 ) - *pStartTime;
         fprintf(log_file, "%lf: %s %s\n", msgTime, text, strVar);
     }

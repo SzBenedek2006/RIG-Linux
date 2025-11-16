@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include <sys/types.h>
 #include <unistd.h>
-#include <stdlib.h>
 #include <pthread.h>
 
 #include "my_utils.h"
@@ -35,7 +34,7 @@ struct Time convertSeconds(long total_seconds) {
 
 void progressbar(int progress, int total, int length, double time, uint8_t counter) {
 
-    long seconds = time;
+    long seconds = (long)time;
     printDebugPlusInt("Seconds:", seconds);
 
     double milliseconds = time - seconds;
