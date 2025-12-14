@@ -48,9 +48,9 @@ int dirCreatorLinux(char dirName[], bool isTermux) {
             int wait_seconds = 0;
             printf("Termux needs storage permission. Press allow in the following screen.\n");
 
+            sleep(1);
             while (true) {
                 wait_seconds += 5;
-                sleep(1);
                 system("termux-setup-storage");
                 sleep(wait_seconds);
 
