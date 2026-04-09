@@ -27,7 +27,8 @@ int args(
     uint8_t* r,
     uint8_t* g,
     uint8_t* b,
-    char* format
+    char* format,
+    char* out_dir
 ) {
     int temp = 0;
 
@@ -134,6 +135,12 @@ int args(
             n += 3;
         } else if (strcmp(argv[n], "--sensor-noise") == 0) {
             *random_multiplier = true;
+        } else if (strcmp(argv[n], "-o") == 0 || strcmp(argv[n], "--out")) {
+            // TODO: Replace this with a dedicated string parsing function, to safely handle the directory name
+            if (argv[n + 1] != NULL) {
+                strcpy(out_dir, argv[n + 1]);
+            }
+            n++;
         } else { // If there is no known argument at a given argc location.
             printf("Unknown option \"%s\" at the %d. argument. Use -h for help.\n", argv[n], n);
             return 3;

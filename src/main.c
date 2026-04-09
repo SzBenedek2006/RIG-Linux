@@ -85,7 +85,9 @@ int main(int argc, char* argv[])
             &r,
             &g,
             &b,
-            format);
+            format,
+            outDir
+        );
         if (ret != 0) {
             return ret;
         }
