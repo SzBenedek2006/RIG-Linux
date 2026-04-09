@@ -2,7 +2,7 @@
 RIG-*
 
 # Exclude the out/ directory
-out/
+out*/
 
 # Exclude executable files
 bin/
@@ -20,3 +20,6 @@ bin/
 # Core dump
 *.dump
 core
+
+# Diff
+*diff
