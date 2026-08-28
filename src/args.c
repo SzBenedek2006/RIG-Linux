@@ -28,7 +28,8 @@ int args(
     uint8_t* g,
     uint8_t* b,
     char* format,
-    char* out_dir
+    char** out_dir,
+    int* start_index
 ) {
     int temp = 0;
 
@@ -135,10 +136,17 @@ int args(
             n += 3;
         } else if (strcmp(argv[n], "--sensor-noise") == 0) {
             *random_multiplier = true;
-        } else if (strcmp(argv[n], "-o") == 0 || strcmp(argv[n], "--out")) {
+        } else if (strcmp(argv[n], "-o") == 0 || strcmp(argv[n], "--out") == 0) {
             // TODO: Replace this with a dedicated string parsing function, to safely handle the directory name
             if (argv[n + 1] != NULL) {
-                strcpy(out_dir, argv[n + 1]);
+                char* temp = malloc(strlen(argv[n + 1]) + 1);
+                strcpy(temp, argv[n + 1]);
+                *out_dir = temp;
+            }
+            n++;
+        } else if (strcmp(argv[n], "-i") == 0 || strcmp(argv[n], "--start-index") == 0) {
+            if (argv[n + 1] != NULL) {
+                *start_index = atoi(argv[n + 1]);
             }
             n++;
         } else { // If there is no known argument at a given argc location.

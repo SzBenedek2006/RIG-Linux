@@ -54,12 +54,13 @@ int main(int argc, char* argv[])
     bool help = false;
     bool termuxExternal = false;
     bool random_multiplier = false;
-    char outDir[] = "out";
+    char* outDir = "out";
     char androidInternalPath[] = "/storage/emulated/0/";
     uint8_t quality = 100;
     uint8_t r = 255;
     uint8_t g = 255;
     uint8_t b = 255;
+    int start_index = 1;
 
     getTerminalSize(&terminalHeight, &terminalWidth);
 
@@ -86,7 +87,8 @@ int main(int argc, char* argv[])
             &g,
             &b,
             format,
-            outDir
+            &outDir,
+            &start_index
         );
         if (ret != 0) {
             return ret;
@@ -172,7 +174,7 @@ int main(int argc, char* argv[])
     char imagename[strlen(outDir) + strlen(image_name) + strlen("2147483647") + strlen(format) + 1];
 
     // Start of the image loop
-    for (i = 1; i <= count; i++) {
+    for (i = start_index; i <= count + start_index; i++) {
 
 
         if (clock_gettime(CLOCK_REALTIME, &ts) == -1) {
@@ -187,7 +189,7 @@ int main(int argc, char* argv[])
         getTerminalSize(&terminalHeight, &terminalWidth);
 
         pthread_mutex_lock(&mutex);
-        args->progress = i;
+        args->progress = i - (start_index - 1);
         args->total = count;
         args->length = terminalWidth - 40;
         args->time = genTime * (args->total - args->progress); // To modify

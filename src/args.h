@@ -32,7 +32,8 @@ int args(
     uint8_t* g,
     uint8_t* b,
     char* format,
-    char* out_dir
+    char** out_dir,
+    int* start_index
 );
 
 
